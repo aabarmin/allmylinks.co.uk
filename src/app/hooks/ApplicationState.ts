@@ -15,7 +15,7 @@ export class ApplicationState {
   }
 
   public getCurrentBlock(): Block<any> | undefined {
-    if (!this.currentBlockId) {
+    if (this.currentBlockId == undefined) {
       return undefined;
     }
     return this.getBlock(this.currentBlockId);
