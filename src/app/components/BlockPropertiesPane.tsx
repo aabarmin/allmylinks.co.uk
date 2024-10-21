@@ -1,6 +1,6 @@
 import { Box } from "@mui/joy";
 import { AvatarBlockProperties } from "../blocks/AvatarBlock";
-import { HeaderBlockProperties, HeaderBlockProps } from "../blocks/HeaderBlock";
+import { HeaderBlock, HeaderBlockProperties } from "../blocks/HeaderBlock";
 import { useAppState } from "../hooks/StateProvider";
 import { Block, BlockType } from "../model/Block";
 
@@ -25,8 +25,8 @@ function getBlockProperties(block: Block<any> | undefined) {
       return <AvatarBlockProperties />
     }
     case BlockType.BLOCK_HEADER: {
-      const props = block.props as HeaderBlockProps
-      return <HeaderBlockProperties {...props} />
+      const b = block as HeaderBlock
+      return <HeaderBlockProperties {...b} />
     }
     default: return <NoBlockProperties type={block.type} />
   }

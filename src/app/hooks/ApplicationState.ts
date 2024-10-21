@@ -40,6 +40,16 @@ export class ApplicationState {
     return newState;
   }
 
+  public withUpdatedBlock<T>(block: Block<T>, callback: (current: T) => T): ApplicationState {
+    const newState = new ApplicationState();
+    newState.currentPageId = this.currentPageId;
+    newState.currentBlockId = this.currentBlockId;
+    newState.pages = this.pages.map(p => {
+      return p.withUpdatedBlock(block, callback);
+    });
+    return newState;
+  }
+
   public withBlock(page: Page, block: Block<any>): ApplicationState {
     const newState = new ApplicationState();
     newState.currentPageId = this.currentPageId;

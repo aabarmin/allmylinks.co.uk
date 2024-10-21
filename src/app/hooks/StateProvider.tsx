@@ -2,6 +2,7 @@ import React, { createContext, useContext, useReducer } from "react";
 import { ApplicationState } from "./ApplicationState";
 import { BlockAddRequest } from "./BlockAddRequest";
 import { BlockSelectRequest } from "./BlockSelectRequest";
+import { BlockUpdatePropsRequest } from "./BlockUpdatePropsRequest";
 import { StateChangeRequest, StateChangeRequestType } from "./StateChangeRequest";
 
 const initialState = new ApplicationState();
@@ -18,6 +19,11 @@ function stateReducer(state: ApplicationState, action: StateChangeRequest) {
       const payload = action as BlockSelectRequest;
       return state.withCurrentBlock(payload.block);
     }
+    case StateChangeRequestType.BLOCK_UPDATE_PROPS: {
+      const payload = action as BlockUpdatePropsRequest<any>
+      return state.withUpdatedBlock(payload.block, payload.callback)
+    }
+    default: console.error('No reducer for action of type ' + action.type)
   }
 
   return state;
