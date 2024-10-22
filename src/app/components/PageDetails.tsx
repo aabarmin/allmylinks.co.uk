@@ -14,24 +14,22 @@ export function PageDetails() {
 
   return (
     <Box sx={{
-      p: 2
+      p: 2,
+      display: 'flex',
+      gap: 2
     }}>
-      <div style={{
-        display: 'flex',
-        gap: 8,
-        flexDirection: 'row'
+      <Box sx={{
+        flexGrow: 1
       }}>
-        <Select value={firstPage} sx={{
-          flexGrow: 1
-        }}>
+        <Select value={firstPage}>
           {state.getPages().map(p => {
             return <Option key={p.id} value={p.id}>{p.title}</Option>
           })}
         </Select>
-        <Button endDecorator={<Description />} onClick={openPagesManagement}>
-          Manage
-        </Button>
-      </div>
+      </Box>
+      <Button endDecorator={<Description />} onClick={openPagesManagement}>
+        Manage
+      </Button>
     </Box>
   )
 }

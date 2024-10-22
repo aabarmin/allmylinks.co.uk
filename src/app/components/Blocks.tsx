@@ -14,8 +14,8 @@ export function Blocks() {
     dispatch(new BlockAddRequest(
       state.getCurrentPage(),
       new AvatarBlock(
-        state.getCurrentPage().blocks.length,
-        state.getCurrentPage().blocks.length
+        state.getCurrentPage().id * 100 + state.getCurrentPage().blocks.length,
+        state.getCurrentPage().id * 100 + state.getCurrentPage().blocks.length
       )
     ))
   };
@@ -24,8 +24,8 @@ export function Blocks() {
     dispatch(new BlockAddRequest(
       state.getCurrentPage(),
       new HeaderBlock(
-        state.getCurrentPage().blocks.length,
-        state.getCurrentPage().blocks.length
+        state.getCurrentPage().id * 100 + state.getCurrentPage().blocks.length,
+        state.getCurrentPage().id * 100 + state.getCurrentPage().blocks.length
       )
     ));
   }

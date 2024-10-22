@@ -1,5 +1,6 @@
 import { FormatAlignCenter, FormatAlignLeft, FormatAlignRight } from "@mui/icons-material";
-import { FormControl, FormLabel, IconButton, Input, Option, Select, Stack, ToggleButtonGroup, Typography, TypographySystem } from "@mui/joy";
+import { Box, Button, FormControl, FormLabel, IconButton, Input, Option, Select, Stack, ToggleButtonGroup, Typography, TypographySystem } from "@mui/joy";
+import { useState } from "react";
 import { BlockUpdatePropsRequest } from "../hooks/block/BlockUpdatePropsRequest";
 import { useAppState } from "../hooks/StateProvider";
 import { Block, BlockType } from "../model/Block";
@@ -37,59 +38,53 @@ export class HeaderBlock implements Block<HeaderBlockProps> {
 }
 
 export function HeaderBlockProperties(block: HeaderBlock) {
-  const props = block.props
   const { state, dispatch } = useAppState();
 
-  const changeLevel = (event: React.SyntheticEvent | null, newValue: string | null) => {
-    if (!newValue) {
-      return
-    }
+  const [form, setFormData] = useState({
+    level: block.props.level,
+    alignment: block.props.alignment,
+    text: block.props.text
+  });
+  const handleInput = (field: string, value: any) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value
+    }));
+  }
+  const saveBlock = () => {
     dispatch(new BlockUpdatePropsRequest(
       block,
-      (current: HeaderBlockProps): HeaderBlockProps => {
-        const updated = new HeaderBlockProps()
-        updated.alignment = current.alignment
-        updated.text = current.text
-        updated.level = HeaderLevel[newValue as keyof typeof HeaderLevel]
-        return updated;
+      (b) => {
+        const props = new HeaderBlockProps()
+        props.alignment = HeaderAlignment[form['alignment'] as keyof typeof HeaderAlignment]
+        props.level = HeaderLevel[form['level'] as keyof typeof HeaderLevel]
+        props.text = form['text']
+        return props;
       }
     ))
   }
-
-  const changeAlignment = (event: any, newValue: string | null) => {
-    if (!newValue) {
-      return
-    }
-    dispatch(new BlockUpdatePropsRequest(
-      block,
-      (current: HeaderBlockProps): HeaderBlockProps => {
-        const updated = new HeaderBlockProps()
-        updated.alignment = HeaderAlignment[newValue as keyof typeof HeaderAlignment]
-        updated.text = current.text
-        updated.level = current.level
-        return updated;
-      }
-    ))
-  }
-
-  const changeText = (newValue: string) => {
-    dispatch(new BlockUpdatePropsRequest(
-      block,
-      (current: HeaderBlockProps): HeaderBlockProps => {
-        const updated = new HeaderBlockProps()
-        updated.alignment = current.alignment
-        updated.text = newValue
-        updated.level = current.level
-        return updated;
-      }
-    ))
+  const resetBlock = () => {
+    setFormData({
+      level: block.props.level,
+      alignment: block.props.alignment,
+      text: block.props.text
+    })
   }
 
   return (
     <Stack spacing={2}>
+      <Box sx={{
+        display: 'flex',
+        gap: 2
+      }}
+      >
+        <Button variant="soft" onClick={resetBlock}>Cancel</Button>
+        <Button onClick={saveBlock}>Save</Button>
+      </Box>
+
       <FormControl>
         <FormLabel>Level:</FormLabel>
-        <Select placeholder="Header level" value={props.level} onChange={changeLevel}>
+        <Select placeholder="Header level" value={form['level']} onChange={(e, v) => handleInput('level', v)}>
           <Option value={HeaderLevel.H1}>Level 1</Option>
           <Option value={HeaderLevel.H2}>Level 2</Option>
           <Option value={HeaderLevel.H3}>Level 3</Option>
@@ -98,7 +93,7 @@ export function HeaderBlockProperties(block: HeaderBlock) {
 
       <FormControl>
         <FormLabel>Alignment:</FormLabel>
-        <ToggleButtonGroup value={props.alignment} onChange={changeAlignment}>
+        <ToggleButtonGroup value={form['alignment']} onChange={(e, v) => handleInput('alignment', v)}>
           <IconButton value={HeaderAlignment.LEFT}>
             <FormatAlignLeft />
           </IconButton>
@@ -113,7 +108,7 @@ export function HeaderBlockProperties(block: HeaderBlock) {
 
       <FormControl>
         <FormLabel>Text:</FormLabel>
-        <Input placeholder="Text" value={props.text} onChange={(e) => changeText(e.target.value)} />
+        <Input placeholder="Text" value={form['text']} onChange={(e) => handleInput('text', e.target.value)} />
       </FormControl>
     </Stack>
   );

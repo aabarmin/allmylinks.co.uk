@@ -5,13 +5,15 @@ export function UserLinkPreview() {
   return (
     <Box sx={{
       p: 2,
+      gap: 2,
       display: 'flex',
       alignItems: 'center'
     }}>
-      <div style={{
-        flexGrow: 1,
+      <Box sx={{
         display: 'flex',
-        alignItems: 'center'
+        flexGrow: 1,
+        alignItems: 'center',
+        gap: 2
       }}>
         <a href="https://google.com" target="_blank">
           google.com
@@ -19,7 +21,7 @@ export function UserLinkPreview() {
         <IconButton>
           <ContentCopy />
         </IconButton>
-      </div>
+      </Box>
       <IconButton>
         <Share />
       </IconButton>
