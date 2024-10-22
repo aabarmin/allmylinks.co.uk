@@ -1,10 +1,16 @@
 import { Description } from "@mui/icons-material";
 import { Box, Button, Option, Select } from "@mui/joy";
+import { LeftPanelChangeRequest } from "../hooks/sidebar/LeftPanelChangeRequest";
 import { useAppState } from "../hooks/StateProvider";
 
 export function PageDetails() {
-  const { state } = useAppState();
-  const firstPage = state.pages[0].id;
+  const { state, dispatch } = useAppState();
+  const firstPage = state.getPages()[0].id;
+  const openPagesManagement = () => {
+    dispatch(new LeftPanelChangeRequest(
+      'page-management'
+    ))
+  }
 
   return (
     <Box sx={{
@@ -22,7 +28,7 @@ export function PageDetails() {
             return <Option key={p.id} value={p.id}>{p.title}</Option>
           })}
         </Select>
-        <Button endDecorator={<Description />}>
+        <Button endDecorator={<Description />} onClick={openPagesManagement}>
           Manage
         </Button>
       </div>

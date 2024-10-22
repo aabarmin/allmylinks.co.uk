@@ -4,14 +4,17 @@ import { Page } from "../model/Page";
 export class ApplicationState {
   private currentPageId: number = 1;
   private currentBlockId?: number = undefined;
-
-  // should be private and accessible via getter only
-  pages: Page[] = [
+  private currentLeftPane: string = 'page-builder';
+  private pages: Page[] = [
     new Page(this.currentPageId, "Home")
   ];
 
   public getPages(): Page[] {
     return this.pages;
+  }
+
+  public getCurrentLeftPane(): string {
+    return this.currentLeftPane;
   }
 
   public getCurrentPage(): Page {
@@ -36,8 +39,18 @@ export class ApplicationState {
     return blocks[0];
   }
 
+  public withLeftPane(paneAlias: string): ApplicationState {
+    const newState = new ApplicationState();
+    newState.currentLeftPane = paneAlias;
+    newState.currentPageId = this.currentPageId;
+    newState.currentBlockId = this.currentBlockId;
+    newState.pages = this.pages;
+    return newState;
+  }
+
   public withCurrentBlock(block: Block<any>): ApplicationState {
     const newState = new ApplicationState();
+    newState.currentLeftPane = this.currentLeftPane;
     newState.currentPageId = this.currentPageId;
     newState.currentBlockId = block.id;
     newState.pages = this.pages;
@@ -46,6 +59,7 @@ export class ApplicationState {
 
   public withUpdatedBlock<T>(block: Block<T>, callback: (current: T) => T): ApplicationState {
     const newState = new ApplicationState();
+    newState.currentLeftPane = this.currentLeftPane;
     newState.currentPageId = this.currentPageId;
     newState.currentBlockId = this.currentBlockId;
     newState.pages = this.pages.map(p => {
@@ -56,6 +70,7 @@ export class ApplicationState {
 
   public withBlock(page: Page, block: Block<any>): ApplicationState {
     const newState = new ApplicationState();
+    newState.currentLeftPane = this.currentLeftPane;
     newState.currentPageId = this.currentPageId;
     newState.currentBlockId = this.currentBlockId;
     newState.pages = this.pages.map(p => {

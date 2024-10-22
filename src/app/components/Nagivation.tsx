@@ -1,14 +1,14 @@
 'use client';
 
-import { Box, Drawer, List, ListItem, ListItemButton, Option, Select } from "@mui/joy";
 import { Menu } from "@mui/icons-material";
+import { Box, Drawer, List, ListItem, ListItemButton, Option, Select } from "@mui/joy";
 import { useState } from "react";
 import { useAppState } from "../hooks/StateProvider";
 
 export default function Navigation() {
   const [menuOpened, setMenuOpened] = useState<boolean>(false);
   const { state } = useAppState();
-  const firstPage = state.pages[0].id;
+  const firstPage = state.getPages()[0].id;
 
   return (
     <Box>

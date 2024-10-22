@@ -3,6 +3,7 @@ import { ApplicationState } from "./ApplicationState";
 import { BlockAddRequest } from "./BlockAddRequest";
 import { BlockSelectRequest } from "./BlockSelectRequest";
 import { BlockUpdatePropsRequest } from "./BlockUpdatePropsRequest";
+import { LeftPanelChangeRequest } from "./sidebar/LeftPanelChangeRequest";
 import { StateChangeRequest, StateChangeRequestType } from "./StateChangeRequest";
 
 const initialState = new ApplicationState();
@@ -22,6 +23,10 @@ function stateReducer(state: ApplicationState, action: StateChangeRequest) {
     case StateChangeRequestType.BLOCK_UPDATE_PROPS: {
       const payload = action as BlockUpdatePropsRequest<any>
       return state.withUpdatedBlock(payload.block, payload.callback)
+    }
+    case StateChangeRequestType.LEFT_PANEL_CHANGE: {
+      const payload = action as LeftPanelChangeRequest;
+      return state.withLeftPane(payload.componentAlias);
     }
     default: console.error('No reducer for action of type ' + action.type)
   }
