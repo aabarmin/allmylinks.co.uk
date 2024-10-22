@@ -1,6 +1,6 @@
 import { FormatAlignCenter, FormatAlignLeft, FormatAlignRight } from "@mui/icons-material";
 import { Box, Button, FormControl, FormLabel, IconButton, Input, Option, Select, Stack, ToggleButtonGroup, Typography, TypographySystem } from "@mui/joy";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BlockUpdatePropsRequest } from "../hooks/block/BlockUpdatePropsRequest";
 import { useAppState } from "../hooks/StateProvider";
 import { Block, BlockType } from "../model/Block";
@@ -39,12 +39,12 @@ export class HeaderBlock implements Block<HeaderBlockProps> {
 
 export function HeaderBlockProperties(block: HeaderBlock) {
   const { state, dispatch } = useAppState();
-
-  const [form, setFormData] = useState({
+  const [form, setFormData] = useState(({
     level: block.props.level,
     alignment: block.props.alignment,
     text: block.props.text
-  });
+  }));
+  useEffect(() => { resetBlock() }, [state]); // dirty hack but I don't care now
   const handleInput = (field: string, value: any) => {
     setFormData((prev) => ({
       ...prev,

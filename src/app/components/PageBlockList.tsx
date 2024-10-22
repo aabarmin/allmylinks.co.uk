@@ -25,7 +25,7 @@ export function PageBlockList() {
                 <ListItemDecorator>
                   <Title />
                 </ListItemDecorator>
-                Header
+                Header {block.id}
               </ListItemButton>
             );
           } else if (block.type == BlockType.BLOCK_AVATAR) {
