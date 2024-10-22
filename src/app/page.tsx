@@ -13,17 +13,17 @@ export default function Home() {
 
       <Grid container spacing={3}>
         <Grid xs={3}>
-          <Sheet sx={{ height: '92vh', p: 2, overflow: 'scroll' }}>
+          <Sheet sx={{ height: '100vh', p: 2, overflow: 'scroll' }}>
             <LeftSidebar />
           </Sheet>
         </Grid>
         <Grid xs={6}>
-          <Box sx={{ height: '92vh', p: 2, overflow: 'scroll' }}>
+          <Box sx={{ height: '100vh', p: 2, overflow: 'scroll' }}>
             <PreviewPane />
           </Box>
         </Grid>
         <Grid xs={3}>
-          <Sheet sx={{ height: '92vh', p: 2 }}>
+          <Sheet sx={{ height: '100vh', p: 2 }}>
             <BlockPropertiesPane />
           </Sheet>
         </Grid>

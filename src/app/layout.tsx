@@ -1,6 +1,5 @@
 import { Box, CssVarsProvider } from "@mui/joy";
 import type { Metadata } from "next";
-import Navigation from "./components/Nagivation";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -18,7 +17,6 @@ export default function RootLayout({
       <body>
         <CssVarsProvider>
           <Box sx={{ height: '100vh' }}>
-            <Navigation />
             {children}
           </Box>
         </CssVarsProvider>
