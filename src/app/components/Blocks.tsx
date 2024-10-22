@@ -14,7 +14,7 @@ export function Blocks() {
     dispatch(new BlockAddRequest(
       state.getCurrentPage(),
       new AvatarBlock(
-        state.getCurrentPage().blocks.length,
+        state.getCurrentPage().blocks.length + 1, // this is not a unique identifier
         state.getCurrentPage().blocks.length
       )
     ))
@@ -24,7 +24,7 @@ export function Blocks() {
     dispatch(new BlockAddRequest(
       state.getCurrentPage(),
       new HeaderBlock(
-        state.getCurrentPage().blocks.length,
+        state.getCurrentPage().blocks.length + 1, // this is not a unique identifier
         state.getCurrentPage().blocks.length
       )
     ));

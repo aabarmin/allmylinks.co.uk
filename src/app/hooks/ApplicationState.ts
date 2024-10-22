@@ -56,6 +56,15 @@ export class ApplicationState {
     return newState;
   }
 
+  public withCurrentPage(page: Page): ApplicationState {
+    const newState = new ApplicationState();
+    newState.currentLeftPane = this.currentLeftPane;
+    newState.currentPageId = page.id;
+    newState.currentBlockId = this.currentBlockId;
+    newState.pages = this.pages;
+    return newState;
+  }
+
   public withCurrentBlock(block: Block<any>): ApplicationState {
     const newState = new ApplicationState();
     newState.currentLeftPane = this.currentLeftPane;

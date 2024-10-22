@@ -5,6 +5,7 @@ import { BlockSelectRequest } from "./block/BlockSelectRequest";
 import { BlockUpdatePropsRequest } from "./block/BlockUpdatePropsRequest";
 import { PageAddRequest } from "./page/PageAddRequest";
 import { PageDeleteRequest } from "./page/PageDeleteRequest";
+import { PageSelectRequest } from "./page/PageSelectRequest";
 import { PageUpdateRequest } from "./page/PageUpdateRequest";
 import { LeftPanelChangeRequest } from "./sidebar/LeftPanelChangeRequest";
 import { StateChangeRequest, StateChangeRequestType } from "./StateChangeRequest";
@@ -26,6 +27,10 @@ function stateReducer(state: ApplicationState, action: StateChangeRequest) {
     case StateChangeRequestType.PAGE_UPDATE: {
       const payload = action as PageUpdateRequest
       return state.withUpdatedPage(payload.page, payload.callback)
+    }
+    case StateChangeRequestType.PAGE_SELECT: {
+      const payload = action as PageSelectRequest
+      return state.withCurrentPage(payload.page)
     }
     case StateChangeRequestType.BLOCK_ADD: {
       const payload = action as BlockAddRequest;

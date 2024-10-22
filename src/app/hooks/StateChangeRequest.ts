@@ -6,6 +6,7 @@ export const enum StateChangeRequestType {
   PAGE_ADD = 'PAGE_ADD',
   PAGE_DELETE = 'PAGE_DELETE',
   PAGE_UPDATE = 'PAGE_UPDATE',
+  PAGE_SELECT = 'PAGE_SELECT',
 
   BLOCK_ADD = 'BLOCK_ADD',
   BLOCK_SELECT = 'BLOCK_SELECT',
