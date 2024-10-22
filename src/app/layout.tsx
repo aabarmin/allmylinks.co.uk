@@ -1,8 +1,7 @@
+import { Box, CssVarsProvider } from "@mui/joy";
 import type { Metadata } from "next";
-import "./globals.css";
-import '@fontsource/inter';
-import { CssVarsProvider, Sheet } from "@mui/joy";
 import Navigation from "./components/Nagivation";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,8 +17,10 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <CssVarsProvider>
-          <Navigation />
-          {children}
+          <Box sx={{ height: '100vh' }}>
+            <Navigation />
+            {children}
+          </Box>
         </CssVarsProvider>
       </body>
     </html>
