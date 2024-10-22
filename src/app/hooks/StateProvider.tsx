@@ -1,8 +1,11 @@
 import React, { createContext, useContext, useReducer } from "react";
 import { ApplicationState } from "./ApplicationState";
-import { BlockAddRequest } from "./BlockAddRequest";
-import { BlockSelectRequest } from "./BlockSelectRequest";
-import { BlockUpdatePropsRequest } from "./BlockUpdatePropsRequest";
+import { BlockAddRequest } from "./block/BlockAddRequest";
+import { BlockSelectRequest } from "./block/BlockSelectRequest";
+import { BlockUpdatePropsRequest } from "./block/BlockUpdatePropsRequest";
+import { PageAddRequest } from "./page/PageAddRequest";
+import { PageDeleteRequest } from "./page/PageDeleteRequest";
+import { PageUpdateRequest } from "./page/PageUpdateRequest";
 import { LeftPanelChangeRequest } from "./sidebar/LeftPanelChangeRequest";
 import { StateChangeRequest, StateChangeRequestType } from "./StateChangeRequest";
 
@@ -12,6 +15,18 @@ function stateReducer(state: ApplicationState, action: StateChangeRequest) {
   console.log('Dispatching action ' + action.type)
 
   switch (action.type) {
+    case StateChangeRequestType.PAGE_ADD: {
+      const payload = action as PageAddRequest
+      return state.withPage(payload.page);
+    }
+    case StateChangeRequestType.PAGE_DELETE: {
+      const payload = action as PageDeleteRequest
+      return state.withoutPage(payload.page)
+    }
+    case StateChangeRequestType.PAGE_UPDATE: {
+      const payload = action as PageUpdateRequest
+      return state.withUpdatedPage(payload.page, payload.callback)
+    }
     case StateChangeRequestType.BLOCK_ADD: {
       const payload = action as BlockAddRequest;
       return state.withBlock(payload.page, payload.block)

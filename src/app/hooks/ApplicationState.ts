@@ -28,6 +28,14 @@ export class ApplicationState {
     return this.getBlock(this.currentBlockId);
   }
 
+  public getPage(pageId: number): Page | undefined {
+    const pages = this.pages.filter(p => p.id == pageId)
+    if (pages.length == 0) {
+      return undefined
+    }
+    return pages[0]
+  }
+
   public getBlock(blockId: number): Block<any> | undefined {
     const blocks = this.pages
       .map(p => p.getBlock(blockId))
@@ -79,6 +87,38 @@ export class ApplicationState {
       }
       return p.withBlock(block);
     });
+    return newState;
+  }
+
+  public withPage(page: Page): ApplicationState {
+    const newState = new ApplicationState();
+    newState.currentLeftPane = this.currentLeftPane;
+    newState.currentPageId = this.currentPageId;
+    newState.currentBlockId = this.currentBlockId;
+    newState.pages = [...this.pages, page]
+    return newState;
+  }
+
+  public withoutPage(page: Page): ApplicationState {
+    const newState = new ApplicationState();
+    newState.currentLeftPane = this.currentLeftPane;
+    newState.currentPageId = this.currentPageId;
+    newState.currentBlockId = this.currentBlockId;
+    newState.pages = this.pages.filter(p => p.id != page.id);
+    return newState;
+  }
+
+  public withUpdatedPage(page: Page, callback: (page: Page) => Page): ApplicationState {
+    const newState = new ApplicationState();
+    newState.currentLeftPane = this.currentLeftPane;
+    newState.currentPageId = this.currentPageId;
+    newState.currentBlockId = this.currentBlockId;
+    newState.pages = this.pages.map(p => {
+      if (p.id != page.id) {
+        return p;
+      }
+      return callback(p);
+    })
     return newState;
   }
 }
