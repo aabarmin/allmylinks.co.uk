@@ -10,6 +10,10 @@ export class ApplicationState {
     new Page(this.currentPageId, "Home")
   ];
 
+  public getPages(): Page[] {
+    return this.pages;
+  }
+
   public getCurrentPage(): Page {
     return this.pages.filter(p => p.id == this.currentPageId)[0];
   }

@@ -1,6 +1,6 @@
 import PreviewMobile from "./PreviewMobile";
 
-export default function PreviewPane() {
+export function PreviewPane() {
   return (
     <PreviewMobile />
   );

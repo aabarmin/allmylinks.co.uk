@@ -1,19 +1,21 @@
-import { Box, Grid } from "@mui/joy";
-import { useCallback } from "react";
+import { Box } from "@mui/joy";
 import AvatarBlockComponent from "../blocks/AvatarBlock";
 import { HeaderBlockComponent, HeaderBlockProps } from "../blocks/HeaderBlock";
 import { useAppState } from "../hooks/StateProvider";
 import { BlockType } from "../model/Block";
 
-function LeftBlock() {
+function MobileFrame({ blocks }: { blocks: React.ReactNode[] }) {
   return (
-    <div></div>
-  );
-}
-
-function RightBlock() {
-  return (
-    <div></div>
+    <div style={{
+      padding: 8,
+      border: '5px solid #333',
+      borderRadius: '3em',
+      maxWidth: '530px',
+      minWidth: '530px',
+      minHeight: '954px'
+    }}>
+      {blocks}
+    </div>
   );
 }
 
@@ -31,52 +33,14 @@ export default function PreviewMobile() {
       default: <div key={999}>No block of type {block.type}</div>
     }
   });
-  const isActive = useCallback((blockId: string | null) => {
-    if (blockId == null) {
-      return false;
-    }
-    if (state.getCurrentBlock()) {
-      return state.getCurrentBlock()?.id == (+blockId)
-    }
-    return false;
-  }, [state]);
-  const rows = blocks.map(block => {
-    return [
-      <Grid
-        xs={2}
-        key={block?.key + '_left'}
-        sx={{
-          backgroundColor: isActive(block!.key) ? '#f0f0f0' : '#ffffff'
-        }}
-      >
-        <LeftBlock />
-      </Grid>,
-      <Grid
-        xs={8}
-        sx={{
-          backgroundColor: isActive(block!.key) ? '#f0f0f0' : '#ffffff'
-        }}
-        key={block?.key + '_content'}
-      >
-        {block}
-      </Grid>,
-      <Grid
-        xs={2}
-        sx={{
-          backgroundColor: isActive(block!.key) ? '#f0f0f0' : '#ffffff'
-        }}
-        key={block?.key + '_right'}
-      >
-        <RightBlock />
-      </Grid>
-    ]
-  }).flat();
 
   return (
-    <Box>
-      <Grid container>
-        {rows}
-      </Grid>
+    <Box sx={{
+      p: 2,
+      display: 'flex',
+      justifyContent: 'center'
+    }}>
+      <MobileFrame blocks={blocks} />
     </Box>
   );
 }

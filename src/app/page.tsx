@@ -4,9 +4,10 @@ import { Accordion, AccordionDetails, AccordionGroup, AccordionSummary, Box, She
 import Grid from "@mui/joy/Grid";
 import { useState } from "react";
 import { BlockPropertiesPane } from "./components/BlockPropertiesPane";
-import Blocks from "./components/Blocks";
+import { Blocks } from "./components/Blocks";
 import { PageBlockList } from "./components/PageBlockList";
-import PreviewPane from "./components/PreviewPane";
+import { PageDetails } from "./components/PageDetails";
+import { PreviewPane } from "./components/PreviewPane";
 import { UserLinkPreview } from "./components/UserLinkPreview";
 import { StateProvider } from "./hooks/StateProvider";
 
@@ -36,19 +37,19 @@ export default function Home() {
                 <Accordion expanded={isOpened('current-page')} onChange={() => toggleOpened('current-page')}>
                   <AccordionSummary>Page details</AccordionSummary>
                   <AccordionDetails>
-                    Page details will go here
-                  </AccordionDetails>
-                </Accordion>
-                <Accordion expanded={isOpened('page-blocks')} onChange={() => toggleOpened('page-blocks')}>
-                  <AccordionSummary>Page blocks</AccordionSummary>
-                  <AccordionDetails>
-                    <PageBlockList />
+                    <PageDetails />
                   </AccordionDetails>
                 </Accordion>
                 <Accordion expanded={isOpened('blocks')} onChange={() => toggleOpened('blocks')}>
                   <AccordionSummary>Blocks</AccordionSummary>
                   <AccordionDetails>
                     <Blocks />
+                  </AccordionDetails>
+                </Accordion>
+                <Accordion expanded={isOpened('page-blocks')} onChange={() => toggleOpened('page-blocks')}>
+                  <AccordionSummary>Page blocks</AccordionSummary>
+                  <AccordionDetails>
+                    <PageBlockList />
                   </AccordionDetails>
                 </Accordion>
               </AccordionGroup>
@@ -61,9 +62,9 @@ export default function Home() {
           </Box>
         </Grid>
         <Grid xs={3}>
-          <Box sx={{ height: '92vh', p: 2 }}>
+          <Sheet sx={{ height: '92vh', p: 2 }}>
             <BlockPropertiesPane />
-          </Box>
+          </Sheet>
         </Grid>
       </Grid>
 

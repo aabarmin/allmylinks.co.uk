@@ -7,7 +7,7 @@ import { HeaderBlock } from "../blocks/HeaderBlock";
 import { BlockAddRequest } from "../hooks/BlockAddRequest";
 import { useAppState } from "../hooks/StateProvider";
 
-export default function Blocks() {
+export function Blocks() {
   const { state, dispatch } = useAppState();
 
   const addAvatar = () => {
@@ -31,7 +31,9 @@ export default function Blocks() {
   }
 
   return (
-    <List>
+    <List sx={{
+      p: 2
+    }}>
       <ListItemButton onClick={addAvatar}>
         <ListItemDecorator>
           <AccountCircle />
