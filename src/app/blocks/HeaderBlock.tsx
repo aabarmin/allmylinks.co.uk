@@ -1,6 +1,6 @@
 import { FormatAlignCenter, FormatAlignLeft, FormatAlignRight } from "@mui/icons-material";
 import { FormControl, FormLabel, IconButton, Input, Option, Select, Stack, ToggleButtonGroup, Typography, TypographySystem } from "@mui/joy";
-import { BlockUpdatePropsRequest } from "../hooks/BlockUpdatePropsRequest";
+import { BlockUpdatePropsRequest } from "../hooks/block/BlockUpdatePropsRequest";
 import { useAppState } from "../hooks/StateProvider";
 import { Block, BlockType } from "../model/Block";
 

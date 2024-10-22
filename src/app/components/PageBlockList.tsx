@@ -1,6 +1,6 @@
 import { Title } from "@mui/icons-material";
 import { Avatar, Box, List, ListItem, ListItemButton, ListItemDecorator } from "@mui/joy";
-import { BlockSelectRequest } from "../hooks/BlockSelectRequest";
+import { BlockSelectRequest } from "../hooks/block/BlockSelectRequest";
 import { useAppState } from "../hooks/StateProvider";
 import { BlockType } from "../model/Block";
 

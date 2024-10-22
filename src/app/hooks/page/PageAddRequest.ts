@@ -1,15 +1,11 @@
-import { StateChangeRequest, StateChangeRequestType } from "./StateChangeRequest";
+import { StateChangeRequest, StateChangeRequestType } from "../StateChangeRequest";
 
-export class PageAddRequestPayload {
-
-}
-
-export class PageAddRequest implements StateChangeRequest<PageAddRequestPayload> {
+export class PageAddRequest implements StateChangeRequest {
   type: StateChangeRequestType;
-  payload: PageAddRequestPayload;
+  name: string;
 
-  constructor(payload: PageAddRequestPayload) {
+  constructor(name: string) {
     this.type = StateChangeRequestType.PAGE_ADD;
-    this.payload = payload;
+    this.name = name;
   }
 }

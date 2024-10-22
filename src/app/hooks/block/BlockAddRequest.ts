@@ -1,6 +1,6 @@
-import { Block } from "../model/Block";
-import { Page } from "../model/Page";
-import { StateChangeRequest, StateChangeRequestType } from "./StateChangeRequest";
+import { Block } from "../../model/Block";
+import { Page } from "../../model/Page";
+import { StateChangeRequest, StateChangeRequestType } from "../StateChangeRequest";
 
 export class BlockAddRequest implements StateChangeRequest {
   type: StateChangeRequestType;

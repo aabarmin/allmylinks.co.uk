@@ -4,7 +4,7 @@ import { AccountCircle, Title } from "@mui/icons-material";
 import { List, ListItemButton, ListItemDecorator } from "@mui/joy";
 import { AvatarBlock } from "../blocks/AvatarBlock";
 import { HeaderBlock } from "../blocks/HeaderBlock";
-import { BlockAddRequest } from "../hooks/BlockAddRequest";
+import { BlockAddRequest } from "../hooks/block/BlockAddRequest";
 import { useAppState } from "../hooks/StateProvider";
 
 export function Blocks() {

@@ -1,5 +1,5 @@
-import { Block } from "../model/Block";
-import { StateChangeRequest, StateChangeRequestType } from "./StateChangeRequest";
+import { Block } from "../../model/Block";
+import { StateChangeRequest, StateChangeRequestType } from "../StateChangeRequest";
 
 export class BlockSelectRequest implements StateChangeRequest {
   type: StateChangeRequestType;
