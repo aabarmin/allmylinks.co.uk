@@ -1,6 +1,6 @@
 'use client';
 
-import { Avatar } from "@mui/joy";
+import { Avatar, Box, Button, FormControl, FormLabel, Input, Radio, RadioGroup, Stack } from "@mui/joy";
 import { Block, BlockType } from "../model/Block";
 
 export class BlockAvatarProps { }
@@ -19,9 +19,32 @@ export class AvatarBlock implements Block<BlockAvatarProps> {
   }
 }
 
-export function AvatarBlockProperties() {
+export function AvatarBlockProperties(block: AvatarBlock) {
   return (
-    <div>Properties form</div>
+    <Stack spacing={2}>
+      <Box sx={{
+        display: 'flex',
+        gap: 2
+      }}>
+        <Button variant="soft">Cancel</Button>
+        <Button>Save</Button>
+      </Box>
+      <FormControl>
+        <FormLabel>Type:</FormLabel>
+        <RadioGroup defaultValue={'text'}>
+          <Radio value={'text'} label="Text" />
+          <Radio value={'image'} label="Image" />
+        </RadioGroup>
+      </FormControl>
+      <FormControl>
+        <FormLabel>Text:</FormLabel>
+        <Input placeholder="Initials" />
+      </FormControl>
+      <FormControl>
+        <FormLabel>Image:</FormLabel>
+
+      </FormControl>
+    </Stack>
   );
 }
 

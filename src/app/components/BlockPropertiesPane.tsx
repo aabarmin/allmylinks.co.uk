@@ -1,5 +1,5 @@
 import { Box } from "@mui/joy";
-import { AvatarBlockProperties } from "../blocks/AvatarBlock";
+import { AvatarBlock, AvatarBlockProperties } from "../blocks/AvatarBlock";
 import { HeaderBlock, HeaderBlockProperties } from "../blocks/HeaderBlock";
 import { useAppState } from "../hooks/StateProvider";
 import { Block, BlockType } from "../model/Block";
@@ -22,7 +22,8 @@ function getBlockProperties(block: Block<any> | undefined) {
   }
   switch (block.type) {
     case BlockType.BLOCK_AVATAR: {
-      return <AvatarBlockProperties />
+      const b = block as AvatarBlock
+      return <AvatarBlockProperties {...b} />
     }
     case BlockType.BLOCK_HEADER: {
       const b = block as HeaderBlock
