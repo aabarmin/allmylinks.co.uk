@@ -1,5 +1,5 @@
-import { Title } from "@mui/icons-material";
-import { Avatar, Box, List, ListItem, ListItemButton, ListItemDecorator } from "@mui/joy";
+import { AccountCircle, Title } from "@mui/icons-material";
+import { Box, List, ListItem, ListItemButton, ListItemDecorator } from "@mui/joy";
 import { BlockSelectRequest } from "../hooks/block/BlockSelectRequest";
 import { useAppState } from "../hooks/StateProvider";
 import { BlockType } from "../model/Block";
@@ -25,14 +25,14 @@ export function PageBlockList() {
                 <ListItemDecorator>
                   <Title />
                 </ListItemDecorator>
-                Header {block.id}
+                Header
               </ListItemButton>
             );
           } else if (block.type == BlockType.BLOCK_AVATAR) {
             return (
               <ListItemButton key={block.id} onClick={() => blockSelect(block.id)}>
                 <ListItemDecorator>
-                  <Avatar />
+                  <AccountCircle />
                 </ListItemDecorator>
                 Avatar
               </ListItemButton>

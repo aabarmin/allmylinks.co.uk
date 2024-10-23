@@ -1,5 +1,5 @@
 import { Box } from "@mui/joy";
-import AvatarBlockComponent from "../blocks/AvatarBlock";
+import AvatarBlockComponent, { AvatarBlockProps } from "../blocks/AvatarBlock";
 import { HeaderBlockComponent, HeaderBlockProps } from "../blocks/HeaderBlock";
 import { useAppState } from "../hooks/StateProvider";
 import { BlockType } from "../model/Block";
@@ -24,7 +24,8 @@ export default function PreviewMobile() {
   const blocks = state.getCurrentPage().blocks.map(block => {
     switch (block.type) {
       case BlockType.BLOCK_AVATAR: {
-        return <AvatarBlockComponent key={block.id} />
+        const props = block.props as AvatarBlockProps
+        return <AvatarBlockComponent key={block.id} {...props} />
       }
       case BlockType.BLOCK_HEADER: {
         const props = block.props as HeaderBlockProps
