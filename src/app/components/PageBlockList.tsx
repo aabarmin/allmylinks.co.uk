@@ -1,4 +1,4 @@
-import { AccountCircle, Title } from "@mui/icons-material";
+import { AccountCircle, ThumbUp, Title } from "@mui/icons-material";
 import { Box, List, ListItem, ListItemButton, ListItemDecorator } from "@mui/joy";
 import { BlockSelectRequest } from "../hooks/block/BlockSelectRequest";
 import { useAppState } from "../hooks/StateProvider";
@@ -37,10 +37,19 @@ export function PageBlockList() {
                 Avatar
               </ListItemButton>
             );
+          } else if (block.type == BlockType.BLOCK_SOCIAL_NETWORKS) {
+            return (
+              <ListItemButton key={block.id} onClick={() => blockSelect(block.id)}>
+                <ListItemDecorator>
+                  <ThumbUp />
+                </ListItemDecorator>
+                Social Networks
+              </ListItemButton>
+            )
           } else {
             return (
               <ListItem key={block.id} onClick={() => blockSelect(block.id)}>
-                Unknown block of type {block.type}
+                Unknown block of type {block.type}, update PageBlockList
               </ListItem>
             )
           }

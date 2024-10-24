@@ -1,6 +1,7 @@
 import { Box } from "@mui/joy";
 import { AvatarBlock, AvatarBlockProperties } from "../blocks/AvatarBlock";
 import { HeaderBlock, HeaderBlockProperties } from "../blocks/HeaderBlock";
+import { SocialNetworksBlock, SocialNetworksBlockProperties } from "../blocks/SocialNetworksBlock";
 import { useAppState } from "../hooks/StateProvider";
 import { Block, BlockType } from "../model/Block";
 
@@ -12,7 +13,7 @@ function NoBlockSelected() {
 
 function NoBlockProperties({ type }: { type: BlockType }) {
   return (
-    <div>No properties for block of type {type}</div>
+    <div>No properties for block of type {type}, update Block Properties Pane</div>
   );
 }
 
@@ -28,6 +29,10 @@ function getBlockProperties(block: Block<any> | undefined) {
     case BlockType.BLOCK_HEADER: {
       const b = block as HeaderBlock
       return <HeaderBlockProperties {...b} />
+    }
+    case BlockType.BLOCK_SOCIAL_NETWORKS: {
+      const b = block as SocialNetworksBlock
+      return <SocialNetworksBlockProperties {...b} />
     }
     default: return <NoBlockProperties type={block.type} />
   }
