@@ -143,14 +143,14 @@ export function SocialNetworksBlockProperties(block: SocialNetworksBlock) {
                 display: 'flex',
                 flexDirection: 'row'
               }}>
-              <Select onChange={(e, v) => updateSocialNetwork(sn.order, 'icon', v)}>
-                <Option value={'twitter'}>
+              <Select onChange={(e, v) => updateSocialNetwork(sn.order, 'icon', v as string)}>
+                <Option value="twitter">
                   <SocialIcon network="twitter" style={{ width: '25px', height: '25px' }} />
                 </Option>
-                <Option value={'instagram'}>
+                <Option value="instagram">
                   <SocialIcon network="instagram" />
                 </Option>
-                <Option value={'facebook'}>
+                <Option value="facebook">
                   <SocialIcon network="facebook" />
                 </Option>
               </Select>
