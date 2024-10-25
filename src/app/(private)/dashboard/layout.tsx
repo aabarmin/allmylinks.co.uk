@@ -13,14 +13,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>
-        <CssVarsProvider>
-          <Box sx={{ height: '100vh' }}>
-            {children}
-          </Box>
-        </CssVarsProvider>
-      </body>
-    </html>
+    <CssVarsProvider>
+      <Box sx={{ height: '100vh' }}>
+        {children}
+      </Box>
+    </CssVarsProvider>
   );
 }

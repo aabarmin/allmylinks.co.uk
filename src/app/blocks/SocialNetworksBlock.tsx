@@ -43,7 +43,7 @@ function arrayCopyAndAdd<T>(arr: T[], item: T): T[] {
 }
 
 export function SocialNetworksBlockProperties(block: SocialNetworksBlock) {
-  const { state, dispatch } = useAppState();
+  const { dispatch } = useAppState();
   const [form, setFormData] = useState({
     networks: [] as SocialNetwork[]
   });
@@ -73,7 +73,7 @@ export function SocialNetworksBlockProperties(block: SocialNetworksBlock) {
   const saveForm = () => {
     dispatch(new BlockUpdatePropsRequest(
       block,
-      (p) => {
+      () => {
         const props = new SocialNetworksBlockProps()
         props.networks = form['networks']
         return props;
@@ -181,7 +181,7 @@ export function SocialNetworksBlockComponent(props: SocialNetworksBlockProps) {
       gap: 2
     }}>
       {props.networks.map(n => (
-        <SocialIcon network={n.icon} url={n.link} />
+        <SocialIcon key={n.order} network={n.icon} url={n.link} />
       ))}
     </Box>
   )

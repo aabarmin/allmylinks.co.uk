@@ -2,6 +2,7 @@
 
 import { Description } from "@mui/icons-material";
 import { Box, Button, Option, Select } from "@mui/joy";
+import React from "react";
 import { PageSelectRequest } from "../hooks/page/PageSelectRequest";
 import { LeftPanelChangeRequest } from "../hooks/sidebar/LeftPanelChangeRequest";
 import { useAppState } from "../hooks/StateProvider";
@@ -14,7 +15,7 @@ export function PageDetails() {
       'page-management'
     ))
   }
-  const pageSelect = (event: any, newValue: number | null) => {
+  const pageSelect = (event: React.SyntheticEvent | null, newValue: number | null) => {
     if (newValue == undefined) {
       return
     }

@@ -60,7 +60,7 @@ export function PageListPane() {
       <Sheet>
         <Typography level="h1">Manage pages</Typography>
         <Typography>
-          Add pages to your profile by clicking the 'Add page' button. Add link to pages by using 'Link page' block.
+          Add pages to your profile by clicking the Add page button. Add link to pages by using Link page block.
         </Typography>
       </Sheet>
       <Sheet sx={{ height: '16px' }} />
@@ -118,7 +118,7 @@ export function PageListPane() {
           </DialogTitle>
           <Divider />
           <DialogContent>
-            Can't delete the one page
+            Can not delete the one page
           </DialogContent>
           <DialogActions>
             <Button variant="plain" onClick={() => setShowDialog('')}>

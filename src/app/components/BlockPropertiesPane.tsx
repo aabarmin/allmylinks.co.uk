@@ -19,7 +19,7 @@ function NoBlockProperties({ type }: { type: BlockType }) {
   );
 }
 
-function getBlockProperties(block: Block<any> | undefined) {
+function getBlockProperties(block: Block<object> | undefined) {
   if (!block) {
     return <NoBlockSelected />
   }

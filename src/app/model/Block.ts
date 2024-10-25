@@ -1,4 +1,4 @@
-export interface Block<T> {
+export interface Block<T extends object> {
   id: number;
   type: BlockType;
   order: number;

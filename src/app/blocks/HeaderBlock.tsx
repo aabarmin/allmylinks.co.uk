@@ -47,7 +47,7 @@ export function HeaderBlockProperties(block: HeaderBlock) {
     text: block.props.text
   }));
   useEffect(() => { resetBlock() }, [state]); // dirty hack but I don't care now
-  const handleInput = (field: string, value: any) => {
+  const handleInput = (field: string, value: string | HeaderLevel | HeaderAlignment | null) => {
     setFormData((prev) => ({
       ...prev,
       [field]: value
@@ -56,7 +56,7 @@ export function HeaderBlockProperties(block: HeaderBlock) {
   const saveBlock = () => {
     dispatch(new BlockUpdatePropsRequest(
       block,
-      (b) => {
+      () => {
         const props = new HeaderBlockProps()
         props.alignment = HeaderAlignment[form['alignment'] as keyof typeof HeaderAlignment]
         props.level = HeaderLevel[form['level'] as keyof typeof HeaderLevel]

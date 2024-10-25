@@ -21,7 +21,7 @@ export class ApplicationState {
     return this.pages.filter(p => p.id == this.currentPageId)[0];
   }
 
-  public getCurrentBlock(): Block<any> | undefined {
+  public getCurrentBlock(): Block<object> | undefined {
     if (this.currentBlockId == undefined) {
       return undefined;
     }
@@ -36,7 +36,7 @@ export class ApplicationState {
     return pages[0]
   }
 
-  public getBlock(blockId: number): Block<any> | undefined {
+  public getBlock(blockId: number): Block<object> | undefined {
     const blocks = this.pages
       .map(p => p.getBlock(blockId))
       .filter(b => b != undefined);
@@ -65,7 +65,7 @@ export class ApplicationState {
     return newState;
   }
 
-  public withCurrentBlock(block: Block<any>): ApplicationState {
+  public withCurrentBlock(block: Block<object>): ApplicationState {
     const newState = new ApplicationState();
     newState.currentLeftPane = this.currentLeftPane;
     newState.currentPageId = this.currentPageId;
@@ -74,7 +74,7 @@ export class ApplicationState {
     return newState;
   }
 
-  public withUpdatedBlock<T>(block: Block<T>, callback: (current: T) => T): ApplicationState {
+  public withUpdatedBlock<T extends object>(block: Block<T>, callback: (current: T) => T): ApplicationState {
     const newState = new ApplicationState();
     newState.currentLeftPane = this.currentLeftPane;
     newState.currentPageId = this.currentPageId;
@@ -85,7 +85,7 @@ export class ApplicationState {
     return newState;
   }
 
-  public withBlock(page: Page, block: Block<any>): ApplicationState {
+  public withBlock(page: Page, block: Block<object>): ApplicationState {
     const newState = new ApplicationState();
     newState.currentLeftPane = this.currentLeftPane;
     newState.currentPageId = this.currentPageId;

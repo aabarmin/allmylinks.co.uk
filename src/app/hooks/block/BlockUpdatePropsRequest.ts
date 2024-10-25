@@ -1,7 +1,7 @@
 import { Block } from "../../model/Block";
 import { StateChangeRequest, StateChangeRequestType } from "../StateChangeRequest";
 
-export class BlockUpdatePropsRequest<T> implements StateChangeRequest {
+export class BlockUpdatePropsRequest<T extends object> implements StateChangeRequest {
   type: StateChangeRequestType;
   block: Block<T>;
   callback: (arg: T) => T;

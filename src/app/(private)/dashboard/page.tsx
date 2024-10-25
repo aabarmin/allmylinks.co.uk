@@ -5,7 +5,7 @@ import { StateProvider } from "@/app/hooks/StateProvider";
 import { Box, Sheet } from "@mui/joy";
 import Grid from "@mui/joy/Grid";
 
-export default function Home() {
+export default function Page() {
   return (
     <StateProvider>
 

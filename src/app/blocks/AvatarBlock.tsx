@@ -41,7 +41,7 @@ function uploadFile(file: File): Promise<FileDetails> {
 }
 
 export function AvatarBlockProperties(block: AvatarBlock) {
-  const { state, dispatch } = useAppState();
+  const { dispatch } = useAppState();
   const fileUploadRef = useRef<HTMLInputElement>(null);
   const [form, setFormData] = useState({
     imageUrl: DEFAULT_AVATAR
@@ -55,7 +55,7 @@ export function AvatarBlockProperties(block: AvatarBlock) {
   const saveChanges = () => {
     dispatch(new BlockUpdatePropsRequest(
       block,
-      (p) => {
+      () => {
         const props = new AvatarBlockProps()
         props.imageUrl = form['imageUrl']
         return props

@@ -35,15 +35,15 @@ function stateReducer(state: ApplicationState, action: StateChangeRequest) {
       return state.withCurrentPage(payload.page)
     }
     case StateChangeRequestType.BLOCK_ADD: {
-      const payload = action as BlockAddRequest;
+      const payload = action as BlockAddRequest<object>;
       return state.withBlock(payload.page, payload.block)
     }
     case StateChangeRequestType.BLOCK_SELECT: {
-      const payload = action as BlockSelectRequest;
+      const payload = action as BlockSelectRequest<object>;
       return state.withCurrentBlock(payload.block);
     }
     case StateChangeRequestType.BLOCK_UPDATE_PROPS: {
-      const payload = action as BlockUpdatePropsRequest<any>
+      const payload = action as BlockUpdatePropsRequest<object>
       return state.withUpdatedBlock(payload.block, payload.callback)
     }
     case StateChangeRequestType.LEFT_PANEL_CHANGE: {
@@ -63,10 +63,10 @@ interface StateContextValue {
 
 export const StateContext = createContext<StateContextValue>({
   state: initialState,
-  dispatch: (action) => console.log("Smth strange has happened")
+  dispatch: () => console.log("Smth strange has happened")
 });
 
-export function StateProvider({ children }: any) {
+export function StateProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(stateReducer, initialState);
 
   return (
