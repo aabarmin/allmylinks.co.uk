@@ -1,6 +1,7 @@
 import { Box } from "@mui/joy";
 import AvatarBlockComponent, { AvatarBlockProps } from "../blocks/AvatarBlock";
 import { HeaderBlockComponent, HeaderBlockProps } from "../blocks/HeaderBlock";
+import { SocialNetworksBlockComponent, SocialNetworksBlockProps } from "../blocks/SocialNetworksBlock";
 import { useAppState } from "../hooks/StateProvider";
 import { BlockType } from "../model/Block";
 
@@ -30,6 +31,10 @@ export default function PreviewMobile() {
       case BlockType.BLOCK_HEADER: {
         const props = block.props as HeaderBlockProps
         return <HeaderBlockComponent key={block.id} {...props} />
+      }
+      case BlockType.BLOCK_SOCIAL_NETWORKS: {
+        const props = block.props as SocialNetworksBlockProps
+        return <SocialNetworksBlockComponent key={block.id} {...props} />
       }
       default: <div key={999}>No block of type {block.type}</div>
     }

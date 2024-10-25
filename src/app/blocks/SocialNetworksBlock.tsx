@@ -1,15 +1,18 @@
 import { Delete } from "@mui/icons-material";
 import { Box, Button, IconButton, Input, Option, Select, Sheet } from "@mui/joy";
 import { useEffect, useState } from "react";
+import { SocialIcon } from "react-social-icons";
+import { BlockUpdatePropsRequest } from "../hooks/block/BlockUpdatePropsRequest";
+import { useAppState } from "../hooks/StateProvider";
 import { Block, BlockType } from "../model/Block";
 
 export class SocialNetwork {
-  id: number;
+  order: number;
   icon: string;
   link: string;
 
-  constructor(id: number) {
-    this.id = id;
+  constructor(order: number) {
+    this.order = order;
     this.icon = '';
     this.link = '';
   }
@@ -38,6 +41,7 @@ function arrayCopyAndAdd<T>(arr: T[], item: T): T[] {
 }
 
 export function SocialNetworksBlockProperties(block: SocialNetworksBlock) {
+  const { state, dispatch } = useAppState();
   const [form, setFormData] = useState({
     networks: [] as SocialNetwork[]
   });
@@ -57,6 +61,53 @@ export function SocialNetworksBlockProperties(block: SocialNetworksBlock) {
     }));
   }
 
+  const resetForm = () => {
+    setFormData((f) => ({
+      ...f,
+      ['networks']: block.props.networks
+    }))
+  }
+
+  const saveForm = () => {
+    dispatch(new BlockUpdatePropsRequest(
+      block,
+      (p) => {
+        const props = new SocialNetworksBlockProps()
+        props.networks = form['networks']
+        return props;
+      }
+    ))
+  }
+
+  const deleteSocialNetwork = (order: number) => {
+    setFormData((f) => ({
+      ...f,
+      ['networks']: f['networks'].filter(n => n.order != order)
+    }))
+  }
+
+  const updateSocialNetwork = (order: number, field: string, value: string | null) => {
+    setFormData((f) => ({
+      ...f,
+      ['networks']: f['networks'].map(n => {
+        if (n.order != order) {
+          return n;
+        }
+        const nw = new SocialNetwork(n.order)
+        nw.icon = n.icon;
+        nw.link = n.link;
+        if (field == 'icon') {
+          nw.icon = value as string;
+        } else if (field == 'link') {
+          nw.link = value as string;
+        } else {
+          console.error('Unknown field ' + field)
+        }
+        return nw;
+      })
+    }))
+  }
+
   return (
     <Sheet sx={{
       gap: 2,
@@ -67,8 +118,8 @@ export function SocialNetworksBlockProperties(block: SocialNetworksBlock) {
         display: 'flex',
         gap: 2
       }}>
-        <Button variant="soft">Cancel</Button>
-        <Button>Save</Button>
+        <Button onClick={resetForm} variant="soft">Cancel</Button>
+        <Button onClick={saveForm}>Save</Button>
       </Box>
 
       <Box sx={{
@@ -86,23 +137,30 @@ export function SocialNetworksBlockProperties(block: SocialNetworksBlock) {
         {form['networks'].map(sn => {
           return (
             <Box
-              key={sn.id}
+              key={sn.order}
               sx={{
                 gap: 2,
                 display: 'flex',
                 flexDirection: 'row'
               }}>
-              <Select>
+              <Select onChange={(e, v) => updateSocialNetwork(sn.order, 'icon', v)}>
                 <Option value={'twitter'}>
-                  X
+                  <SocialIcon network="twitter" style={{ width: '25px', height: '25px' }} />
+                </Option>
+                <Option value={'instagram'}>
+                  <SocialIcon network="instagram" />
+                </Option>
+                <Option value={'facebook'}>
+                  <SocialIcon network="facebook" />
                 </Option>
               </Select>
               <Input
                 sx={{
                   flexGrow: 1
                 }}
+                onChange={(e) => updateSocialNetwork(sn.order, 'link', e.target.value)}
                 placeholder="Add URL" />
-              <IconButton>
+              <IconButton onClick={() => deleteSocialNetwork(sn.order)}>
                 <Delete />
               </IconButton>
             </Box>
@@ -113,5 +171,16 @@ export function SocialNetworksBlockProperties(block: SocialNetworksBlock) {
   )
 }
 export function SocialNetworksBlockComponent(props: SocialNetworksBlockProps) {
-  return (<div>Block</div>)
+  return (
+    <Box sx={{
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'center',
+      gap: 2
+    }}>
+      {props.networks.map(n => (
+        <SocialIcon network={n.icon} url={n.link} />
+      ))}
+    </Box>
+  )
 }
