@@ -1,3 +1,5 @@
+'use client';
+
 import { Accordion, AccordionDetails, AccordionGroup, AccordionSummary, Box } from "@mui/joy";
 import { useState } from "react";
 import { Blocks } from "./Blocks";

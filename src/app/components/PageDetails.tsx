@@ -1,3 +1,5 @@
+'use client';
+
 import { Description } from "@mui/icons-material";
 import { Box, Button, Option, Select } from "@mui/joy";
 import { PageSelectRequest } from "../hooks/page/PageSelectRequest";

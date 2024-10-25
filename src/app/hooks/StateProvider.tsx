@@ -1,3 +1,5 @@
+'use client';
+
 import React, { createContext, useContext, useReducer } from "react";
 import { ApplicationState } from "./ApplicationState";
 import { BlockAddRequest } from "./block/BlockAddRequest";

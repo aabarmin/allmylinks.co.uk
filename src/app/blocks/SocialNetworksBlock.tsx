@@ -1,3 +1,5 @@
+'use client';
+
 import { Delete } from "@mui/icons-material";
 import { Box, Button, IconButton, Input, Option, Select, Sheet } from "@mui/joy";
 import { useEffect, useState } from "react";

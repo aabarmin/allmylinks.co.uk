@@ -1,3 +1,5 @@
+'use client';
+
 import { ArrowBack, Delete, WarningRounded } from "@mui/icons-material";
 import { Box, Button, DialogActions, DialogContent, DialogTitle, Divider, Input, List, ListItem, ListItemButton, ListItemContent, Modal, ModalDialog, Sheet, Typography } from "@mui/joy";
 import { useState } from "react";

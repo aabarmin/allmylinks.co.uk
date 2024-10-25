@@ -1,3 +1,5 @@
+'use client';
+
 import { AccountCircle, ThumbUp, Title } from "@mui/icons-material";
 import { Box, List, ListItem, ListItemButton, ListItemDecorator } from "@mui/joy";
 import { BlockSelectRequest } from "../hooks/block/BlockSelectRequest";

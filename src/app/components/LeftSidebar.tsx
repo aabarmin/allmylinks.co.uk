@@ -1,3 +1,5 @@
+'use client';
+
 import { useAppState } from "../hooks/StateProvider";
 import { PageBuilderPane } from "./PageBuilderPane";
 import { PageListPane } from "./PageListPane";

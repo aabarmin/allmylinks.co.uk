@@ -1,3 +1,5 @@
+'use client';
+
 import { Box } from "@mui/joy";
 import { AvatarBlock, AvatarBlockProperties } from "../blocks/AvatarBlock";
 import { HeaderBlock, HeaderBlockProperties } from "../blocks/HeaderBlock";

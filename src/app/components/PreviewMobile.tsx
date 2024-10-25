@@ -1,3 +1,5 @@
+'use client';
+
 import { Box } from "@mui/joy";
 import AvatarBlockComponent, { AvatarBlockProps } from "../blocks/AvatarBlock";
 import { HeaderBlockComponent, HeaderBlockProps } from "../blocks/HeaderBlock";
