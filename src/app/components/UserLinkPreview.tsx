@@ -1,7 +1,14 @@
+import { getCurrentProfile } from "@/lib/profileActions";
+import { getCurrentUserId } from "@/lib/userActions";
 import { ContentCopy, Share } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/joy";
 
-export function UserLinkPreview() {
+export async function UserLinkPreview() {
+  const userId = await getCurrentUserId();
+  const profile = await getCurrentProfile(userId)
+  const profileLink = process.env.BASE_URL + "/l/" + profile.link;
+  const profileLinkText = profileLink.substring(profileLink.indexOf("://") + 3)
+
   return (
     <Box sx={{
       p: 2,
@@ -15,8 +22,8 @@ export function UserLinkPreview() {
         alignItems: 'center',
         gap: 2
       }}>
-        <a href="https://google.com" target="_blank">
-          google.com
+        <a href={profileLink} target="_blank">
+          {profileLinkText}
         </a>
         <IconButton>
           <ContentCopy />
