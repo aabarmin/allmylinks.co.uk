@@ -9,7 +9,7 @@ datasource db {
 
 model Profile {
   id        Int       @id @default(autoincrement())
-  link      String    @unique
+  link      String    @unique @db.VarChar(255)
   active    Boolean   @default(false)
   userId    Int       @unique @map("user_id")
   pages     Page[]
@@ -23,7 +23,7 @@ model Page {
   id        Int       @id @default(autoincrement())
   profileId Int       @map("profile_id")
   profile   Profile   @relation(fields: [profileId], references: [id])
-  title     String
+  title     String    @db.VarChar(255)
   deleted   Boolean   @default(false)
   isHome    Boolean   @default(false) @map("is_home")
   createdAt DateTime  @default(now()) @map("created_at")
@@ -38,7 +38,7 @@ model Block {
   pageId    Int       @map("page_id")
   page      Page      @relation(fields: [pageId], references: [id])
   order     Int
-  blockType String    @map("block_type")
+  blockType String    @map("block_type") @db.VarChar(255)
   props     Json
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @map("updated_at")

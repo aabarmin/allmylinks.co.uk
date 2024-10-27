@@ -76,7 +76,7 @@ export function HeaderBlockProperties(block: HeaderBlock) {
       text: block.props.text
     })
   }
-  useEffect(() => { resetBlock() }, [state, resetBlock]); // dirty hack but I don't care now
+  useEffect(() => { resetBlock() }, [state]); // dirty hack but I don't care now
 
   return (
     <Stack spacing={2}>
@@ -117,7 +117,10 @@ export function HeaderBlockProperties(block: HeaderBlock) {
 
       <FormControl>
         <FormLabel>Text:</FormLabel>
-        <Input placeholder="Text" value={form['text']} onChange={(e) => handleInput('text', e.target.value)} />
+        <Input
+          placeholder="Text"
+          value={form['text']}
+          onChange={(e) => handleInput('text', e.target.value)} />
       </FormControl>
     </Stack>
   );
