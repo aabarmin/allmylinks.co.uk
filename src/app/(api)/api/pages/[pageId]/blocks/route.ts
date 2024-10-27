@@ -4,7 +4,6 @@ import { z } from "zod";
 import { CreateBlockResponse } from "./CrateBlockResponse";
 import { CreateBlockRequest } from "./CreateBlockRequest";
 
-
 export async function POST(
   request: Request,
   { params }: { params: Promise<{ pageId: string }> }
@@ -23,7 +22,6 @@ export async function POST(
     }, { status: 400 });
   }
 
-  // there should be some validation logic here
   const page = await getDbClient().page.findUnique({
     where: { id: +pageId },
     include: { blocks: true }
