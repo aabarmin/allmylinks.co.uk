@@ -5,6 +5,7 @@ import { ApplicationState } from "./ApplicationState";
 import { BlockAddRequest } from "./block/BlockAddRequest";
 import { BlockSelectRequest } from "./block/BlockSelectRequest";
 import { BlockUpdatePropsRequest } from "./block/BlockUpdatePropsRequest";
+import { DashboardLoadDataRequest } from "./global/DashboardLoadDataRequest";
 import { PageAddRequest } from "./page/PageAddRequest";
 import { PageDeleteRequest } from "./page/PageDeleteRequest";
 import { PageSelectRequest } from "./page/PageSelectRequest";
@@ -50,7 +51,11 @@ function stateReducer(state: ApplicationState, action: StateChangeRequest) {
       const payload = action as LeftPanelChangeRequest;
       return state.withLeftPane(payload.componentAlias);
     }
-    default: console.error('No reducer for action of type ' + action.type)
+    case StateChangeRequestType.DASHBOARD_LOAD_DATA: {
+      const payload = action as DashboardLoadDataRequest;
+      return state.withInitialData(payload.data);
+    }
+    default: console.error('No reducer for action of type ' + action.type + '. Update State Provider')
   }
 
   return state;
@@ -63,7 +68,9 @@ interface StateContextValue {
 
 export const StateContext = createContext<StateContextValue>({
   state: initialState,
-  dispatch: () => console.log("Smth strange has happened")
+  dispatch: (action: StateChangeRequest) => {
+    console.log("No reducer for action " + action.type + '. Update State Provider')
+  }
 });
 
 export function StateProvider({ children }: { children: React.ReactNode }) {

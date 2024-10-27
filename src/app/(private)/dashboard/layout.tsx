@@ -1,4 +1,5 @@
 import "@/app/globals.css";
+import { StateProvider } from "@/app/hooks/StateProvider";
 import { Box, CssVarsProvider } from "@mui/joy";
 import type { Metadata } from "next";
 
@@ -15,7 +16,9 @@ export default function RootLayout({
   return (
     <CssVarsProvider>
       <Box sx={{ height: '100vh' }}>
-        {children}
+        <StateProvider>
+          {children}
+        </StateProvider>
       </Box>
     </CssVarsProvider>
   );

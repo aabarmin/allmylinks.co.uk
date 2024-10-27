@@ -1,3 +1,5 @@
+import { Profile } from "@prisma/client";
+import { GetDashboardResponse } from "../(api)/api/dashboard/route";
 import { Block } from "../model/Block";
 import { Page } from "../model/Page";
 
@@ -8,9 +10,17 @@ export class ApplicationState {
   private pages: Page[] = [
     new Page(this.currentPageId, "Home")
   ];
+  private profile?: Profile;
 
   public getPages(): Page[] {
     return this.pages;
+  }
+
+  public getProfile(): Profile {
+    if (this.profile == null) {
+      throw new Error("Profile is not set");
+    }
+    return this.profile;
   }
 
   public getCurrentLeftPane(): string {
@@ -47,12 +57,29 @@ export class ApplicationState {
     return blocks[0];
   }
 
+  public withInitialData(data: GetDashboardResponse): ApplicationState {
+    const newState = new ApplicationState();
+    newState.profile = data.profile;
+    return newState;
+  }
+
+  public withProfile(profile: Profile): ApplicationState {
+    const newState = new ApplicationState();
+    newState.currentLeftPane = this.currentLeftPane;
+    newState.currentPageId = this.currentPageId;
+    newState.currentBlockId = this.currentBlockId;
+    newState.pages = this.pages;
+    newState.profile = profile;
+    return newState;
+  }
+
   public withLeftPane(paneAlias: string): ApplicationState {
     const newState = new ApplicationState();
     newState.currentLeftPane = paneAlias;
     newState.currentPageId = this.currentPageId;
     newState.currentBlockId = this.currentBlockId;
     newState.pages = this.pages;
+    newState.profile = this.profile;
     return newState;
   }
 
@@ -62,6 +89,7 @@ export class ApplicationState {
     newState.currentPageId = page.id;
     newState.currentBlockId = this.currentBlockId;
     newState.pages = this.pages;
+    newState.profile = this.profile;
     return newState;
   }
 
@@ -71,6 +99,7 @@ export class ApplicationState {
     newState.currentPageId = this.currentPageId;
     newState.currentBlockId = block.id;
     newState.pages = this.pages;
+    newState.profile = this.profile;
     return newState;
   }
 
@@ -82,6 +111,7 @@ export class ApplicationState {
     newState.pages = this.pages.map(p => {
       return p.withUpdatedBlock(block, callback);
     });
+    newState.profile = this.profile;
     return newState;
   }
 
@@ -96,6 +126,7 @@ export class ApplicationState {
       }
       return p.withBlock(block);
     });
+    newState.profile = this.profile;
     return newState;
   }
 
@@ -105,6 +136,7 @@ export class ApplicationState {
     newState.currentPageId = this.currentPageId;
     newState.currentBlockId = this.currentBlockId;
     newState.pages = [...this.pages, page]
+    newState.profile = this.profile;
     return newState;
   }
 
@@ -114,6 +146,7 @@ export class ApplicationState {
     newState.currentPageId = this.currentPageId;
     newState.currentBlockId = this.currentBlockId;
     newState.pages = this.pages.filter(p => p.id != page.id);
+    newState.profile = this.profile;
     return newState;
   }
 
@@ -128,6 +161,7 @@ export class ApplicationState {
       }
       return callback(p);
     })
+    newState.profile = this.profile;
     return newState;
   }
 }

@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Profile {
+  id        Int       @id @default(autoincrement())
+  link      String    @unique
+  active    Boolean   @default(false)
+  userId    Int       @unique @map("user_id")
+  pages     Page[]
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+
+  @@map("profiles")
+}
+
+model Page {
+  id        Int       @id @default(autoincrement())
+  profileId Int       @map("profile_id")
+  profile   Profile   @relation(fields: [profileId], references: [id])
+  title     String
+  deleted   Boolean   @default(false)
+  isHome    Boolean   @default(false) @map("is_home")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+
+  @@map("pages")
+}
