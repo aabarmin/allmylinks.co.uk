@@ -1,6 +1,9 @@
 import { DashboardResponse } from "../(api)/api/dashboard/DashboardResponse";
 import { ProfileResponse } from "../(api)/api/dashboard/ProfileResponse";
-import { Block } from "../model/Block";
+import { AvatarBlock, AvatarBlockProps, DEFAULT_AVATAR } from "../blocks/AvatarBlock";
+import { HeaderAlignment, HeaderBlock, HeaderBlockProps, HeaderLevel } from "../blocks/HeaderBlock";
+import { SocialNetworksBlock, SocialNetworksBlockProps } from "../blocks/SocialNetworksBlock";
+import { Block, BlockType } from "../model/Block";
 import { Page } from "../model/Page";
 
 export class ApplicationState {
@@ -62,7 +65,42 @@ export class ApplicationState {
     newState.profile = data.profile;
     newState.currentPageId = data.pages.currentPageId;
     newState.pages = data.pages.pages.map(p => {
-      return new Page(p.id, p.title); // convert json to Page, maybe there is better way to do this
+      const page = new Page(p.id, p.title);
+      page.blocks = p.blocks.map(b => {
+        // todo, refactor this asap when everything else works
+        // there is indeed a better way of doing this
+        if (b.type == BlockType.BLOCK_AVATAR) {
+          const props = b.props as {
+            imageUrl?: string
+          }
+          const avatar = new AvatarBlock(b.id, b.order)
+          avatar.props = new AvatarBlockProps()
+          avatar.props.imageUrl = props?.imageUrl || DEFAULT_AVATAR;
+          return avatar;
+        }
+        if (b.type == BlockType.BLOCK_HEADER) {
+          const props = b.props as {
+            level?: HeaderLevel;
+            alignment?: HeaderAlignment;
+            text?: string;
+          }
+          const header = new HeaderBlock(b.id, b.order)
+          header.props = new HeaderBlockProps();
+          header.props.level = props?.level || HeaderLevel.H1;
+          header.props.alignment = props?.alignment || HeaderAlignment.LEFT;
+          header.props.text = props?.text || "";
+          return header;
+        }
+        if (b.type == BlockType.BLOCK_SOCIAL_NETWORKS) {
+          // todo, social networks don't get props from the server
+          const networks = new SocialNetworksBlock(b.id, b.order)
+          networks.props = new SocialNetworksBlockProps();
+          return networks;
+        }
+        throw new Error(`Block of type ${b.type} not supported`)
+      })
+
+      return page;
     })
     return newState;
   }
