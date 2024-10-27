@@ -1,11 +1,11 @@
 import { getDbClient } from "@/lib/dbClient";
 import { getCurrentUserId } from "@/lib/userActions";
-import { Page } from "@prisma/client";
+import { Block, Page } from "@prisma/client";
 import { DashboardResponse } from "./DashboardResponse";
 import { toPageResponse } from "./PageResponse";
 import { toProfileResponse } from "./ProfileResponse";
 
-export type PageWithBlocks = Page & { blocks: any[] };
+export type PageWithBlocks = Page & { blocks: Block[] };
 
 export async function GET() {
   const currentUserId = await getCurrentUserId();
