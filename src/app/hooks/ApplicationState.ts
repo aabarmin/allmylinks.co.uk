@@ -1,4 +1,5 @@
-import { GetDashboardResponse, ProfileResponse } from "../(api)/api/dashboard/route";
+import { DashboardResponse } from "../(api)/api/dashboard/DashboardResponse";
+import { ProfileResponse } from "../(api)/api/dashboard/ProfileResponse";
 import { Block } from "../model/Block";
 import { Page } from "../model/Page";
 
@@ -56,9 +57,13 @@ export class ApplicationState {
     return blocks[0];
   }
 
-  public withInitialData(data: GetDashboardResponse): ApplicationState {
+  public withInitialData(data: DashboardResponse): ApplicationState {
     const newState = new ApplicationState();
     newState.profile = data.profile;
+    newState.currentPageId = data.pages.currentPageId;
+    newState.pages = data.pages.pages.map(p => {
+      return new Page(p.id, p.title); // convert json to Page, maybe there is better way to do this
+    })
     return newState;
   }
 

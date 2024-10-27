@@ -13,15 +13,26 @@ async function main() {
       updatedAt: new Date()
     }
   })
-  const testPage = await prisma.page.findFirst({
+  const testHomePage = await prisma.page.findFirst({
     where: { profileId: testProfile.id, isHome: true }
   });
-  if (!testPage) {
+  if (!testHomePage) {
     await prisma.page.create({
       data: {
         profileId: testProfile.id,
         title: "Home",
         isHome: true
+      }
+    })
+  }
+  const testAnotherPage = await prisma.page.findFirst({
+    where: { profileId: testProfile.id, title: "Another Page" }
+  });
+  if (!testAnotherPage) {
+    await prisma.page.create({
+      data: {
+        profileId: testProfile.id,
+        title: "Another Page"
       }
     })
   }

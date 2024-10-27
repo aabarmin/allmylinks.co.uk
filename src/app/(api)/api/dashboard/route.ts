@@ -1,17 +1,8 @@
 import { getDbClient } from "@/lib/dbClient";
 import { getCurrentUserId } from "@/lib/userActions";
-import { PageResponse, toPageResponse } from "./PageResponse";
-import { ProfileResponse, toProfileResponse } from "./ProfileResponse";
-
-export class GetDashboardResponse {
-  profile: ProfileResponse;
-  pages: PageResponse[];
-
-  constructor(profile: ProfileResponse, pages: PageResponse[]) {
-    this.profile = profile;
-    this.pages = pages;
-  }
-}
+import { DashboardResponse } from "./DashboardResponse";
+import { toPageResponse } from "./PageResponse";
+import { toProfileResponse } from "./ProfileResponse";
 
 export async function GET() {
   const currentUserId = await getCurrentUserId();
@@ -28,8 +19,8 @@ export async function GET() {
     where: { profileId: profile.id }
   });
 
-  return Response.json(new GetDashboardResponse(
+  return Response.json(new DashboardResponse(
     toProfileResponse(profile),
-    pages.map(p => toPageResponse(p))
+    toPageResponse(pages)
   ));
 }

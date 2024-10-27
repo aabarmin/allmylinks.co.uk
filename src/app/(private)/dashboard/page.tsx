@@ -1,6 +1,6 @@
 'use client';
 
-import { GetDashboardResponse } from "@/app/(api)/api/dashboard/route";
+import { DashboardResponse } from "@/app/(api)/api/dashboard/DashboardResponse";
 import { BlockPropertiesPane } from "@/app/components/BlockPropertiesPane";
 import { LeftSidebar } from "@/app/components/LeftSidebar";
 import { PreviewPane } from "@/app/components/PreviewPane";
@@ -25,7 +25,7 @@ export default function Page() {
           setLoadingState('error');
           return
         }
-        response.json().then((data: GetDashboardResponse) => {
+        response.json().then((data: DashboardResponse) => {
           dispatch(new DashboardLoadDataRequest(data));
           setLoadingState('ok');
         });

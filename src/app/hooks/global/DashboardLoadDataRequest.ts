@@ -1,11 +1,11 @@
-import { GetDashboardResponse } from "@/app/(api)/api/dashboard/route";
+import { DashboardResponse } from "@/app/(api)/api/dashboard/DashboardResponse";
 import { StateChangeRequest, StateChangeRequestType } from "../StateChangeRequest";
 
 export class DashboardLoadDataRequest implements StateChangeRequest {
   type: StateChangeRequestType;
-  data: GetDashboardResponse;
+  data: DashboardResponse;
 
-  constructor(data: GetDashboardResponse) {
+  constructor(data: DashboardResponse) {
     this.type = StateChangeRequestType.DASHBOARD_LOAD_DATA;
     this.data = data;
   }
