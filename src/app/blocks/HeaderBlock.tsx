@@ -2,7 +2,7 @@
 
 import { updateBlock } from "@/lib/blockActions";
 import { FormatAlignCenter, FormatAlignLeft, FormatAlignRight } from "@mui/icons-material";
-import { Box, Button, FormControl, FormLabel, IconButton, Input, Option, Select, Stack, ToggleButtonGroup, Typography, TypographySystem } from "@mui/joy";
+import { Box, Button, FormControl, FormLabel, IconButton, Input, LinearProgress, Option, Select, Stack, ToggleButtonGroup, Typography, TypographySystem } from "@mui/joy";
 import { useEffect, useState } from "react";
 import { BlockUpdatePropsRequest } from "../hooks/block/BlockUpdatePropsRequest";
 import { useAppState } from "../hooks/StateProvider";
@@ -42,6 +42,7 @@ export class HeaderBlock implements Block<HeaderBlockProps> {
 
 export function HeaderBlockProperties(block: HeaderBlock) {
   const { state, dispatch } = useAppState();
+  const [isLoading, setLoading] = useState(false);
   const [form, setFormData] = useState(({
     level: block.props.level,
     alignment: block.props.alignment,
@@ -59,8 +60,10 @@ export function HeaderBlockProperties(block: HeaderBlock) {
     props.alignment = HeaderAlignment[form['alignment'] as keyof typeof HeaderAlignment]
     props.level = HeaderLevel[form['level'] as keyof typeof HeaderLevel]
     props.text = form['text']
+    setLoading(true);
 
     updateBlock(block, props).then(() => {
+      setLoading(false);
       dispatch(new BlockUpdatePropsRequest(
         block,
         () => props
@@ -83,8 +86,10 @@ export function HeaderBlockProperties(block: HeaderBlock) {
       }}
       >
         <Button variant="soft" onClick={resetBlock}>Cancel</Button>
-        <Button onClick={saveBlock}>Save</Button>
+        <Button onClick={saveBlock} disabled={isLoading}>Save</Button>
       </Box>
+
+      {isLoading && <LinearProgress />}
 
       <FormControl>
         <FormLabel>Level:</FormLabel>

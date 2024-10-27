@@ -2,7 +2,8 @@
 
 import { addBlock } from "@/lib/blockActions";
 import { AccountCircle, ThumbUp, Title } from "@mui/icons-material";
-import { List, ListItemButton, ListItemDecorator } from "@mui/joy";
+import { LinearProgress, List, ListItemButton, ListItemDecorator } from "@mui/joy";
+import { useState } from "react";
 import { AvatarBlock } from "../blocks/AvatarBlock";
 import { HeaderBlock } from "../blocks/HeaderBlock";
 import { SocialNetworksBlock } from "../blocks/SocialNetworksBlock";
@@ -12,10 +13,13 @@ import { BlockType } from "../model/Block";
 
 export function Blocks() {
   const { state, dispatch } = useAppState();
+  const [isLoading, setLoading] = useState<boolean>(false);
 
   const addAvatar = () => {
+    setLoading(true)
     addBlock(state.getCurrentPage(), BlockType.BLOCK_AVATAR)
       .then(response => {
+        setLoading(false)
         dispatch(new BlockAddRequest(
           state.getCurrentPage(),
           new AvatarBlock(
@@ -27,8 +31,10 @@ export function Blocks() {
   };
 
   const addHeader = () => {
+    setLoading(true)
     addBlock(state.getCurrentPage(), BlockType.BLOCK_HEADER)
       .then(response => {
+        setLoading(false)
         dispatch(new BlockAddRequest(
           state.getCurrentPage(),
           new HeaderBlock(
@@ -40,8 +46,10 @@ export function Blocks() {
   }
 
   const addSocialNetworks = () => {
+    setLoading(true)
     addBlock(state.getCurrentPage(), BlockType.BLOCK_SOCIAL_NETWORKS)
       .then(response => {
+        setLoading(false)
         dispatch(new BlockAddRequest(
           state.getCurrentPage(),
           new SocialNetworksBlock(
@@ -53,29 +61,32 @@ export function Blocks() {
   }
 
   return (
-    <List sx={{
-      p: 2
-    }}>
-      <ListItemButton onClick={addAvatar}>
-        <ListItemDecorator>
-          <AccountCircle />
-        </ListItemDecorator>
-        Avatar
-      </ListItemButton>
+    <>
+      {isLoading && <LinearProgress />}
+      <List sx={{
+        p: 2
+      }}>
+        <ListItemButton onClick={addAvatar}>
+          <ListItemDecorator>
+            <AccountCircle />
+          </ListItemDecorator>
+          Avatar
+        </ListItemButton>
 
-      <ListItemButton onClick={addHeader}>
-        <ListItemDecorator>
-          <Title />
-        </ListItemDecorator>
-        Header
-      </ListItemButton>
+        <ListItemButton onClick={addHeader}>
+          <ListItemDecorator>
+            <Title />
+          </ListItemDecorator>
+          Header
+        </ListItemButton>
 
-      <ListItemButton onClick={addSocialNetworks}>
-        <ListItemDecorator>
-          <ThumbUp />
-        </ListItemDecorator>
-        Social Networks
-      </ListItemButton>
-    </List>
+        <ListItemButton onClick={addSocialNetworks}>
+          <ListItemDecorator>
+            <ThumbUp />
+          </ListItemDecorator>
+          Social Networks
+        </ListItemButton>
+      </List>
+    </>
   );
 }

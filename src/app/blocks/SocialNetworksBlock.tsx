@@ -1,7 +1,8 @@
 'use client';
 
+import { updateBlock } from "@/lib/blockActions";
 import { Delete } from "@mui/icons-material";
-import { Box, Button, IconButton, Input, Option, Select, Sheet } from "@mui/joy";
+import { Box, Button, IconButton, Input, LinearProgress, ListItemDecorator, Option, Select, Sheet } from "@mui/joy";
 import { useEffect, useState } from "react";
 import { SocialIcon } from "react-social-icons";
 import { BlockUpdatePropsRequest } from "../hooks/block/BlockUpdatePropsRequest";
@@ -70,15 +71,19 @@ export function SocialNetworksBlockProperties(block: SocialNetworksBlock) {
     }))
   }
 
+  const [isLoading, setLoading] = useState(false);
   const saveForm = () => {
-    dispatch(new BlockUpdatePropsRequest(
-      block,
-      () => {
-        const props = new SocialNetworksBlockProps()
-        props.networks = form['networks']
-        return props;
-      }
-    ))
+    const props = new SocialNetworksBlockProps()
+    props.networks = form['networks']
+    setLoading(true);
+
+    updateBlock(block, props).then(() => {
+      setLoading(false);
+      dispatch(new BlockUpdatePropsRequest(
+        block,
+        () => props
+      ))
+    });
   }
 
   const deleteSocialNetwork = (order: number) => {
@@ -124,6 +129,8 @@ export function SocialNetworksBlockProperties(block: SocialNetworksBlock) {
         <Button onClick={saveForm}>Save</Button>
       </Box>
 
+      {isLoading && <LinearProgress />}
+
       <Box sx={{
         display: 'flex',
         flexDirection: 'column'
@@ -145,21 +152,43 @@ export function SocialNetworksBlockProperties(block: SocialNetworksBlock) {
                 display: 'flex',
                 flexDirection: 'row'
               }}>
-              <Select onChange={(e, v) => updateSocialNetwork(sn.order, 'icon', v as string)}>
+              <Select
+                value={sn.icon}
+                renderValue={(v) => {
+                  if (!v) {
+                    return null;
+                  }
+                  return (
+                    <ListItemDecorator>
+                      <SocialIcon network={v.value} style={{ width: '25px', height: '25px' }} />
+                    </ListItemDecorator>
+                  )
+                }}
+                onChange={(e, v) => updateSocialNetwork(sn.order, 'icon', v as string)}>
                 <Option value="twitter">
-                  <SocialIcon network="twitter" style={{ width: '25px', height: '25px' }} />
+                  <ListItemDecorator>
+                    <SocialIcon network="twitter" style={{ width: '25px', height: '25px' }} />
+                  </ListItemDecorator>
+                  Twitter
                 </Option>
                 <Option value="instagram">
-                  <SocialIcon network="instagram" />
+                  <ListItemDecorator>
+                    <SocialIcon network="instagram" style={{ width: '25px', height: '25px' }} />
+                  </ListItemDecorator>
+                  Instagram
                 </Option>
                 <Option value="facebook">
-                  <SocialIcon network="facebook" />
+                  <ListItemDecorator>
+                    <SocialIcon network="facebook" style={{ width: '25px', height: '25px' }} />
+                  </ListItemDecorator>
+                  Facebook
                 </Option>
               </Select>
               <Input
                 sx={{
                   flexGrow: 1
                 }}
+                value={sn.link}
                 onChange={(e) => updateSocialNetwork(sn.order, 'link', e.target.value)}
                 placeholder="Add URL" />
               <IconButton onClick={() => deleteSocialNetwork(sn.order)}>

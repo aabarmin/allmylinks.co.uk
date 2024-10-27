@@ -2,7 +2,7 @@ import { DashboardResponse } from "../(api)/api/dashboard/DashboardResponse";
 import { ProfileResponse } from "../(api)/api/dashboard/ProfileResponse";
 import { AvatarBlock, AvatarBlockProps, DEFAULT_AVATAR } from "../blocks/AvatarBlock";
 import { HeaderAlignment, HeaderBlock, HeaderBlockProps, HeaderLevel } from "../blocks/HeaderBlock";
-import { SocialNetworksBlock, SocialNetworksBlockProps } from "../blocks/SocialNetworksBlock";
+import { SocialNetwork, SocialNetworksBlock, SocialNetworksBlockProps } from "../blocks/SocialNetworksBlock";
 import { Block, BlockType } from "../model/Block";
 import { Page } from "../model/Page";
 
@@ -92,9 +92,21 @@ export class ApplicationState {
           return header;
         }
         if (b.type == BlockType.BLOCK_SOCIAL_NETWORKS) {
-          // todo, social networks don't get props from the server
+          const props = b.props as {
+            networks?: {
+              icon?: string;
+              link?: string;
+              order?: number;
+            }[]
+          }
           const networks = new SocialNetworksBlock(b.id, b.order)
           networks.props = new SocialNetworksBlockProps();
+          networks.props.networks = props?.networks?.map(n => {
+            const item = new SocialNetwork(n?.order || 0);
+            item.icon = n?.icon || "";
+            item.link = n?.link || "";
+            return item;
+          }) || [];
           return networks;
         }
         throw new Error(`Block of type ${b.type} not supported`)
