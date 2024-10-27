@@ -28,4 +28,6 @@ jobs:
         node-version: 22
         cache: 'npm'
     - run: npm install
+    - run: npx prisma migrate dev
+    - run: npx prisma db seed
     - run: npm run build
