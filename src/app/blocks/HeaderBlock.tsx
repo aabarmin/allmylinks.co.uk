@@ -1,5 +1,6 @@
 'use client';
 
+import { updateBlock } from "@/lib/blockActions";
 import { FormatAlignCenter, FormatAlignLeft, FormatAlignRight } from "@mui/icons-material";
 import { Box, Button, FormControl, FormLabel, IconButton, Input, Option, Select, Stack, ToggleButtonGroup, Typography, TypographySystem } from "@mui/joy";
 import { useEffect, useState } from "react";
@@ -54,16 +55,17 @@ export function HeaderBlockProperties(block: HeaderBlock) {
     }));
   }
   const saveBlock = () => {
-    dispatch(new BlockUpdatePropsRequest(
-      block,
-      () => {
-        const props = new HeaderBlockProps()
-        props.alignment = HeaderAlignment[form['alignment'] as keyof typeof HeaderAlignment]
-        props.level = HeaderLevel[form['level'] as keyof typeof HeaderLevel]
-        props.text = form['text']
-        return props;
-      }
-    ))
+    const props = new HeaderBlockProps()
+    props.alignment = HeaderAlignment[form['alignment'] as keyof typeof HeaderAlignment]
+    props.level = HeaderLevel[form['level'] as keyof typeof HeaderLevel]
+    props.text = form['text']
+
+    updateBlock(block, props).then(() => {
+      dispatch(new BlockUpdatePropsRequest(
+        block,
+        () => props
+      ))
+    })
   }
   const resetBlock = () => {
     setFormData({
