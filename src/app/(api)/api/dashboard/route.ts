@@ -1,32 +1,16 @@
 import { getDbClient } from "@/lib/dbClient";
 import { getCurrentUserId } from "@/lib/userActions";
-import { Page, Profile } from "@prisma/client";
+import { PageResponse, toPageResponse } from "./PageResponse";
+import { ProfileResponse, toProfileResponse } from "./ProfileResponse";
 
 export class GetDashboardResponse {
   profile: ProfileResponse;
-  pages: Page[];
+  pages: PageResponse[];
 
-  constructor(profile: ProfileResponse, pages: Page[]) {
+  constructor(profile: ProfileResponse, pages: PageResponse[]) {
     this.profile = profile;
     this.pages = pages;
   }
-}
-
-export type ProfileResponse = {
-  profileActive: boolean;
-  profileSlug: string;
-  profileLink: string;
-  profileDisplayLink: string;
-}
-
-function toProfileResponse(profile: Profile): ProfileResponse {
-  const profileUrl = `${process.env.BASE_URL}/l/${profile.link}`;
-  return {
-    profileActive: profile.active,
-    profileSlug: profile.link,
-    profileLink: profileUrl,
-    profileDisplayLink: profileUrl.substring(profileUrl.indexOf('://') + 3)
-  };
 }
 
 export async function GET() {
@@ -46,6 +30,6 @@ export async function GET() {
 
   return Response.json(new GetDashboardResponse(
     toProfileResponse(profile),
-    pages
+    pages.map(p => toPageResponse(p))
   ));
 }

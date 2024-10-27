@@ -30,7 +30,7 @@ export default function Page() {
           setLoadingState('ok');
         });
       })
-  }, [setLoadingState]);
+  }, [setLoadingState, dispatch]);
 
   return (
     <>
