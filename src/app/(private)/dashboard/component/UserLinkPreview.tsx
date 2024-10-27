@@ -1,7 +1,11 @@
+import { useAppState } from "@/app/hooks/StateProvider";
 import { ContentCopy, Share } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/joy";
 
 export function UserLinkPreview() {
+  const { state } = useAppState();
+  const profile = state.getProfile();
+
   return (
     <Box sx={{
       p: 2,
@@ -15,8 +19,8 @@ export function UserLinkPreview() {
         alignItems: 'center',
         gap: 2
       }}>
-        <a href="https://google.com" target="_blank">
-          google.com
+        <a href={profile.profileLink} target="_blank">
+          {profile.profileDisplayLink}
         </a>
         <IconButton>
           <ContentCopy />

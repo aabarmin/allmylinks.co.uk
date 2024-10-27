@@ -1,5 +1,4 @@
-import { Profile } from "@prisma/client";
-import { GetDashboardResponse } from "../(api)/api/dashboard/route";
+import { GetDashboardResponse, ProfileResponse } from "../(api)/api/dashboard/route";
 import { Block } from "../model/Block";
 import { Page } from "../model/Page";
 
@@ -10,13 +9,13 @@ export class ApplicationState {
   private pages: Page[] = [
     new Page(this.currentPageId, "Home")
   ];
-  private profile?: Profile;
+  private profile?: ProfileResponse;
 
   public getPages(): Page[] {
     return this.pages;
   }
 
-  public getProfile(): Profile {
+  public getProfile(): ProfileResponse {
     if (this.profile == null) {
       throw new Error("Profile is not set");
     }
@@ -60,16 +59,6 @@ export class ApplicationState {
   public withInitialData(data: GetDashboardResponse): ApplicationState {
     const newState = new ApplicationState();
     newState.profile = data.profile;
-    return newState;
-  }
-
-  public withProfile(profile: Profile): ApplicationState {
-    const newState = new ApplicationState();
-    newState.currentLeftPane = this.currentLeftPane;
-    newState.currentPageId = this.currentPageId;
-    newState.currentBlockId = this.currentBlockId;
-    newState.pages = this.pages;
-    newState.profile = profile;
     return newState;
   }
 

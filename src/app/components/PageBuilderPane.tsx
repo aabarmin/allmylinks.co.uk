@@ -2,10 +2,10 @@
 
 import { Accordion, AccordionDetails, AccordionGroup, AccordionSummary, Box } from "@mui/joy";
 import { useState } from "react";
+import { UserLinkPreview } from "../(private)/dashboard/component/UserLinkPreview";
 import { Blocks } from "./Blocks";
 import { PageBlockList } from "./PageBlockList";
 import { PageDetails } from "./PageDetails";
-import { UserLinkPreview } from "./UserLinkPreview";
 
 export function PageBuilderPane() {
   const [opened, setOpened] = useState<string[]>(['page-blocks', 'blocks', 'current-page']);
