@@ -45,3 +45,14 @@ model Block {
 
   @@map("blocks")
 }
+
+model UploadedFile {
+  id        Int       @id @default(autoincrement())
+  authorId  Int       @map("author_id")
+  filePath  String    @map("file_path")
+  fileName  String    @map("file_name")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+
+  @@map("uploaded_files")
+}

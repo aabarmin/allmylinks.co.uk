@@ -48,7 +48,6 @@ export function HeaderBlockProperties(block: HeaderBlock) {
     alignment: block.props.alignment,
     text: block.props.text
   }));
-  useEffect(() => { resetBlock() }, [state]); // dirty hack but I don't care now
   const handleInput = (field: string, value: string | HeaderLevel | HeaderAlignment | null) => {
     setFormData((prev) => ({
       ...prev,
@@ -77,6 +76,7 @@ export function HeaderBlockProperties(block: HeaderBlock) {
       text: block.props.text
     })
   }
+  useEffect(() => { resetBlock() }, [state, resetBlock]); // dirty hack but I don't care now
 
   return (
     <Stack spacing={2}>

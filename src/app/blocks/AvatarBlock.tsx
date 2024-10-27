@@ -1,6 +1,8 @@
 'use client';
 
-import { Box, Button, Stack } from "@mui/joy";
+import { updateBlock } from "@/lib/blockActions";
+import { uploadFile } from "@/lib/fileActions";
+import { Box, Button, LinearProgress, Stack } from "@mui/joy";
 import Image from "next/image";
 import { BaseSyntheticEvent, useEffect, useRef, useState } from "react";
 import { BlockUpdatePropsRequest } from "../hooks/block/BlockUpdatePropsRequest";
@@ -26,22 +28,9 @@ export class AvatarBlock implements Block<AvatarBlockProps> {
   }
 }
 
-export class FileDetails {
-  fileName: string = '';
-  fileUrl: string = '';
-}
-
-function uploadFile(file: File): Promise<FileDetails> {
-  return new Promise(resolve => {
-    resolve({
-      fileName: file.name,
-      fileUrl: '/avatar_updated.jpeg'
-    })
-  });
-}
-
 export function AvatarBlockProperties(block: AvatarBlock) {
   const { dispatch } = useAppState();
+  const [isLoading, setLoading] = useState<boolean>(false);
   const fileUploadRef = useRef<HTMLInputElement>(null);
   const [form, setFormData] = useState({
     imageUrl: DEFAULT_AVATAR
@@ -53,14 +42,17 @@ export function AvatarBlockProperties(block: AvatarBlock) {
     }))
   }, [block]);
   const saveChanges = () => {
-    dispatch(new BlockUpdatePropsRequest(
-      block,
-      () => {
-        const props = new AvatarBlockProps()
-        props.imageUrl = form['imageUrl']
-        return props
-      }
-    ))
+    const props = new AvatarBlockProps()
+    props.imageUrl = form['imageUrl']
+    setLoading(true);
+
+    updateBlock(block, props).then(() => {
+      setLoading(false);
+      dispatch(new BlockUpdatePropsRequest(
+        block,
+        () => props
+      ))
+    });
   };
   const resetAvatar = () => {
     setFormData((f) => ({
@@ -77,12 +69,12 @@ export function AvatarBlockProperties(block: AvatarBlock) {
     if (file == null || file == undefined) {
       return
     }
-    // no rich image editor for now, just because it is outside of the MVP
-    // and quite complicated. 
+    setLoading(true);
     uploadFile(file).then(uploaded => {
+      setLoading(false);
       setFormData((f) => ({
         ...f,
-        ['imageUrl']: uploaded.fileUrl
+        ['imageUrl']: uploaded.filePath
       }))
     })
   }
@@ -96,6 +88,9 @@ export function AvatarBlockProperties(block: AvatarBlock) {
         <Button variant="soft">Cancel</Button>
         <Button onClick={saveChanges}>Save</Button>
       </Box>
+
+      {isLoading && <LinearProgress />}
+
       <Box sx={{
         gap: 2,
         display: 'flex',
