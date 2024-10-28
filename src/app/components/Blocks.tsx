@@ -5,7 +5,7 @@ import { AccountCircle, ThumbUp, Title } from "@mui/icons-material";
 import { LinearProgress, List, ListItemButton, ListItemDecorator } from "@mui/joy";
 import { useState } from "react";
 import { AvatarBlock, AvatarBlockProps } from "../blocks/avatar/AvatarBlock";
-import { HeaderBlock } from "../blocks/header/HeaderBlock";
+import { HeaderBlock, HeaderBlockProps } from "../blocks/header/HeaderBlock";
 import { SocialNetworksBlock } from "../blocks/networks/SocialNetworksBlock";
 import { BlockAddRequest } from "../hooks/block/BlockAddRequest";
 import { useAppState } from "../hooks/StateProvider";
@@ -40,7 +40,8 @@ export function Blocks() {
           state.getCurrentPage(),
           new HeaderBlock(
             response.id,
-            response.order
+            response.order,
+            new HeaderBlockProps()
           )
         ))
       });

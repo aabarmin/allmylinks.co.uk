@@ -1,7 +1,7 @@
 import { DashboardResponse } from "../(api)/api/dashboard/DashboardResponse";
 import { ProfileResponse } from "../(api)/api/dashboard/ProfileResponse";
-import { AvatarBlock, AvatarBlockOptionalProps, fromOptionalProps } from "../blocks/avatar/AvatarBlock";
-import { HeaderAlignment, HeaderBlock, HeaderBlockProps, HeaderLevel } from "../blocks/header/HeaderBlock";
+import { AvatarBlock, AvatarBlockOptionalProps, fromOptionalProps as avatarFromOptionalProps } from "../blocks/avatar/AvatarBlock";
+import { HeaderBlock, HeaderBlockOptionalProps, fromOptionalProps as headerFromOptionalProps } from "../blocks/header/HeaderBlock";
 import { SocialNetwork, SocialNetworksBlock, SocialNetworksBlockProps } from "../blocks/networks/SocialNetworksBlock";
 import { Block, BlockType } from "../model/Block";
 import { Page } from "../model/Page";
@@ -71,21 +71,12 @@ export class ApplicationState {
         // there is indeed a better way of doing this
         if (b.type == BlockType.BLOCK_AVATAR) {
           const props = b.props as AvatarBlockOptionalProps
-          const avatar = new AvatarBlock(b.id, b.order, fromOptionalProps(props))
+          const avatar = new AvatarBlock(b.id, b.order, avatarFromOptionalProps(props))
           return avatar;
         }
         if (b.type == BlockType.BLOCK_HEADER) {
-          const props = b.props as {
-            level?: HeaderLevel;
-            alignment?: HeaderAlignment;
-            text?: string;
-          }
-          const header = new HeaderBlock(b.id, b.order)
-          header.props = new HeaderBlockProps();
-          header.props.level = props?.level || HeaderLevel.H1;
-          header.props.alignment = props?.alignment || HeaderAlignment.LEFT;
-          header.props.text = props?.text || "";
-          return header;
+          const props = b.props as HeaderBlockOptionalProps;
+          return new HeaderBlock(b.id, b.order, headerFromOptionalProps(props));
         }
         if (b.type == BlockType.BLOCK_SOCIAL_NETWORKS) {
           const props = b.props as {
