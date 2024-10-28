@@ -1,6 +1,5 @@
 import "@/app/globals.css";
 import { StateProvider } from "@/app/hooks/StateProvider";
-import { auth } from "@/auth";
 import { Box, CssVarsProvider } from "@mui/joy";
 import type { Metadata } from "next";
 
@@ -14,9 +13,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth()
-  console.log(session)
-
   return (
     <CssVarsProvider>
       <Box sx={{ height: '100vh' }}>
