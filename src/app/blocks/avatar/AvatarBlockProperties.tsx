@@ -1,32 +1,11 @@
-'use client';
-
+import { BlockUpdatePropsRequest } from "@/app/hooks/block/BlockUpdatePropsRequest";
+import { useAppState } from "@/app/hooks/StateProvider";
 import { updateBlock } from "@/lib/blockActions";
 import { uploadFile } from "@/lib/fileActions";
 import { Box, Button, LinearProgress, Stack } from "@mui/joy";
 import Image from "next/image";
 import { BaseSyntheticEvent, useEffect, useRef, useState } from "react";
-import { BlockUpdatePropsRequest } from "../hooks/block/BlockUpdatePropsRequest";
-import { useAppState } from "../hooks/StateProvider";
-import { Block, BlockType } from "../model/Block";
-
-export const DEFAULT_AVATAR = "/avatar_placeholder.jpeg";
-export class AvatarBlockProps {
-  imageUrl: string = DEFAULT_AVATAR;
-}
-
-export class AvatarBlock implements Block<AvatarBlockProps> {
-  id: number;
-  type: BlockType;
-  order: number;
-  props: AvatarBlockProps;
-
-  constructor(id: number, order: number) {
-    this.id = id;
-    this.order = order;
-    this.type = BlockType.BLOCK_AVATAR;
-    this.props = new AvatarBlockProps();
-  }
-}
+import { AvatarBlock, AvatarBlockProps, DEFAULT_AVATAR } from "./AvatarBlock";
 
 export function AvatarBlockProperties(block: AvatarBlock) {
   const { dispatch } = useAppState();
@@ -126,25 +105,4 @@ export function AvatarBlockProperties(block: AvatarBlock) {
       </Box>
     </Stack>
   );
-}
-
-export default function AvatarBlockComponent(props: AvatarBlockProps) {
-  return (
-    <Box sx={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: '200px'
-    }}>
-      <Image
-        alt="Default avatar"
-        width={110}
-        height={110}
-        style={{
-          border: '2px solid black',
-          borderRadius: '50%'
-        }}
-        src={props.imageUrl} />
-    </Box>
-  )
 }

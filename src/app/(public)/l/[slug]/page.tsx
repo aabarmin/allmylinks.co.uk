@@ -1,7 +1,42 @@
-export default function Page() {
+import MobileFrame from "@/app/components/MobileFrame";
+import { blocksToReactNodes, recordsToBlocks } from "@/lib/blockUtils";
+import { getDbClient } from "@/lib/dbClient";
+import { Box } from "@mui/joy";
+
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const profile = await getDbClient().profile.findFirst({
+    where: { link: slug },
+    include: { pages: true }
+  })
+  if (!profile) {
+    return (
+      <Box>
+        <h1>Page not found</h1>
+      </Box>
+    )
+  }
+  const pages = profile.pages;
+  const homePage = pages.filter(p => p.isHome)[0];
+  if (!homePage) {
+    return (
+      <Box>
+        <h1>Home page not found</h1>
+      </Box>
+    )
+  }
+  const pageBlocks = await getDbClient().block.findMany({
+    where: { pageId: homePage.id },
+    orderBy: { order: 'asc' }
+  })
+  const nodes: React.ReactNode[] = blocksToReactNodes(recordsToBlocks(pageBlocks))
+
   return (
-    <div>
-      <h1>Page</h1>
-    </div>
+    <Box sx={{
+      display: 'flex',
+      justifyContent: 'center'
+    }}>
+      <MobileFrame blocks={nodes} />
+    </Box>
   );
 }
