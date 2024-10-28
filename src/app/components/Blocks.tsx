@@ -5,7 +5,7 @@ import { AccountCircle, ThumbUp, Title } from "@mui/icons-material";
 import { LinearProgress, List, ListItemButton, ListItemDecorator } from "@mui/joy";
 import { useState } from "react";
 import { AvatarBlock } from "../blocks/avatar/AvatarBlock";
-import { HeaderBlock } from "../blocks/HeaderBlock";
+import { HeaderBlock } from "../blocks/header/HeaderBlock";
 import { SocialNetworksBlock } from "../blocks/SocialNetworksBlock";
 import { BlockAddRequest } from "../hooks/block/BlockAddRequest";
 import { useAppState } from "../hooks/StateProvider";

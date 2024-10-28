@@ -1,6 +1,7 @@
 import { AvatarBlockProps } from "@/app/blocks/avatar/AvatarBlock";
 import AvatarBlockComponent from "@/app/blocks/avatar/AvatarBlockComponent";
-import { HeaderBlockComponent, HeaderBlockProps } from "@/app/blocks/HeaderBlock";
+import { HeaderBlockProps } from "@/app/blocks/header/HeaderBlock";
+import { HeaderBlockComponent } from "@/app/blocks/header/HeaderBlockComponent";
 import { SocialNetworksBlockComponent, SocialNetworksBlockProps } from "@/app/blocks/SocialNetworksBlock";
 import { Block, BlockType } from "@/app/model/Block";
 import { Block as BlockRecord } from "@prisma/client";

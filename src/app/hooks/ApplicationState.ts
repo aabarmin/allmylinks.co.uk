@@ -1,7 +1,7 @@
 import { DashboardResponse } from "../(api)/api/dashboard/DashboardResponse";
 import { ProfileResponse } from "../(api)/api/dashboard/ProfileResponse";
 import { AvatarBlock, AvatarBlockProps, DEFAULT_AVATAR } from "../blocks/avatar/AvatarBlock";
-import { HeaderAlignment, HeaderBlock, HeaderBlockProps, HeaderLevel } from "../blocks/HeaderBlock";
+import { HeaderAlignment, HeaderBlock, HeaderBlockProps, HeaderLevel } from "../blocks/header/HeaderBlock";
 import { SocialNetwork, SocialNetworksBlock, SocialNetworksBlockProps } from "../blocks/SocialNetworksBlock";
 import { Block, BlockType } from "../model/Block";
 import { Page } from "../model/Page";

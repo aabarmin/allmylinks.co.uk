@@ -1,44 +1,10 @@
-'use client';
-
+import { BlockUpdatePropsRequest } from "@/app/hooks/block/BlockUpdatePropsRequest";
+import { useAppState } from "@/app/hooks/StateProvider";
 import { updateBlock } from "@/lib/blockActions";
 import { FormatAlignCenter, FormatAlignLeft, FormatAlignRight } from "@mui/icons-material";
-import { Box, Button, FormControl, FormLabel, IconButton, Input, LinearProgress, Option, Select, Stack, ToggleButtonGroup, Typography, TypographySystem } from "@mui/joy";
+import { Box, Button, FormControl, FormLabel, IconButton, Input, LinearProgress, Option, Select, Stack, ToggleButtonGroup } from "@mui/joy";
 import { useEffect, useState } from "react";
-import { BlockUpdatePropsRequest } from "../hooks/block/BlockUpdatePropsRequest";
-import { useAppState } from "../hooks/StateProvider";
-import { Block, BlockType } from "../model/Block";
-
-export enum HeaderLevel {
-  H1 = 'H1',
-  H2 = 'H2',
-  H3 = 'H3'
-}
-
-export enum HeaderAlignment {
-  CENTER = 'CENTER',
-  LEFT = 'LEFT',
-  RIGHT = 'RIGHT'
-}
-
-export class HeaderBlockProps {
-  level: HeaderLevel = HeaderLevel.H1;
-  alignment: HeaderAlignment = HeaderAlignment.LEFT;
-  text: string = 'Put your text here';
-}
-
-export class HeaderBlock implements Block<HeaderBlockProps> {
-  id: number;
-  type: BlockType;
-  order: number;
-  props: HeaderBlockProps;
-
-  constructor(id: number, order: number) {
-    this.id = id;
-    this.order = order;
-    this.type = BlockType.BLOCK_HEADER;
-    this.props = new HeaderBlockProps();
-  }
-}
+import { HeaderAlignment, HeaderBlock, HeaderBlockProps, HeaderLevel } from "./HeaderBlock";
 
 export function HeaderBlockProperties(block: HeaderBlock) {
   const { state, dispatch } = useAppState();
@@ -123,13 +89,5 @@ export function HeaderBlockProperties(block: HeaderBlock) {
           onChange={(e) => handleInput('text', e.target.value)} />
       </FormControl>
     </Stack>
-  );
-}
-
-export function HeaderBlockComponent(props: HeaderBlockProps) {
-  const level = props.level.toLowerCase() as keyof TypographySystem
-  const align = props.alignment.toLowerCase() as string
-  return (
-    <Typography level={level} sx={{ display: 'flex', justifyContent: align }}>{props.text}</Typography>
   );
 }

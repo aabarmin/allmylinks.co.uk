@@ -3,7 +3,8 @@
 import { Box } from "@mui/joy";
 import { AvatarBlock } from "../blocks/avatar/AvatarBlock";
 import { AvatarBlockProperties } from "../blocks/avatar/AvatarBlockProperties";
-import { HeaderBlock, HeaderBlockProperties } from "../blocks/HeaderBlock";
+import { HeaderBlock } from "../blocks/header/HeaderBlock";
+import { HeaderBlockProperties } from "../blocks/header/HeaderBlockProperties";
 import { SocialNetworksBlock, SocialNetworksBlockProperties } from "../blocks/SocialNetworksBlock";
 import { useAppState } from "../hooks/StateProvider";
 import { Block, BlockType } from "../model/Block";
