@@ -1,22 +1,22 @@
 import { AvatarBlock, AvatarBlockOptionalProps, AvatarBlockProps, fromOptionalProps as avatarFromOptionalProps } from "@/app/blocks/avatar/AvatarBlock";
 import AvatarBlockComponent from "@/app/blocks/avatar/AvatarBlockComponent";
-import { HeaderBlockProps } from "@/app/blocks/header/HeaderBlock";
+import { HeaderBlock, HeaderBlockOptionalProps, HeaderBlockProps, fromOptionalProps as headerFromOptionalProps } from "@/app/blocks/header/HeaderBlock";
 import { HeaderBlockComponent } from "@/app/blocks/header/HeaderBlockComponent";
-import { SocialNetworksBlockProps } from "@/app/blocks/networks/SocialNetworksBlock";
+import { fromOptionalProps as snFromOptionalProps, SocialNetworksBlock, SocialNetworksBlockProps, SocialNetworksOptionalProps } from "@/app/blocks/networks/SocialNetworksBlock";
 import { SocialNetworksBlockComponent } from "@/app/blocks/networks/SocialNetworksBlockComponent";
 import { Block, BlockType } from "@/app/model/Block";
-import { Block as BlockRecord } from "@prisma/client";
+import { BlockLikeRecord } from "@/app/model/BlockLikeRecord";
 
 export function blocksToReactNodes(blocks: Block<object>[]): React.ReactNode[] {
   return blocks.map(blockToReactNode);
 }
 
-export function recordsToBlocks(records: BlockRecord[]): Block<object>[] {
+export function recordsToBlocks(records: BlockLikeRecord[]): Block<object>[] {
   return records.map(recordToBlock);
 }
 
-export function recordToBlock(record: BlockRecord): Block<object> {
-  switch (record.blockType) {
+export function recordToBlock(record: BlockLikeRecord): Block<object> {
+  switch (record.type) {
     case BlockType.BLOCK_AVATAR: {
       const props = record.props as AvatarBlockOptionalProps
       return new AvatarBlock(
@@ -25,9 +25,21 @@ export function recordToBlock(record: BlockRecord): Block<object> {
         avatarFromOptionalProps(props)
       )
     }
+    case BlockType.BLOCK_HEADER: {
+      const props = record.props as HeaderBlockOptionalProps;
+      return new HeaderBlock(
+        record.id,
+        record.order,
+        headerFromOptionalProps(props)
+      );
+    }
+    case BlockType.BLOCK_SOCIAL_NETWORKS: {
+      const props = record.props as SocialNetworksOptionalProps
+      return new SocialNetworksBlock(record.id, record.order, snFromOptionalProps(props));
+    }
   }
 
-  throw new Error(`Block of type ${record.blockType} not supported`);
+  throw new Error(`Block of type ${record.type} not supported`);
 }
 
 function blockToReactNode(block: Block<object>): React.ReactNode {

@@ -1,9 +1,7 @@
+import { recordsToBlocks } from "@/lib/blockUtils";
 import { DashboardResponse } from "../(api)/api/dashboard/DashboardResponse";
 import { ProfileResponse } from "../(api)/api/dashboard/ProfileResponse";
-import { AvatarBlock, AvatarBlockOptionalProps, fromOptionalProps as avatarFromOptionalProps } from "../blocks/avatar/AvatarBlock";
-import { HeaderBlock, HeaderBlockOptionalProps, fromOptionalProps as headerFromOptionalProps } from "../blocks/header/HeaderBlock";
-import { fromOptionalProps as snFromOptionalProps, SocialNetworksBlock, SocialNetworksOptionalProps } from "../blocks/networks/SocialNetworksBlock";
-import { Block, BlockType } from "../model/Block";
+import { Block } from "../model/Block";
 import { Page } from "../model/Page";
 
 export class ApplicationState {
@@ -66,23 +64,7 @@ export class ApplicationState {
     newState.currentPageId = data.pages.currentPageId;
     newState.pages = data.pages.pages.map(p => {
       const page = new Page(p.id, p.title);
-      page.blocks = p.blocks.map(b => {
-        if (b.type == BlockType.BLOCK_AVATAR) {
-          const props = b.props as AvatarBlockOptionalProps
-          const avatar = new AvatarBlock(b.id, b.order, avatarFromOptionalProps(props))
-          return avatar;
-        }
-        if (b.type == BlockType.BLOCK_HEADER) {
-          const props = b.props as HeaderBlockOptionalProps;
-          return new HeaderBlock(b.id, b.order, headerFromOptionalProps(props));
-        }
-        if (b.type == BlockType.BLOCK_SOCIAL_NETWORKS) {
-          const props = b.props as SocialNetworksOptionalProps
-          return new SocialNetworksBlock(b.id, b.order, snFromOptionalProps(props));
-        }
-        throw new Error(`Block of type ${b.type} not supported`)
-      })
-
+      page.blocks = recordsToBlocks(p.blocks);
       return page;
     })
     return newState;

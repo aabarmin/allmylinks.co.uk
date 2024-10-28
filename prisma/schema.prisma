@@ -38,7 +38,7 @@ model Block {
   pageId    Int       @map("page_id")
   page      Page      @relation(fields: [pageId], references: [id])
   order     Int
-  blockType String    @map("block_type") @db.VarChar(255)
+  type      String    @map("type") @db.VarChar(255)
   props     Json
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @map("updated_at")

@@ -28,7 +28,7 @@ CREATE TABLE "blocks" (
     "id" SERIAL NOT NULL,
     "page_id" INTEGER NOT NULL,
     "order" INTEGER NOT NULL,
-    "block_type" VARCHAR(255) NOT NULL,
+    "type" VARCHAR(255) NOT NULL,
     "props" JSONB NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3),

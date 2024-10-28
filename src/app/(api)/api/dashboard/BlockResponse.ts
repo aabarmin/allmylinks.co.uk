@@ -12,7 +12,7 @@ export function toBlockResponse(block: Block): BlockResponse {
   return {
     id: block.id,
     order: block.order,
-    type: block.blockType,
+    type: block.type,
     props: block.props,
   }
 }

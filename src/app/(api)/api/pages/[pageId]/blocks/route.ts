@@ -33,7 +33,7 @@ export async function POST(
   const newBlock = await getDbClient().block.create({
     data: {
       pageId: +pageId,
-      blockType: requestBody.type,
+      type: requestBody.type,
       props: {},
       order: blocks.length + 1
     }
