@@ -5,7 +5,8 @@ import { AvatarBlock } from "../blocks/avatar/AvatarBlock";
 import { AvatarBlockProperties } from "../blocks/avatar/AvatarBlockProperties";
 import { HeaderBlock } from "../blocks/header/HeaderBlock";
 import { HeaderBlockProperties } from "../blocks/header/HeaderBlockProperties";
-import { SocialNetworksBlock, SocialNetworksBlockProperties } from "../blocks/SocialNetworksBlock";
+import { SocialNetworksBlock } from "../blocks/networks/SocialNetworksBlock";
+import { SocialNetworksBlockProperties } from "../blocks/networks/SocialNetworksBlockProperties";
 import { useAppState } from "../hooks/StateProvider";
 import { Block, BlockType } from "../model/Block";
 

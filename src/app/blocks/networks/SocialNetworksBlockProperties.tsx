@@ -1,43 +1,11 @@
-'use client';
-
+import { BlockUpdatePropsRequest } from "@/app/hooks/block/BlockUpdatePropsRequest";
+import { useAppState } from "@/app/hooks/StateProvider";
 import { updateBlock } from "@/lib/blockActions";
 import { Delete } from "@mui/icons-material";
 import { Box, Button, IconButton, Input, LinearProgress, ListItemDecorator, Option, Select, Sheet } from "@mui/joy";
 import { useEffect, useState } from "react";
 import { SocialIcon } from "react-social-icons";
-import { BlockUpdatePropsRequest } from "../hooks/block/BlockUpdatePropsRequest";
-import { useAppState } from "../hooks/StateProvider";
-import { Block, BlockType } from "../model/Block";
-
-export class SocialNetwork {
-  order: number;
-  icon: string;
-  link: string;
-
-  constructor(order: number) {
-    this.order = order;
-    this.icon = '';
-    this.link = '';
-  }
-}
-
-export class SocialNetworksBlockProps {
-  networks: SocialNetwork[] = [];
-}
-
-export class SocialNetworksBlock implements Block<SocialNetworksBlockProps> {
-  id: number;
-  type: BlockType;
-  order: number;
-  props: SocialNetworksBlockProps;
-
-  constructor(id: number, order: number) {
-    this.id = id;
-    this.order = order;
-    this.type = BlockType.BLOCK_SOCIAL_NETWORKS;
-    this.props = new SocialNetworksBlockProps();
-  }
-}
+import { SocialNetwork, SocialNetworksBlock, SocialNetworksBlockProps } from "./SocialNetworksBlock";
 
 function arrayCopyAndAdd<T>(arr: T[], item: T): T[] {
   return [...arr, item];
@@ -199,19 +167,5 @@ export function SocialNetworksBlockProperties(block: SocialNetworksBlock) {
         })}
       </Box>
     </Sheet>
-  )
-}
-export function SocialNetworksBlockComponent(props: SocialNetworksBlockProps) {
-  return (
-    <Box sx={{
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'center',
-      gap: 2
-    }}>
-      {props.networks.map(n => (
-        <SocialIcon key={n.order} network={n.icon} url={n.link} />
-      ))}
-    </Box>
   )
 }
