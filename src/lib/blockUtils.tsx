@@ -1,4 +1,4 @@
-import { AvatarBlockProps } from "@/app/blocks/avatar/AvatarBlock";
+import { AvatarBlock, AvatarBlockOptionalProps, AvatarBlockProps, fromOptionalProps as avatarFromOptionalProps } from "@/app/blocks/avatar/AvatarBlock";
 import AvatarBlockComponent from "@/app/blocks/avatar/AvatarBlockComponent";
 import { HeaderBlockProps } from "@/app/blocks/header/HeaderBlock";
 import { HeaderBlockComponent } from "@/app/blocks/header/HeaderBlockComponent";
@@ -18,9 +18,12 @@ export function recordsToBlocks(records: BlockRecord[]): Block<object>[] {
 export function recordToBlock(record: BlockRecord): Block<object> {
   switch (record.blockType) {
     case BlockType.BLOCK_AVATAR: {
-      // const props = record.props as {
-      //   imageUrl?: string
-      // }
+      const props = record.props as AvatarBlockOptionalProps
+      return new AvatarBlock(
+        record.id,
+        record.order,
+        avatarFromOptionalProps(props)
+      )
     }
   }
 

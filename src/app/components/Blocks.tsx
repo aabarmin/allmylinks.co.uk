@@ -4,7 +4,7 @@ import { addBlock } from "@/lib/blockActions";
 import { AccountCircle, ThumbUp, Title } from "@mui/icons-material";
 import { LinearProgress, List, ListItemButton, ListItemDecorator } from "@mui/joy";
 import { useState } from "react";
-import { AvatarBlock } from "../blocks/avatar/AvatarBlock";
+import { AvatarBlock, AvatarBlockProps } from "../blocks/avatar/AvatarBlock";
 import { HeaderBlock } from "../blocks/header/HeaderBlock";
 import { SocialNetworksBlock } from "../blocks/networks/SocialNetworksBlock";
 import { BlockAddRequest } from "../hooks/block/BlockAddRequest";
@@ -24,7 +24,8 @@ export function Blocks() {
           state.getCurrentPage(),
           new AvatarBlock(
             response.id,
-            response.order
+            response.order,
+            new AvatarBlockProps()
           )
         ));
       })

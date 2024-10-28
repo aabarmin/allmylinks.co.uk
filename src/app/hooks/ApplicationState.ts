@@ -1,6 +1,6 @@
 import { DashboardResponse } from "../(api)/api/dashboard/DashboardResponse";
 import { ProfileResponse } from "../(api)/api/dashboard/ProfileResponse";
-import { AvatarBlock, AvatarBlockProps, DEFAULT_AVATAR } from "../blocks/avatar/AvatarBlock";
+import { AvatarBlock, AvatarBlockOptionalProps, fromOptionalProps } from "../blocks/avatar/AvatarBlock";
 import { HeaderAlignment, HeaderBlock, HeaderBlockProps, HeaderLevel } from "../blocks/header/HeaderBlock";
 import { SocialNetwork, SocialNetworksBlock, SocialNetworksBlockProps } from "../blocks/networks/SocialNetworksBlock";
 import { Block, BlockType } from "../model/Block";
@@ -70,12 +70,8 @@ export class ApplicationState {
         // todo, refactor this asap when everything else works
         // there is indeed a better way of doing this
         if (b.type == BlockType.BLOCK_AVATAR) {
-          const props = b.props as {
-            imageUrl?: string
-          }
-          const avatar = new AvatarBlock(b.id, b.order)
-          avatar.props = new AvatarBlockProps()
-          avatar.props.imageUrl = props?.imageUrl || DEFAULT_AVATAR;
+          const props = b.props as AvatarBlockOptionalProps
+          const avatar = new AvatarBlock(b.id, b.order, fromOptionalProps(props))
           return avatar;
         }
         if (b.type == BlockType.BLOCK_HEADER) {
