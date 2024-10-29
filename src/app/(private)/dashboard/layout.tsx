@@ -1,6 +1,6 @@
 import "@/app/globals.css";
 import { StateProvider } from "@/app/hooks/StateProvider";
-import { auth } from "@/auth";
+import { getCurrentUser } from "@/lib/userActions";
 import { Box, CssVarsProvider } from "@mui/joy";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
@@ -15,10 +15,11 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth();
-  if (!session || !session.user) {
+  const user = await getCurrentUser();
+  if (!user) {
     redirect('/login')
   }
+  // todo, need to check if it is a new user, then the user should be redirected to the onboarding page
 
   return (
     <CssVarsProvider>

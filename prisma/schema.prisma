@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
@@ -55,4 +56,19 @@ model UploadedFile {
   updatedAt DateTime? @map("updated_at")
 
   @@map("uploaded_files")
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  name     String  @db.VarChar(255)
+  email    String  @unique @db.VarChar(255)
+  provider String  @db.VarChar(255)
+  isActive Boolean @default(false) @map("is_active")
+  image    String? @db.VarChar(255)
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  lastLogin DateTime? @map("last_login")
+  updatedAt DateTime? @map("updated_at")
+
+  @@map("users")
 }
