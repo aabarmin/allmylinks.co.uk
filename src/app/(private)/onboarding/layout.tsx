@@ -1,6 +1,4 @@
 import "@/app/globals.css";
-import { StateProvider } from "@/app/hooks/StateProvider";
-import { isOnboardingCompleted } from "@/lib/onboardingActions";
 import { getCurrentUser } from "@/lib/userActions";
 import { Box, CssVarsProvider } from "@mui/joy";
 import type { Metadata } from "next";
@@ -20,17 +18,11 @@ export default async function RootLayout({
   if (!user) {
     redirect('/login')
   }
-  const onboarded = await isOnboardingCompleted(user);
-  if (!onboarded) {
-    redirect('/onboarding');
-  }
 
   return (
     <CssVarsProvider>
       <Box sx={{ height: '100vh' }}>
-        <StateProvider>
-          {children}
-        </StateProvider>
+        {children}
       </Box>
     </CssVarsProvider>
   );

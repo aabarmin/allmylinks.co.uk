@@ -71,24 +71,6 @@ export async function createUserFromSession(session: Session): Promise<User> {
 
 export async function onNewUserRegistered(user: User): Promise<void> {
   return Promise.all([
-    createProfile(user),
     sendEmail(user, EmailTemplate.REGISTERED)
   ]).then();
-}
-
-async function createProfile(user: User): Promise<void> {
-  const profile = await getDbClient().profile.create({
-    data: {
-      link: 'todo',
-      active: true,
-      userId: user.id
-    }
-  })
-  await getDbClient().page.create({
-    data: {
-      title: 'Home',
-      isHome: true,
-      profileId: profile.id
-    }
-  })
 }
