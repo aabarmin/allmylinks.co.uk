@@ -1,4 +1,4 @@
-import { Box, CssVarsProvider } from "@mui/joy";
+import { Box } from "@mui/joy";
 import type { Metadata } from "next";
 import "./globals.css";
 
@@ -15,11 +15,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <CssVarsProvider>
-          <Box sx={{ height: '100vh' }}>
-            {children}
-          </Box>
-        </CssVarsProvider>
+        <Box sx={{ height: '100vh' }}>
+          {children}
+        </Box>
       </body>
     </html>
   );
