@@ -1,8 +1,8 @@
 'use client';
 
 import { createOrCompleteOnboarding } from "@/lib/client/onboardingActions";
+import { hasProfileWithLink } from "@/lib/client/profileActions";
 import { getCurrentUser } from "@/lib/client/userActions";
-import { hasProfileWithLink } from "@/lib/profileActions";
 import { InfoOutlined } from "@mui/icons-material";
 import { Button, FormControl, FormHelperText, FormLabel, Input, Stack } from "@mui/joy";
 import { redirect } from "next/navigation";
@@ -48,7 +48,7 @@ async function completeOnboarding(state: FormState, formData: FormData) {
   if (!user) {
     throw new Error("User not found"); // should never happen
   }
-  const result = await createOrCompleteOnboarding({
+  await createOrCompleteOnboarding({
     name: validationResult.data.name,
     link: validationResult.data.link,
     userId: user.id

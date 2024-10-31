@@ -1,5 +1,5 @@
 import { User } from "@prisma/client";
-import { getDbClient } from "../dbClient";
+import { getDbClient } from "./dbClient";
 
 export async function isOnboardingCompleted(user: User): Promise<boolean> {
   const onboarding = await getDbClient().onboarding.findUnique({

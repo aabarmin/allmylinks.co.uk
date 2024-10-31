@@ -1,4 +1,4 @@
-import { getCurrentUser } from "@/lib/userActions";
+import { getCurrentUser } from "@/lib/server/userActions";
 import { respondUnauthenticated } from "../../restUtils";
 import { CurrentUserResponse } from "./CurrentUserResponse";
 

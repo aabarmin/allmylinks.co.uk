@@ -1,5 +1,5 @@
 import "@/app/globals.css";
-import { getCurrentUser } from "@/lib/userActions";
+import { getCurrentUser } from "@/lib/server/userActions";
 import { Box, CssVarsProvider } from "@mui/joy";
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";

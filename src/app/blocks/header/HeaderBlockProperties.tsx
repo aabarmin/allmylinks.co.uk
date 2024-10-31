@@ -1,6 +1,6 @@
 import { BlockUpdatePropsRequest } from "@/app/hooks/block/BlockUpdatePropsRequest";
 import { useAppState } from "@/app/hooks/StateProvider";
-import { updateBlock } from "@/lib/blockActions";
+import { updateBlock } from "@/lib/client/blockActions";
 import { FormatAlignCenter, FormatAlignLeft, FormatAlignRight } from "@mui/icons-material";
 import { Box, Button, FormControl, FormLabel, IconButton, Input, LinearProgress, Option, Select, Stack, ToggleButtonGroup } from "@mui/joy";
 import { useEffect, useState } from "react";

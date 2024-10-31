@@ -1,5 +1,5 @@
 import { BlockType } from "@/app/model/Block";
-import { getDbClient } from "@/lib/dbClient";
+import { getDbClient } from "@/lib/server/dbClient";
 import { z } from "zod";
 import { CreateBlockResponse } from "./CrateBlockResponse";
 import { CreateBlockRequest } from "./CreateBlockRequest";

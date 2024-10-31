@@ -1,5 +1,5 @@
-import { getDbClient } from "@/lib/dbClient";
-import { getCurrentUserId } from "@/lib/userActions";
+import { getDbClient } from "@/lib/server/dbClient";
+import { getCurrentUserId } from "@/lib/server/userActions";
 import fs from "fs";
 import path from "path";
 import { FileUploadResponse } from "./FileUploadResponse";

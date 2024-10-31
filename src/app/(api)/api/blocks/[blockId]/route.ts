@@ -1,4 +1,4 @@
-import { getDbClient } from "@/lib/dbClient";
+import { getDbClient } from "@/lib/server/dbClient";
 import { z } from "zod";
 import { UpdateBlockRequest } from "./UpdateBlockRequest";
 

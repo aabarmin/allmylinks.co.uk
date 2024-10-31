@@ -1,4 +1,4 @@
-import { getCurrentUser } from "@/lib/userActions";
+import { getCurrentUser } from "@/lib/server/userActions";
 import { Box, Grid } from "@mui/joy";
 import { redirect } from "next/navigation";
 import { OnboardingForm } from "./component/OnboardingForm";
@@ -19,7 +19,7 @@ export default async function Page() {
           <h1>Welcome to the onboarding page</h1>
           <p>Here you will be able to complete the onboarding process</p>
 
-          <p>I'm not good at creativity today, need to be refactored later on</p>
+          <p>I am not good at creativity today, need to be refactored later on</p>
 
           <OnboardingForm />
         </Box>

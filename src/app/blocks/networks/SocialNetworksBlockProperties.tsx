@@ -1,6 +1,6 @@
 import { BlockUpdatePropsRequest } from "@/app/hooks/block/BlockUpdatePropsRequest";
 import { useAppState } from "@/app/hooks/StateProvider";
-import { updateBlock } from "@/lib/blockActions";
+import { updateBlock } from "@/lib/client/blockActions";
 import { Delete } from "@mui/icons-material";
 import { Box, Button, IconButton, Input, LinearProgress, ListItemDecorator, Option, Select, Sheet } from "@mui/joy";
 import { useEffect, useState } from "react";

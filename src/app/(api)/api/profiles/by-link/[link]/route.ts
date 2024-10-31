@@ -1,5 +1,5 @@
-import { getDbClient } from "@/lib/dbClient";
-import { getCurrentUser } from "@/lib/userActions";
+import { getDbClient } from "@/lib/server/dbClient";
+import { getCurrentUser } from "@/lib/server/userActions";
 
 export type ByLinkResponse = {
   exists: boolean;

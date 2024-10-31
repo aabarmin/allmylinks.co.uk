@@ -1,6 +1,6 @@
 import MobileFrame from "@/app/components/MobileFrame";
 import { blocksToReactNodes, recordsToBlocks } from "@/lib/blockUtils";
-import { getDbClient } from "@/lib/dbClient";
+import { getDbClient } from "@/lib/server/dbClient";
 import { Box } from "@mui/joy";
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {

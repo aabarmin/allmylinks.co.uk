@@ -1,7 +1,7 @@
 import { BlockUpdatePropsRequest } from "@/app/hooks/block/BlockUpdatePropsRequest";
 import { useAppState } from "@/app/hooks/StateProvider";
-import { updateBlock } from "@/lib/blockActions";
-import { uploadFile } from "@/lib/fileActions";
+import { updateBlock } from "@/lib/client/blockActions";
+import { uploadFile } from "@/lib/client/fileActions";
 import { Box, Button, LinearProgress, Stack } from "@mui/joy";
 import Image from "next/image";
 import { BaseSyntheticEvent, useEffect, useRef, useState } from "react";

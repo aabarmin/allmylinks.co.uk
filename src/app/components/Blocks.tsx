@@ -1,6 +1,6 @@
 'use client';
 
-import { addBlock } from "@/lib/blockActions";
+import { addBlock } from "@/lib/client/blockActions";
 import { AccountCircle, ThumbUp, Title } from "@mui/icons-material";
 import { LinearProgress, List, ListItemButton, ListItemDecorator } from "@mui/joy";
 import { useState } from "react";
