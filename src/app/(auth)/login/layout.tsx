@@ -1,8 +1,6 @@
 import "@/app/globals.css";
-import { getCurrentUser } from "@/lib/server/userActions";
 import { Box, CssVarsProvider } from "@mui/joy";
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,10 +12,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const user = await getCurrentUser();
-  if (!user) {
-    redirect('/login')
-  }
 
   return (
     <CssVarsProvider>
