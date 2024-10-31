@@ -5,6 +5,5 @@ export function respondUnauthenticated(): Response {
 }
 
 export function respondInvalidRequest(error: ZodError): Response {
-  // todo, add errors to the response
-  return Response.json({ error: "Invalid request" }, { status: 400 });
+  return Response.json({ error: "Invalid request", details: error.flatten().fieldErrors }, { status: 400 });
 }

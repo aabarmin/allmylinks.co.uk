@@ -1,4 +1,3 @@
-import { getOrCreateOnboarding } from "@/lib/onboardingActions";
 import { getCurrentUser } from "@/lib/userActions";
 import { Box, Grid } from "@mui/joy";
 import { redirect } from "next/navigation";
@@ -9,7 +8,6 @@ export default async function Page() {
   if (!user) {
     redirect('/login')
   }
-  const onboarding = await getOrCreateOnboarding(user);
 
   return (
     <Grid container>

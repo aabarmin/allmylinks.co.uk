@@ -1,8 +1,11 @@
 'use client';
 
+import { createOrCompleteOnboarding } from "@/lib/client/onboardingActions";
+import { getCurrentUser } from "@/lib/client/userActions";
 import { hasProfileWithLink } from "@/lib/profileActions";
 import { InfoOutlined } from "@mui/icons-material";
 import { Button, FormControl, FormHelperText, FormLabel, Input, Stack } from "@mui/joy";
+import { redirect } from "next/navigation";
 import { SyntheticEvent } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { z } from "zod";
@@ -21,7 +24,13 @@ async function completeOnboarding(state: FormState, formData: FormData) {
     link: z.string()
       .regex(/^[a-z0-9-]+$/, "Link must contain only lowercase letters, numbers and dashes")
       .min(2, "Link must be at least 2 characters long")
-      .refine(value => value != '' && !hasProfileWithLink(value), "Link already in use")
+      .refine(async (value) => {
+        if (value == '') {
+          return false;
+        }
+        const hasProfile = await hasProfileWithLink(value)
+        return hasProfile == false;
+      }, "Link already in use")
   });
 
   const validationResult = await onboardingSpec.safeParseAsync({
@@ -35,8 +44,17 @@ async function completeOnboarding(state: FormState, formData: FormData) {
     }
   }
 
-  // make the call to the backend
-  debugger;
+  const user = await getCurrentUser();
+  if (!user) {
+    throw new Error("User not found"); // should never happen
+  }
+  const result = await createOrCompleteOnboarding({
+    name: validationResult.data.name,
+    link: validationResult.data.link,
+    userId: user.id
+  })
+
+  redirect('/dashboard')
 }
 
 function SubmitButton() {

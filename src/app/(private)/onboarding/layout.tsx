@@ -2,6 +2,7 @@ import "@/app/globals.css";
 import { getCurrentUser } from "@/lib/userActions";
 import { Box, CssVarsProvider } from "@mui/joy";
 import type { Metadata } from "next";
+import { SessionProvider } from "next-auth/react";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
@@ -22,7 +23,9 @@ export default async function RootLayout({
   return (
     <CssVarsProvider>
       <Box sx={{ height: '100vh' }}>
-        {children}
+        <SessionProvider>
+          {children}
+        </SessionProvider>
       </Box>
     </CssVarsProvider>
   );

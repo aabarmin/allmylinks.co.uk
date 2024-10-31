@@ -1,6 +1,6 @@
 import "@/app/globals.css";
 import { StateProvider } from "@/app/hooks/StateProvider";
-import { isOnboardingCompleted } from "@/lib/onboardingActions";
+import { isOnboardingCompleted } from "@/lib/server/onboardingActions";
 import { getCurrentUser } from "@/lib/userActions";
 import { Box, CssVarsProvider } from "@mui/joy";
 import type { Metadata } from "next";
