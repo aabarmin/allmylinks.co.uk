@@ -1,35 +1,25 @@
 'use client';
 
-import { DashboardResponse } from "@/app/(api)/api/dashboard/DashboardResponse";
 import { BlockPropertiesPane } from "@/app/components/BlockPropertiesPane";
 import { LeftSidebar } from "@/app/components/LeftSidebar";
 import { PreviewPane } from "@/app/components/PreviewPane";
 import { DashboardLoadDataRequest } from "@/app/hooks/global/DashboardLoadDataRequest";
 import { useAppState } from "@/app/hooks/StateProvider";
+import { getDashboard } from "@/lib/client/dashboardActions";
 import { Box, Sheet } from "@mui/joy";
 import Grid from "@mui/joy/Grid";
 import { useEffect, useState } from "react";
+import { UserNavigation } from "./component/UserNavigation";
 
 export default function Page() {
   const [loadingState, setLoadingState] = useState<string>('');
   const { dispatch } = useAppState()
   useEffect(() => {
     setLoadingState('loading');
-    fetch('/api/dashboard')
-      .then((response) => {
-        if (response.status == 401) {
-          setLoadingState('unauthorized');
-          return
-        }
-        if (response.status == 500) {
-          setLoadingState('error');
-          return
-        }
-        response.json().then((data: DashboardResponse) => {
-          dispatch(new DashboardLoadDataRequest(data));
-          setLoadingState('ok');
-        });
-      })
+    getDashboard().then(dashboard => {
+      setLoadingState('ok');
+      dispatch(new DashboardLoadDataRequest(dashboard));
+    });
   }, [setLoadingState, dispatch]);
 
   return (
@@ -37,19 +27,24 @@ export default function Page() {
       {loadingState == 'loading' && <div>Loading...</div>}
       {
         loadingState == 'ok' && (
-          <Grid container spacing={3}>
+          <Grid container>
+            <Grid xs={1}>
+              <Sheet sx={{ height: '100vh', p: 1 }}>
+                <UserNavigation />
+              </Sheet>
+            </Grid>
             <Grid xs={3}>
-              <Sheet sx={{ height: '100vh', p: 2, overflow: 'scroll' }}>
+              <Sheet sx={{ height: '100vh', p: 1 }}>
                 <LeftSidebar />
               </Sheet>
             </Grid>
-            <Grid xs={6}>
-              <Box sx={{ height: '100vh', p: 2, overflow: 'scroll' }}>
+            <Grid xs={5}>
+              <Box sx={{ height: '100vh', p: 1, overflow: 'scroll' }}>
                 <PreviewPane />
               </Box>
             </Grid>
             <Grid xs={3}>
-              <Sheet sx={{ height: '100vh', p: 2 }}>
+              <Sheet sx={{ height: '100vh', p: 1 }}>
                 <BlockPropertiesPane />
               </Sheet>
             </Grid>

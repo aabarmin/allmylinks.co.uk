@@ -20,8 +20,8 @@ export default async function RootLayout({
   if (!user) {
     redirect('/login')
   }
-  const onboarded = await isOnboardingCompleted(user);
-  if (!onboarded) {
+  const onboardingCompleted = await isOnboardingCompleted(user);
+  if (!onboardingCompleted) {
     redirect('/onboarding');
   }
 
