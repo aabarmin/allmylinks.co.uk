@@ -23,7 +23,7 @@ export function WhyUs() {
                 </h1>
                 <p>
                   With powerful customization options and versatile content blocks, your profile will rise above the noise.
-                  Plus, we're more affordable than the competition and an excellent choice for teams.
+                  Plus, we are more affordable than the competition and an excellent choice for teams.
                 </p>
                 <Link href={"/dashboard"} passHref>
                   <Button variant="contained">
@@ -89,7 +89,7 @@ export function WhyUs() {
                   </Box>
                   <h2>More affordable</h2>
                   <p>
-                    We're more affordable than the competition and an excellent choice for teams.
+                    We are more affordable than the competition and an excellent choice for teams.
                   </p>
                 </Stack>
               </Grid>
