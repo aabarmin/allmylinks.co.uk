@@ -34,6 +34,8 @@ jobs:
         echo "AUTH_SECRET=${{ secrets.AUTH_SECRET }}" >> .env
         echo "AUTH_GOOGLE_ID=${{ secrets.AUTH_GOOGLE_ID }}" >> .env
         echo "AUTH_GOOGLE_SECRET=${{ secrets.AUTH_GOOGLE_SECRET }}" >> .env
+
+        cat .env
     - run: npx prisma migrate dev
     - run: npx prisma db seed
     - run: npm run build
