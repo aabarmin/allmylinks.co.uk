@@ -1,4 +1,4 @@
-import { Box } from "@mui/joy";
+import Box from "@mui/material/Box";
 import { SocialIcon } from "react-social-icons";
 import { SocialNetworksBlockProps } from "./SocialNetworksBlock";
 

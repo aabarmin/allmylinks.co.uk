@@ -2,9 +2,15 @@ import { BlockUpdatePropsRequest } from "@/app/hooks/block/BlockUpdatePropsReque
 import { useAppState } from "@/app/hooks/StateProvider";
 import { updateBlock } from "@/lib/client/blockActions";
 import { Delete } from "@mui/icons-material";
-import { Box, Button, IconButton, Input, LinearProgress, ListItemDecorator, Option, Select, Sheet } from "@mui/joy";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import LinearProgress from "@mui/material/LinearProgress";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import Stack from "@mui/material/Stack";
+import TextField from "@mui/material/TextField";
 import { useEffect, useState } from "react";
-import { SocialIcon } from "react-social-icons";
 import { SocialNetwork, SocialNetworksBlock, SocialNetworksBlockProps } from "./SocialNetworksBlock";
 
 function arrayCopyAndAdd<T>(arr: T[], item: T): T[] {
@@ -84,27 +90,32 @@ export function SocialNetworksBlockProperties(block: SocialNetworksBlock) {
   }
 
   return (
-    <Sheet sx={{
-      gap: 2,
-      display: 'flex',
-      flexDirection: 'column'
-    }}>
+    <Stack spacing={2}>
       <Box sx={{
         display: 'flex',
         gap: 2
       }}>
-        <Button onClick={resetForm} variant="soft">Cancel</Button>
-        <Button onClick={saveForm}>Save</Button>
+        <Button
+          disabled={isLoading}
+          onClick={resetForm}
+          variant="outlined">
+          Cancel
+        </Button>
+        <Button
+          disabled={isLoading}
+          variant="contained"
+          onClick={saveForm}>
+          Save
+        </Button>
       </Box>
 
       {isLoading && <LinearProgress />}
 
-      <Box sx={{
-        display: 'flex',
-        flexDirection: 'column'
-      }}>
-        <Button onClick={addSocialNetwork}>Add a link</Button>
-      </Box>
+      <Button
+        fullWidth
+        disabled={isLoading}
+        variant="contained"
+        onClick={addSocialNetwork}>Add a link</Button>
 
       <Box sx={{
         gap: 2,
@@ -122,50 +133,32 @@ export function SocialNetworksBlockProperties(block: SocialNetworksBlock) {
               }}>
               <Select
                 value={sn.icon}
-                renderValue={(v) => {
-                  if (!v) {
-                    return null;
-                  }
-                  return (
-                    <ListItemDecorator>
-                      <SocialIcon network={v.value} style={{ width: '25px', height: '25px' }} />
-                    </ListItemDecorator>
-                  )
-                }}
-                onChange={(e, v) => updateSocialNetwork(sn.order, 'icon', v as string)}>
-                <Option value="twitter">
-                  <ListItemDecorator>
-                    <SocialIcon network="twitter" style={{ width: '25px', height: '25px' }} />
-                  </ListItemDecorator>
+                disabled={isLoading}
+                onChange={(e) => updateSocialNetwork(sn.order, 'icon', e.target.value)}>
+                <MenuItem value="twitter">
                   Twitter
-                </Option>
-                <Option value="instagram">
-                  <ListItemDecorator>
-                    <SocialIcon network="instagram" style={{ width: '25px', height: '25px' }} />
-                  </ListItemDecorator>
+                </MenuItem>
+                <MenuItem value="instagram">
                   Instagram
-                </Option>
-                <Option value="facebook">
-                  <ListItemDecorator>
-                    <SocialIcon network="facebook" style={{ width: '25px', height: '25px' }} />
-                  </ListItemDecorator>
+                </MenuItem>
+                <MenuItem value="facebook">
                   Facebook
-                </Option>
+                </MenuItem>
               </Select>
-              <Input
-                sx={{
-                  flexGrow: 1
-                }}
+              <TextField
+                disabled={isLoading}
                 value={sn.link}
                 onChange={(e) => updateSocialNetwork(sn.order, 'link', e.target.value)}
                 placeholder="Add URL" />
-              <IconButton onClick={() => deleteSocialNetwork(sn.order)}>
+              <IconButton
+                disabled={isLoading}
+                onClick={() => deleteSocialNetwork(sn.order)}>
                 <Delete />
               </IconButton>
             </Box>
           )
         })}
       </Box>
-    </Sheet>
+    </Stack>
   )
 }

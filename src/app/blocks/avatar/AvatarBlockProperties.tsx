@@ -2,7 +2,10 @@ import { BlockUpdatePropsRequest } from "@/app/hooks/block/BlockUpdatePropsReque
 import { useAppState } from "@/app/hooks/StateProvider";
 import { updateBlock } from "@/lib/client/blockActions";
 import { uploadFile } from "@/lib/client/fileActions";
-import { Box, Button, LinearProgress, Stack } from "@mui/joy";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import LinearProgress from "@mui/material/LinearProgress";
+import Stack from "@mui/material/Stack";
 import Image from "next/image";
 import { BaseSyntheticEvent, useEffect, useRef, useState } from "react";
 import { AvatarBlock, AvatarBlockProps, DEFAULT_AVATAR } from "./AvatarBlock";
@@ -64,8 +67,17 @@ export function AvatarBlockProperties(block: AvatarBlock) {
         display: 'flex',
         gap: 2
       }}>
-        <Button variant="soft">Cancel</Button>
-        <Button onClick={saveChanges}>Save</Button>
+        <Button
+          disabled={isLoading}
+          variant="outlined">
+          Cancel
+        </Button>
+        <Button
+          disabled={isLoading}
+          variant="contained"
+          onClick={saveChanges}>
+          Save
+        </Button>
       </Box>
 
       {isLoading && <LinearProgress />}
@@ -94,8 +106,18 @@ export function AvatarBlockProperties(block: AvatarBlock) {
           justifyContent: 'center',
           gap: 2
         }}>
-          <Button onClick={resetAvatar}>Remove avatar</Button>
-          <Button onClick={selectAvatar}>Upload new</Button>
+          <Button
+            disabled={isLoading}
+            variant="outlined"
+            onClick={resetAvatar}>
+            Remove avatar
+          </Button>
+          <Button
+            variant="contained"
+            disabled={isLoading}
+            onClick={selectAvatar}>
+            Upload new
+          </Button>
         </Box>
         <input
           type="file"

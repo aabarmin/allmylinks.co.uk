@@ -2,7 +2,14 @@ import { BlockUpdatePropsRequest } from "@/app/hooks/block/BlockUpdatePropsReque
 import { useAppState } from "@/app/hooks/StateProvider";
 import { updateBlock } from "@/lib/client/blockActions";
 import { FormatAlignCenter, FormatAlignLeft, FormatAlignRight } from "@mui/icons-material";
-import { Box, Button, FormControl, FormLabel, IconButton, Input, LinearProgress, Option, Select, Stack, ToggleButtonGroup } from "@mui/joy";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import LinearProgress from "@mui/material/LinearProgress";
+import Stack from "@mui/material/Stack";
+import TextField from "@mui/material/TextField";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import { HeaderAlignment, HeaderBlock, HeaderBlockProps, HeaderLevel } from "./HeaderBlock";
 
@@ -51,13 +58,50 @@ export function HeaderBlockProperties(block: HeaderBlock) {
         gap: 2
       }}
       >
-        <Button variant="soft" onClick={resetBlock}>Cancel</Button>
-        <Button onClick={saveBlock} disabled={isLoading}>Save</Button>
+        <Button
+          variant="outlined"
+          disabled={isLoading}
+          onClick={resetBlock}>
+          Cancel
+        </Button>
+        <Button
+          variant="contained"
+          onClick={saveBlock}
+          disabled={isLoading}>
+          Save
+        </Button>
       </Box>
 
       {isLoading && <LinearProgress />}
 
-      <FormControl>
+      <Typography>
+        Alignment:
+      </Typography>
+
+      <ToggleButtonGroup
+        exclusive
+        onChange={(e, v) => handleInput('alignment', v)}
+        disabled={isLoading}
+        value={form['alignment']}>
+        <ToggleButton value={HeaderAlignment.LEFT}>
+          <FormatAlignLeft />
+        </ToggleButton>
+        <ToggleButton value={HeaderAlignment.CENTER}>
+          <FormatAlignCenter />
+        </ToggleButton>
+        <ToggleButton value={HeaderAlignment.RIGHT}>
+          <FormatAlignRight />
+        </ToggleButton>
+      </ToggleButtonGroup>
+
+      <TextField
+        disabled={isLoading}
+        label="Text"
+        onChange={(e) => handleInput('text', e.target.value)}
+        value={form['text']}
+      />
+
+      {/* <FormControl>
         <FormLabel>Level:</FormLabel>
         <Select placeholder="Header level" value={form['level']} onChange={(e, v) => handleInput('level', v)}>
           <Option value={HeaderLevel.H1}>Level 1</Option>
@@ -87,7 +131,7 @@ export function HeaderBlockProperties(block: HeaderBlock) {
           placeholder="Text"
           value={form['text']}
           onChange={(e) => handleInput('text', e.target.value)} />
-      </FormControl>
+      </FormControl> */}
     </Stack>
   );
 }

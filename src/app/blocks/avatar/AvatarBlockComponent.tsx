@@ -1,4 +1,4 @@
-import { Box } from "@mui/joy";
+import Box from "@mui/material/Box";
 import Image from "next/image";
 import { AvatarBlockProps } from "./AvatarBlock";
 
@@ -11,7 +11,7 @@ export default function AvatarBlockComponent(props: AvatarBlockProps) {
       height: '200px'
     }}>
       <Image
-        alt="Default avatar"
+        alt="Avatar"
         width={110}
         height={110}
         style={{

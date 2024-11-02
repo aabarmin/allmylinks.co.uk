@@ -1,4 +1,4 @@
-import { Box, CssVarsProvider } from "@mui/joy";
+import Box from "@mui/material/Box";
 import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -11,10 +11,8 @@ export default function PublicLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <CssVarsProvider>
-      <Box sx={{ height: '100vh' }}>
-        {children}
-      </Box>
-    </CssVarsProvider>
+    <Box sx={{ height: '100vh' }}>
+      {children}
+    </Box>
   );
 }
