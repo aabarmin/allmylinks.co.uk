@@ -1,6 +1,7 @@
 import { useAppState } from "@/app/hooks/StateProvider";
 import { ContentCopy, Share } from "@mui/icons-material";
-import { Box, IconButton } from "@mui/joy";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
 
 export function UserLinkPreview() {
   const { state } = useAppState();

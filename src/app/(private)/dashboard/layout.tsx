@@ -2,7 +2,7 @@ import "@/app/globals.css";
 import { StateProvider } from "@/app/hooks/StateProvider";
 import { isOnboardingCompleted } from "@/lib/server/onboardingActions";
 import { getCurrentUser } from "@/lib/server/userActions";
-import { Box, CssVarsProvider } from "@mui/joy";
+import Box from "@mui/material/Box";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
@@ -26,12 +26,10 @@ export default async function RootLayout({
   }
 
   return (
-    <CssVarsProvider>
-      <Box sx={{ height: '100vh' }}>
-        <StateProvider>
-          {children}
-        </StateProvider>
-      </Box>
-    </CssVarsProvider>
+    <Box sx={{ height: '100vh' }}>
+      <StateProvider>
+        {children}
+      </StateProvider>
+    </Box>
   );
 }

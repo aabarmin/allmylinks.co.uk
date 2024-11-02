@@ -1,7 +1,11 @@
 'use client';
 
 import { AccountCircle, ThumbUp, Title } from "@mui/icons-material";
-import { Box, List, ListItem, ListItemButton, ListItemDecorator } from "@mui/joy";
+import Box from "@mui/material/Box";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
 import { BlockSelectRequest } from "../hooks/block/BlockSelectRequest";
 import { useAppState } from "../hooks/StateProvider";
 import { BlockType } from "../model/Block";
@@ -24,27 +28,27 @@ export function PageBlockList() {
           if (block.type == BlockType.BLOCK_HEADER) {
             return (
               <ListItemButton key={block.id} onClick={() => blockSelect(block.id)}>
-                <ListItemDecorator>
+                <ListItemIcon>
                   <Title />
-                </ListItemDecorator>
+                </ListItemIcon>
                 Header
               </ListItemButton>
             );
           } else if (block.type == BlockType.BLOCK_AVATAR) {
             return (
               <ListItemButton key={block.id} onClick={() => blockSelect(block.id)}>
-                <ListItemDecorator>
+                <ListItemIcon>
                   <AccountCircle />
-                </ListItemDecorator>
+                </ListItemIcon>
                 Avatar
               </ListItemButton>
             );
           } else if (block.type == BlockType.BLOCK_SOCIAL_NETWORKS) {
             return (
               <ListItemButton key={block.id} onClick={() => blockSelect(block.id)}>
-                <ListItemDecorator>
+                <ListItemIcon>
                   <ThumbUp />
-                </ListItemDecorator>
+                </ListItemIcon>
                 Social Networks
               </ListItemButton>
             )

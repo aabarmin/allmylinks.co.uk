@@ -1,8 +1,11 @@
 'use client';
 
 import { addBlock } from "@/lib/client/blockActions";
-import { AccountCircle, ThumbUp, Title } from "@mui/icons-material";
-import { LinearProgress, List, ListItemButton, ListItemDecorator } from "@mui/joy";
+import { AccountCircle, Title } from "@mui/icons-material";
+import LinearProgress from "@mui/material/LinearProgress";
+import List from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
 import { useState } from "react";
 import { AvatarBlock, AvatarBlockProps } from "../blocks/avatar/AvatarBlock";
 import { HeaderBlock, HeaderBlockProps } from "../blocks/header/HeaderBlock";
@@ -69,24 +72,24 @@ export function Blocks() {
       <List sx={{
         p: 2
       }}>
-        <ListItemButton onClick={addAvatar}>
-          <ListItemDecorator>
+        <ListItemButton onClick={addAvatar} disabled={isLoading}>
+          <ListItemIcon>
             <AccountCircle />
-          </ListItemDecorator>
+          </ListItemIcon>
           Avatar
         </ListItemButton>
 
-        <ListItemButton onClick={addHeader}>
-          <ListItemDecorator>
+        <ListItemButton onClick={addHeader} disabled={isLoading}>
+          <ListItemIcon>
             <Title />
-          </ListItemDecorator>
+          </ListItemIcon>
           Header
         </ListItemButton>
 
-        <ListItemButton onClick={addSocialNetworks}>
-          <ListItemDecorator>
-            <ThumbUp />
-          </ListItemDecorator>
+        <ListItemButton onClick={addSocialNetworks} disabled={isLoading}>
+          <ListItemIcon>
+            <Title />
+          </ListItemIcon>
           Social Networks
         </ListItemButton>
       </List>
