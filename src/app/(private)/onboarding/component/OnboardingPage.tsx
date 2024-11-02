@@ -28,7 +28,7 @@ export async function OnboardingPane() {
             <OnboardingForm />
           </Stack>
         </Grid>
-        <Grid size={6}>
+        <Grid size={4} offset={2}>
           <ServicePromoImage />
         </Grid>
       </Grid>
