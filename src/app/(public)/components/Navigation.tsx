@@ -1,8 +1,10 @@
 import { isLoggedIn } from "@/lib/server/userActions";
 import { Adb, Home, Login, Logout, Sell } from "@mui/icons-material";
-import { Container, Stack, Typography } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
+import Container from "@mui/material/Container";
+import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import { NavigationButton } from "./NavigationButton";
 
@@ -10,12 +12,12 @@ export async function Navigation() {
   const loggedIn = await isLoggedIn();
 
   return (
-    <AppBar position="sticky">
+    <AppBar position="static">
       <Container>
         <Toolbar disableGutters>
           <Adb />
           <Typography
-            level="h4"
+            variant="h4"
             noWrap
             sx={{
               mr: 2,

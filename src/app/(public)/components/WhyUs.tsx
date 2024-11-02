@@ -14,7 +14,9 @@ function BenefitsSquare() {
           <Tune sx={{
             fontSize: 60,
           }} />
-          <h2>More customizable</h2>
+          <Typography variant="h5" textAlign="center">
+            More customizable
+          </Typography>
           <Typography textAlign="center">
             With powerful customization options and versatile content blocks, your profile will rise above the noise.
           </Typography>
@@ -25,7 +27,9 @@ function BenefitsSquare() {
           <FlashOn sx={{
             fontSize: 60,
           }} />
-          <h2>More powerful</h2>
+          <Typography variant="h5" textAlign="center">
+            More powerful
+          </Typography>
           <Typography textAlign="center">
             Greater variety of block layouts and more options for organization
           </Typography>
@@ -36,7 +40,9 @@ function BenefitsSquare() {
           <Redeem sx={{
             fontSize: 60,
           }} />
-          <h2>More affordable</h2>
+          <Typography variant="h5" textAlign="center">
+            More affordable
+          </Typography>
           <Typography textAlign="center">
             We are more affordable than the competition and an excellent choice for teams.
           </Typography>
@@ -47,7 +53,9 @@ function BenefitsSquare() {
           <Redeem sx={{
             fontSize: 60,
           }} />
-          <h2>Live in minutes</h2>
+          <Typography variant="h5" textAlign="center">
+            Live in minutes
+          </Typography>
           <Typography textAlign="center">
             Get started in minutes with our easy-to-use interface
           </Typography>
@@ -70,7 +78,7 @@ export function WhyUs() {
               <Stack spacing={2} sx={{
                 p: 2
               }}>
-                <Typography variant="h2">
+                <Typography variant="h5">
                   Why choose us?
                 </Typography>
 

@@ -6,7 +6,7 @@ import { PreviewPane } from "@/app/components/PreviewPane";
 import { DashboardLoadDataRequest } from "@/app/hooks/global/DashboardLoadDataRequest";
 import { useAppState } from "@/app/hooks/StateProvider";
 import { getDashboard } from "@/lib/client/dashboardActions";
-import { Box, LinearProgress, Sheet } from "@mui/material";
+import { Box, LinearProgress } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
 
@@ -28,9 +28,9 @@ export default function Page() {
         loadingState == 'ok' && (
           <Grid container>
             <Grid size={4}>
-              <Sheet sx={{ height: '100vh', p: 1, overflow: 'scroll' }}>
+              <Box sx={{ height: '100vh', p: 1, overflow: 'scroll' }}>
                 <LeftSidebar />
-              </Sheet>
+              </Box>
             </Grid>
             <Grid size={5}>
               <Box sx={{ height: '100vh', p: 1, overflow: 'scroll' }}>
@@ -38,9 +38,9 @@ export default function Page() {
               </Box>
             </Grid>
             <Grid size={3}>
-              <Sheet sx={{ height: '100vh', p: 1 }}>
+              <Box sx={{ height: '100vh', p: 1 }}>
                 <BlockPropertiesPane />
-              </Sheet>
+              </Box>
             </Grid>
           </Grid>
         )

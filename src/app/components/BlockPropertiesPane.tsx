@@ -1,6 +1,6 @@
 'use client';
 
-import { Box } from "@mui/joy";
+import Box from "@mui/material/Box";
 import { AvatarBlock } from "../blocks/avatar/AvatarBlock";
 import { AvatarBlockProperties } from "../blocks/avatar/AvatarBlockProperties";
 import { HeaderBlock } from "../blocks/header/HeaderBlock";

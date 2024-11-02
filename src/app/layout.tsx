@@ -1,4 +1,4 @@
-import { Box } from "@mui/joy";
+import Box from "@mui/material/Box";
 import type { Metadata } from "next";
 import "./globals.css";
 

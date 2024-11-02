@@ -1,7 +1,8 @@
 import { FlashOn, MoreTime, Redeem, Tune } from "@mui/icons-material";
-import { Stack, Typography } from "@mui/material";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid2";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
 
 export function Benefits() {
   return (
@@ -13,7 +14,7 @@ export function Benefits() {
               fontSize: 60,
             }} />
 
-            <Typography level="h4">
+            <Typography variant="h5">
               Live in minutes
             </Typography>
           </Stack>
@@ -24,7 +25,7 @@ export function Benefits() {
               fontSize: 60,
             }} />
 
-            <Typography level="h4">
+            <Typography variant="h5">
               Powerful block builder
             </Typography>
           </Stack>
@@ -35,7 +36,7 @@ export function Benefits() {
               fontSize: 60,
             }} />
 
-            <Typography level="h4">
+            <Typography variant="h5">
               Fully customizable
             </Typography>
           </Stack>
@@ -46,7 +47,7 @@ export function Benefits() {
               fontSize: 60,
             }} />
 
-            <Typography level="h4">
+            <Typography variant="h5">
               Affordable
             </Typography>
           </Stack>

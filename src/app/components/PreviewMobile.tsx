@@ -1,7 +1,7 @@
 'use client';
 
 import { blocksToReactNodes } from "@/lib/blockUtils";
-import { Box } from "@mui/joy";
+import Box from "@mui/material/Box";
 import { useAppState } from "../hooks/StateProvider";
 import MobileFrame from "./MobileFrame";
 

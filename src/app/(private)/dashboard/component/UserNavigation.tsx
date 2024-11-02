@@ -1,4 +1,6 @@
-import { List, ListDivider, ListItem, ListItemButton } from "@mui/joy";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
 import Link from "next/link";
 
 export function UserNavigation() {
@@ -11,7 +13,6 @@ export function UserNavigation() {
           </ListItemButton>
         </Link>
       </ListItem>
-      <ListDivider />
       <ListItem>
         <Link href="/logout">
           <ListItemButton>
