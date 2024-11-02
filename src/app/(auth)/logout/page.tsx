@@ -1,14 +1,14 @@
-import { signOut } from "@/auth"
+import { Navigation } from "@/app/(public)/components/Navigation"
+import { PageDivider } from "@/app/(public)/components/PageDivider"
+import { LogoutArea } from "./components/LogoutArea"
 
 export default async function Page() {
   return (
-    <form
-      action={async () => {
-        "use server"
-        await signOut({ redirectTo: '/' })
-      }}
-    >
-      <button type="submit">Sign Out</button>
-    </form>
+    <>
+      <Navigation />
+      <PageDivider />
+
+      <LogoutArea />
+    </>
   )
 }

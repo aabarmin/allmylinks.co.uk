@@ -9,7 +9,6 @@ import { getDashboard } from "@/lib/client/dashboardActions";
 import { Box, Sheet } from "@mui/joy";
 import Grid from "@mui/joy/Grid";
 import { useEffect, useState } from "react";
-import { UserNavigation } from "./component/UserNavigation";
 
 export default function Page() {
   const [loadingState, setLoadingState] = useState<string>('');
@@ -28,12 +27,12 @@ export default function Page() {
       {
         loadingState == 'ok' && (
           <Grid container>
-            <Grid xs={1}>
+            {/* <Grid xs={1}>
               <Sheet sx={{ height: '100vh', p: 1 }}>
                 <UserNavigation />
               </Sheet>
-            </Grid>
-            <Grid xs={3}>
+            </Grid> */}
+            <Grid xs={4}>
               <Sheet sx={{ height: '100vh', p: 1 }}>
                 <LeftSidebar />
               </Sheet>
