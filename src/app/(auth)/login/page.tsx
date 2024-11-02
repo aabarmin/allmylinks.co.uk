@@ -1,15 +1,20 @@
 
-import { signIn } from "@/auth"
+import { LegalLinks } from "@/app/(public)/components/LegalLinks"
+import { Navigation } from "@/app/(public)/components/Navigation"
+import { PageDivider } from "@/app/(public)/components/PageDivider"
+import { Subscribe } from "@/app/(public)/components/Subscribe"
+import { SignInForm } from "./components/SignInForm"
 
 export default function SignIn() {
   return (
-    <form
-      action={async () => {
-        "use server"
-        await signIn("google", { redirectTo: "/dashboard" })
-      }}
-    >
-      <button type="submit">Sign in with Google</button>
-    </form>
+    <>
+      <Navigation />
+      <PageDivider />
+      <SignInForm />
+      <PageDivider />
+      <Subscribe />
+      <PageDivider />
+      <LegalLinks />
+    </>
   )
 } 

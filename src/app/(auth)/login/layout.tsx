@@ -1,5 +1,5 @@
 import "@/app/globals.css";
-import { Box, CssVarsProvider } from "@mui/joy";
+import { Box } from "@mui/joy";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -14,10 +14,8 @@ export default async function RootLayout({
 }>) {
 
   return (
-    <CssVarsProvider>
-      <Box sx={{ height: '100vh' }}>
-        {children}
-      </Box>
-    </CssVarsProvider>
+    <Box sx={{ height: '100vh' }}>
+      {children}
+    </Box>
   );
 }

@@ -2,7 +2,7 @@ import { Box, Container, Stack, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid2";
 import TextField from "@mui/material/TextField";
-import Image from "next/image";
+import { ServicePromoImage } from "./ServicePromoImage";
 
 export function LandingArea() {
   return (
@@ -37,11 +37,7 @@ export function LandingArea() {
               display: 'flex',
               justifyContent: 'center',
             }}>
-              <Image
-                alt="App preview"
-                width={284}
-                height={525}
-                src="/home/preview.jpg" />
+              <ServicePromoImage />
             </Box>
           </Grid>
         </Grid>
