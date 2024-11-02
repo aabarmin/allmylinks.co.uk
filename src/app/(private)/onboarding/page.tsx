@@ -1,36 +1,25 @@
-import { getCurrentUser } from "@/lib/server/userActions";
-import { Box, Grid } from "@mui/joy";
+import { LegalLinks } from "@/app/(public)/components/LegalLinks";
+import { Navigation } from "@/app/(public)/components/Navigation";
+import { PageDivider } from "@/app/(public)/components/PageDivider";
+import { isLoggedIn } from "@/lib/server/userActions";
 import { redirect } from "next/navigation";
-import { OnboardingForm } from "./component/OnboardingForm";
+import { OnboardingPane } from "./component/OnboardingPage";
 
 export default async function Page() {
-  const user = await getCurrentUser();
-  if (!user) {
+  const loggedIn = await isLoggedIn();
+  if (!loggedIn) {
     redirect('/login')
   }
 
   return (
-    <Grid container>
-      <Grid xs={6}>
-        <Box sx={{
-          p: 2,
-          border: '1px solid black',
-        }}>
-          <h1>Welcome to the onboarding page</h1>
-          <p>Here you will be able to complete the onboarding process</p>
+    <>
+      <Navigation />
+      <PageDivider />
 
-          <p>I am not good at creativity today, need to be refactored later on</p>
+      <OnboardingPane />
+      <PageDivider />
 
-          <OnboardingForm />
-        </Box>
-      </Grid>
-      <Grid xs={6}>
-        <Box sx={{
-          p: 2,
-        }}>
-          Some fancy onboarding image
-        </Box>
-      </Grid>
-    </Grid>
+      <LegalLinks />
+    </>
   );
 }

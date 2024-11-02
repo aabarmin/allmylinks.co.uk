@@ -3,8 +3,9 @@
 import { createOrCompleteOnboarding } from "@/lib/client/onboardingActions";
 import { hasProfileWithLink } from "@/lib/client/profileActions";
 import { getCurrentUser } from "@/lib/client/userActions";
-import { InfoOutlined } from "@mui/icons-material";
-import { Button, FormControl, FormHelperText, FormLabel, Input, Stack } from "@mui/joy";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
+import TextField from "@mui/material/TextField";
 import { redirect } from "next/navigation";
 import { SyntheticEvent } from "react";
 import { useFormState, useFormStatus } from "react-dom";
@@ -18,7 +19,6 @@ type FormState = {
 } | undefined;
 
 async function completeOnboarding(state: FormState, formData: FormData) {
-  // todo, zod is not fail-fast, so we need to check all fields before sending a request to the backend
   const onboardingSpec = z.object({
     name: z.string().min(2, "Name must be at least 2 characters long"),
     link: z.string()
@@ -26,7 +26,10 @@ async function completeOnboarding(state: FormState, formData: FormData) {
       .min(2, "Link must be at least 2 characters long")
       .refine(async (value) => {
         if (value == '') {
-          return false;
+          return true;
+        }
+        if (value.length < 2) {
+          return true;
         }
         const hasProfile = await hasProfileWithLink(value)
         return hasProfile == false;
@@ -65,7 +68,16 @@ function SubmitButton() {
     }
   };
 
-  return (<Button type="submit" disabled={pending} onClick={handleClick}>Submit</Button>)
+  return (
+    <Button
+      type="submit"
+      variant="contained"
+      size="large"
+      disabled={pending}
+      onClick={handleClick}>
+      Submit
+    </Button>
+  )
 }
 
 export function OnboardingForm() {
@@ -74,29 +86,23 @@ export function OnboardingForm() {
   return (
     <form action={dispatch}>
       <Stack spacing={2}>
-        <FormControl>
-          <FormLabel>Your name</FormLabel>
-          <Input placeholder="Your name" name="name" />
-          {state?.errors.name && (
-            <FormHelperText>
-              <InfoOutlined />
-              {state.errors.name.join(", ")}
-            </FormHelperText>
-          )}
-        </FormControl>
-        <FormControl>
-          <FormLabel>Short link</FormLabel>
-          <Input placeholder="Short link" name="link" />
-          {state?.errors.link && (
-            <FormHelperText>
-              <InfoOutlined />
-              {state.errors.link.join(", ")}
-            </FormHelperText>
-          )}
-        </FormControl>
-        <FormControl>
-          <SubmitButton />
-        </FormControl>
+        <TextField
+          name="name"
+          label="Your name"
+          required
+          error={state?.errors?.name?.length ? true : false}
+          helperText={state?.errors?.name?.join(", ")}
+        />
+
+        <TextField
+          name="link"
+          label="Short link"
+          required
+          error={state?.errors?.link?.length ? true : false}
+          helperText={state?.errors?.link?.join(", ")}
+        />
+
+        <SubmitButton />
       </Stack>
     </form >
   );

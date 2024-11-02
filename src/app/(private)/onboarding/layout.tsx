@@ -1,6 +1,5 @@
 import "@/app/globals.css";
 import { getCurrentUser } from "@/lib/server/userActions";
-import { Box, CssVarsProvider } from "@mui/joy";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
@@ -20,10 +19,8 @@ export default async function RootLayout({
   }
 
   return (
-    <CssVarsProvider>
-      <Box sx={{ height: '100vh' }}>
-        {children}
-      </Box>
-    </CssVarsProvider>
+    <>
+      {children}
+    </>
   );
 }
