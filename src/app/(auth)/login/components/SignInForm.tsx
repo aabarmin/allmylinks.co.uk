@@ -24,11 +24,12 @@ export function SignInForm() {
                 <Button
                   sx={{ width: '100%' }}
                   variant="contained"
+                  size="large"
                   type="submit">
                   Sign in with Google
                 </Button>
               </form>
-              <form action={async () => {
+              {/* <form action={async () => {
                 'use server'
                 await signIn('github', { redirectTo: '/dashboard' })
               }}>
@@ -38,7 +39,7 @@ export function SignInForm() {
                   type="submit">
                   Sign in with GitHub
                 </Button>
-              </form>
+              </form> */}
             </Stack>
           </Stack>
         </Grid>

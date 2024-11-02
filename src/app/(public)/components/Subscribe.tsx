@@ -33,7 +33,7 @@ async function submitForm(state: FormState, formData: FormData) {
     }
   }
 
-  const result = await subscribe({
+  await subscribe({
     email: validationResult.data.email
   })
 
@@ -53,6 +53,8 @@ function SubscribeButton() {
       sx={{
         width: '260px'
       }}
+      onAbort={handleClick}
+      disabled={pending}
       startIcon={<ForwardToInbox />}
       variant="contained"
       type="submit"
