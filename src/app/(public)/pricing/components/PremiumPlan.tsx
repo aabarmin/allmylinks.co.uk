@@ -2,9 +2,8 @@
 
 import { subscribe } from "@/lib/client/subscriptionActions";
 import { ForwardToInbox } from "@mui/icons-material";
-import { Container, FormHelperText, Stack } from "@mui/material";
+import { Card, CardContent, FormHelperText } from "@mui/material";
 import Button from "@mui/material/Button";
-import Grid from "@mui/material/Grid2";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { redirect } from "next/navigation";
@@ -50,9 +49,8 @@ function SubscribeButton() {
 
   return (
     <Button
-      sx={{
-        width: '260px'
-      }}
+      fullWidth
+      size="large"
       startIcon={<ForwardToInbox />}
       variant="contained"
       type="submit"
@@ -62,46 +60,34 @@ function SubscribeButton() {
   )
 }
 
-export function Subscribe() {
+export function PremiumPlan() {
   const [state, dispatch] = useFormState(submitForm, undefined);
 
   return (
-    <Container>
-      <Grid container>
-        <Grid size={8} offset={2}>
-          <Stack spacing={2}>
-            <Typography
-              variant="h2"
-              textAlign="center">
-              Subscribe
-            </Typography>
-            <Typography>
-              Subscribe to our newsletter to stay up to date with our latest news
-            </Typography>
+    <Card>
+      <CardContent>
+        <Typography variant="h4">Premium</Typography>
+        <Typography variant="h6">
+          Premium features coming soon. Stay tuned!
+        </Typography>
 
-            <form action={dispatch}>
-              <Stack
-                direction="row"
-                spacing={2}>
-                <TextField
-                  required
-                  type="email"
-                  name="email"
-                  label="Email"
-                  variant="outlined"
-                  fullWidth />
-                {state?.errors.email && (
-                  <FormHelperText>
-                    {state.errors.email.join(", ")}
-                  </FormHelperText>
-                )}
+        <form action={dispatch}>
+          <TextField
+            label="Email"
+            name="email"
+            fullWidth
+            type="email"
+            variant="outlined" />
 
-                <SubscribeButton />
-              </Stack>
-            </form>
-          </Stack>
-        </Grid>
-      </Grid>
-    </Container>
-  );
+          {state?.errors.email && (
+            <FormHelperText>
+              {state.errors.email.join(", ")}
+            </FormHelperText>
+          )}
+
+          <SubscribeButton />
+        </form>
+      </CardContent>
+    </Card>
+  )
 }

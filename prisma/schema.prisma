@@ -87,3 +87,11 @@ model Onboarding {
 
   @@map("onboarding")
 }
+
+model Subscription {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique @db.VarChar(255)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("subscriptions")
+}
