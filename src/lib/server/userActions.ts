@@ -9,6 +9,11 @@ export async function getCurrentUserId(): Promise<number | null> {
   return user?.id || null;
 }
 
+export async function isLoggedIn(): Promise<boolean> {
+  const session = await auth();
+  return Promise.resolve(!!session);
+}
+
 export async function getCurrentUser(): Promise<User | null> {
   const session = await auth();
   if (!session) {

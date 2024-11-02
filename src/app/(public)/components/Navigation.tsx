@@ -1,10 +1,14 @@
-import { Adb } from "@mui/icons-material";
-import { Button, Container, Stack, Typography } from "@mui/material";
+import { isLoggedIn } from "@/lib/server/userActions";
+import { Adb, Home, Login, Logout, Sell } from "@mui/icons-material";
+import { Container, Stack, Typography } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Link from "next/link";
+import { NavigationButton } from "./NavigationButton";
 
-export function Navigation() {
+export async function Navigation() {
+  const loggedIn = await isLoggedIn();
+
   return (
     <AppBar position="sticky">
       <Container>
@@ -26,20 +30,30 @@ export function Navigation() {
             LOGO
           </Typography>
 
-          <Stack direction="row" spacing={2}>
+          <Stack direction="row" spacing={2} sx={{ flexGrow: 1 }}>
             <Link href="/" passHref>
-              <Button>Home</Button>
+              <NavigationButton startIcon={<Home />}>
+                Home
+              </NavigationButton>
             </Link>
-            <Link href="/customers" passHref>
-              <Button>Customers</Button>
-            </Link>
-            <Link href="/help" passHref>
-              <Button>Help</Button>
-            </Link>
-            <Link href="/dashboard" passHref>
-              <Button>Dashboard</Button>
+            <Link href="/pricing" passHref>
+              <NavigationButton startIcon={<Sell />}>
+                Pricing
+              </NavigationButton>
             </Link>
           </Stack>
+          <Link href="/dashboard" passHref>
+            <NavigationButton startIcon={<Login />}>
+              {loggedIn ? 'Dashboard' : 'Login'}
+            </NavigationButton>
+          </Link>
+          {loggedIn && (
+            <Link href="/logout" passHref>
+              <NavigationButton startIcon={<Logout />}>
+                Logout
+              </NavigationButton>
+            </Link>
+          )}
         </Toolbar>
       </Container>
     </AppBar>

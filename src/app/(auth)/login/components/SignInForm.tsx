@@ -4,6 +4,7 @@ import { Container } from "@mui/material"
 import Button from "@mui/material/Button"
 import Grid from "@mui/material/Grid2"
 import Stack from "@mui/material/Stack"
+import Typography from "@mui/material/Typography"
 
 export function SignInForm() {
   return (
@@ -11,10 +12,10 @@ export function SignInForm() {
       <Grid container>
         <Grid size={4}>
           <Stack spacing={2}>
-            <h1>Sign In</h1>
-            <p>
+            <Typography variant="h2">Sign In</Typography>
+            <Typography>
               Welcome back! Sign in to your account to continue.
-            </p>
+            </Typography>
             <Stack spacing={2}>
               <form action={async () => {
                 'use server'

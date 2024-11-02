@@ -1,4 +1,5 @@
 
+import { Benefits } from "@/app/(public)/components/Benefits"
 import { LegalLinks } from "@/app/(public)/components/LegalLinks"
 import { Navigation } from "@/app/(public)/components/Navigation"
 import { PageDivider } from "@/app/(public)/components/PageDivider"
@@ -11,6 +12,8 @@ export default function SignIn() {
       <Navigation />
       <PageDivider />
       <SignInForm />
+      <PageDivider />
+      <Benefits />
       <PageDivider />
       <Subscribe />
       <PageDivider />
