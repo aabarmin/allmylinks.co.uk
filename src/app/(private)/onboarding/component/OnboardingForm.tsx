@@ -51,7 +51,7 @@ async function completeOnboarding(state: FormState, formData: FormData) {
   if (!user) {
     throw new Error("User not found"); // should never happen
   }
-  const onboarding = await createOrCompleteOnboarding({
+  await createOrCompleteOnboarding({
     name: validationResult.data.name,
     link: validationResult.data.link,
     userId: user.id
