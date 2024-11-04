@@ -26,56 +26,60 @@ export async function POST(request: Request) {
   }
 
   const onboardingRequest = validationResult.data as CreateOnboardingRequest;
-  const onboarding = await getDbClient().onboarding.create({
-    data: {
-      userId: user.id,
-      name: onboardingRequest.name,
-      link: onboardingRequest.link,
-      socialNetworks: []
-    }
+  const updatedOnboarding = await getDbClient().$transaction(async (tx) => {
+    const onboarding = await tx.onboarding.create({
+      data: {
+        userId: user.id,
+        name: onboardingRequest.name,
+        link: onboardingRequest.link,
+        socialNetworks: []
+      }
+    });
+
+    const avatarBlock = createAvatarBlock();
+    const headerBlock = createHeaderBlock(onboarding);
+    const profile = await tx.profile.create({
+      data: {
+        userId: user.id,
+        link: onboardingRequest.link
+      }
+    });
+    const homePage = await tx.page.create({
+      data: {
+        profileId: profile.id,
+        title: "Home",
+        isHome: true,
+      }
+    });
+
+    await tx.block.create({
+      data: {
+        pageId: homePage.id,
+        order: avatarBlock.order,
+        type: avatarBlock.type,
+        props: avatarBlock.props as object
+      }
+    });
+    await tx.block.create({
+      data: {
+        pageId: homePage.id,
+        order: headerBlock.order,
+        type: headerBlock.type,
+        props: headerBlock.props as object
+      }
+    });
+    const updatedOnboarding = await tx.onboarding.update({
+      where: { id: onboarding.id },
+      data: {
+        isCompleted: true,
+        updatedAt: new Date(),
+      }
+    });
+
+    return updatedOnboarding;
   });
 
-  // okay, the onboarding object is created, now it's necessary to create pages and blocks in it
-  const avatarBlock = createAvatarBlock();
-  const headerBlock = createHeaderBlock(onboarding);
-  const profile = await getDbClient().profile.create({
-    data: {
-      userId: user.id,
-      link: onboardingRequest.link
-    }
-  });
-  const homePage = await getDbClient().page.create({
-    data: {
-      profileId: profile.id,
-      title: "Home",
-      isHome: true,
-    }
-  });
-  await getDbClient().block.create({
-    data: {
-      pageId: homePage.id,
-      order: avatarBlock.order,
-      type: avatarBlock.type,
-      props: avatarBlock.props as object
-    }
-  });
-  await getDbClient().block.create({
-    data: {
-      pageId: homePage.id,
-      order: headerBlock.order,
-      type: headerBlock.type,
-      props: headerBlock.props as object
-    }
-  });
-  await getDbClient().onboarding.update({
-    where: { id: onboarding.id },
-    data: {
-      isCompleted: true,
-      updatedAt: new Date(),
-    }
-  });
-
-  return new Response(JSON.stringify({ ok: true }), { status: 201 });
+  return Response.json({ ok: updatedOnboarding.isCompleted }, { status: 201 });
 }
 
 function createAvatarBlock(): AvatarBlock {

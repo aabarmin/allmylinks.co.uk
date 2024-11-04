@@ -6,5 +6,5 @@ export async function createOrCompleteOnboarding(request: CreateOnboardingReques
     body: JSON.stringify(request)
   });
 
-  return response.ok;
+  return response.json();
 }

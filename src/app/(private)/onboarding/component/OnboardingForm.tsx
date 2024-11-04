@@ -6,7 +6,7 @@ import { getCurrentUser } from "@/lib/client/userActions";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
-import { redirect } from "next/navigation";
+import { redirect, RedirectType } from "next/navigation";
 import { SyntheticEvent } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { z } from "zod";
@@ -51,13 +51,12 @@ async function completeOnboarding(state: FormState, formData: FormData) {
   if (!user) {
     throw new Error("User not found"); // should never happen
   }
-  await createOrCompleteOnboarding({
+  const onboarding = await createOrCompleteOnboarding({
     name: validationResult.data.name,
     link: validationResult.data.link,
     userId: user.id
   })
-
-  redirect('/dashboard')
+  redirect(`/dashboard?_noCache=${new Date().getTime()}`, RedirectType.push)
 }
 
 function SubmitButton() {
