@@ -21,7 +21,7 @@ export async function uploadFile(file: File, user: User): Promise<UploadedFile> 
   const bucket = process.env.SUPABASE_BUCKET as string;
   const client = getSupabaseClient();
 
-  let fullFilePath = `uploads/user_${user.id}/${filename}`;
+  let fullFilePath = `uploads/user_${user.id}/${Date.now()}_${filename}`;
   let exists = await isFileExists(fullFilePath);
   while (exists) {
     fullFilePath = `uploads/user_${user.id}/${Date.now()}_${filename}`;
