@@ -1,7 +1,5 @@
-import { getDbClient } from "@/lib/server/dbClient";
-import { getCurrentUserId } from "@/lib/server/userActions";
-import fs from "fs";
-import path from "path";
+import { uploadFile } from "@/lib/server/storageActions";
+import { getCurrentUser } from "@/lib/server/userActions";
 import { FileUploadResponse } from "./FileUploadResponse";
 
 export async function POST(
@@ -9,7 +7,7 @@ export async function POST(
 ) {
   const formData = await request.formData()
   const file = formData.get('file') as File
-  const currentUser = await getCurrentUserId();
+  const currentUser = await getCurrentUser();
 
   if (!currentUser) {
     return new Response('Unauthorized', { status: 401 })
@@ -18,31 +16,11 @@ export async function POST(
     return new Response('No file found in request', { status: 400 })
   }
 
-  const buffer = Buffer.from(await file.arrayBuffer())
-  const filename = file.name.replaceAll(" ", "_");
-
-  const uploadsPath = path.join(process.cwd(), 'public', 'uploads');
-  if (!fs.existsSync(uploadsPath)) {
-    fs.mkdirSync(uploadsPath, { recursive: true })
-  }
-
-  let targetFileName = filename;
-  while (fs.existsSync(path.join(uploadsPath, targetFileName))) {
-    targetFileName = `${Date.now()}_${filename}`;
-  }
-
-  fs.writeFileSync(path.join(uploadsPath, targetFileName), buffer);
-
-  const created = await getDbClient().uploadedFile.create({
-    data: {
-      authorId: currentUser,
-      filePath: path.join('uploads', targetFileName),
-      fileName: targetFileName
-    }
-  })
+  const uploadedFile = await uploadFile(file, currentUser)
   const response: FileUploadResponse = {
-    filePath: '/' + created.filePath,
+    filePath: uploadedFile.publicUrl,
+    fileId: uploadedFile.id,
   }
 
-  return Response.json(response)
+  return Response.json(response);
 }

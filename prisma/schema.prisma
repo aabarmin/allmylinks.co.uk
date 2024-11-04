@@ -50,11 +50,14 @@ model Block {
 model UploadedFile {
   id        Int       @id @default(autoincrement())
   authorId  Int       @map("author_id")
-  filePath  String    @map("file_path")
-  fileName  String    @map("file_name")
+  filePath  String    @map("file_path") @db.VarChar(1024)
+  fileName  String    @map("file_name") @db.VarChar(1024)
+  publicUrl String    @map("public_url") @db.VarChar(4096)
+  bucket    String    @db.VarChar(255)
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @map("updated_at")
 
+  @@unique([bucket, filePath])
   @@map("uploaded_files")
 }
 

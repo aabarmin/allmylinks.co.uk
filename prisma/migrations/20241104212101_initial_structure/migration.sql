@@ -40,8 +40,10 @@ CREATE TABLE "blocks" (
 CREATE TABLE "uploaded_files" (
     "id" SERIAL NOT NULL,
     "author_id" INTEGER NOT NULL,
-    "file_path" TEXT NOT NULL,
-    "file_name" TEXT NOT NULL,
+    "file_path" VARCHAR(1024) NOT NULL,
+    "file_name" VARCHAR(1024) NOT NULL,
+    "public_url" VARCHAR(4096) NOT NULL,
+    "bucket" VARCHAR(255) NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3),
 
@@ -63,6 +65,29 @@ CREATE TABLE "users" (
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "onboarding" (
+    "id" SERIAL NOT NULL,
+    "user_id" INTEGER NOT NULL,
+    "is_completed" BOOLEAN NOT NULL DEFAULT false,
+    "link" VARCHAR(255) NOT NULL,
+    "name" VARCHAR(255) NOT NULL,
+    "social_networks" TEXT[],
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3),
+
+    CONSTRAINT "onboarding_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "subscriptions" (
+    "id" SERIAL NOT NULL,
+    "email" VARCHAR(255) NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "subscriptions_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "profiles_link_key" ON "profiles"("link");
 
@@ -70,7 +95,19 @@ CREATE UNIQUE INDEX "profiles_link_key" ON "profiles"("link");
 CREATE UNIQUE INDEX "profiles_user_id_key" ON "profiles"("user_id");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "uploaded_files_bucket_file_path_key" ON "uploaded_files"("bucket", "file_path");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "onboarding_user_id_key" ON "onboarding"("user_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "onboarding_link_key" ON "onboarding"("link");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "subscriptions_email_key" ON "subscriptions"("email");
 
 -- AddForeignKey
 ALTER TABLE "pages" ADD CONSTRAINT "pages_profile_id_fkey" FOREIGN KEY ("profile_id") REFERENCES "profiles"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
