@@ -4,9 +4,8 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'yqjsvtvuijrxouydakwm.supabase.co',
-        port: '',
-        search: '',
+        hostname: 'no0tkfarxdryefpq.public.blob.vercel-storage.com',
+        port: ''
       }
     ]
   }

@@ -8,8 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "postinstall": "npx prisma generate && npx prisma migrate deploy",
-    "migrate-reset": "dotenv -e .env.local -- npx prisma migrate reset",
-    "migrate-supabase": "dotenv -e .env.supabase -- npx prisma migrate deploy"
+    "migrate-reset": "dotenv -e .env.local -- npx prisma migrate reset"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -22,7 +21,7 @@
     "@mui/material": "^6.1.4",
     "@prisma/adapter-pg": "^5.21.1",
     "@prisma/client": "^5.21.1",
-    "@supabase/supabase-js": "^2.46.1",
+    "@vercel/blob": "^0.25.1",
     "next": "14.2.15",
     "next-auth": "^5.0.0-beta.25",
     "npx": "^10.2.2",
