@@ -15,11 +15,12 @@ async function isFileExists(fullFilePath: string): Promise<boolean> {
 
 export async function uploadFile(file: File, user: User): Promise<UploadedFile> {
   const filename = file.name.replaceAll(" ", "_");
+  const env = process.env.APP_ENVIRONMENT || 'dev';
 
-  let fullFilePath = `uploads/user_${user.id}/${Date.now()}_${filename}`;
+  let fullFilePath = `${env}/uploads/user_${user.id}/${Date.now()}_${filename}`;
   let exists = await isFileExists(fullFilePath);
   while (exists) {
-    fullFilePath = `uploads/user_${user.id}/${Date.now()}_${filename}`;
+    fullFilePath = `${env}/uploads/user_${user.id}/${Date.now()}_${filename}`;
     exists = await isFileExists(fullFilePath);
   }
 
