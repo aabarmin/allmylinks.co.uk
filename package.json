@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "npx prisma generate",
-    "migrate-reset": "dotenv -e .ev.local -- npx prisma migrate reset",
+    "postinstall": "npx prisma generate && npx prisma migrate deploy",
+    "migrate-reset": "dotenv -e .env.local -- npx prisma migrate reset",
     "migrate-supabase": "dotenv -e .env.supabase -- npx prisma migrate deploy"
   },
   "prisma": {
