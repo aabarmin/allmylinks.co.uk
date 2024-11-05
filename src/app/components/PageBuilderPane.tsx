@@ -8,20 +8,19 @@ import Box from "@mui/material/Box";
 import { UserLinkPreview } from "../(private)/dashboard/component/UserLinkPreview";
 import { Blocks } from "./Blocks";
 import { PageBlockList } from "./PageBlockList";
-import { PageDetails } from "./PageDetails";
 
 export function PageBuilderPane() {
   return (
     <Box>
       <UserLinkPreview />
-      <Accordion>
+      {/* <Accordion>
         <AccordionSummary expandIcon={<ExpandMore />}>
           Page details
         </AccordionSummary>
         <AccordionDetails>
           <PageDetails />
         </AccordionDetails>
-      </Accordion>
+      </Accordion> */}
       <Accordion defaultExpanded>
         <AccordionSummary expandIcon={<ExpandMore />}>
           Blocks

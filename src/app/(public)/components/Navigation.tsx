@@ -29,7 +29,7 @@ export async function Navigation() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            AML
           </Typography>
 
           <Stack direction="row" spacing={2} sx={{ flexGrow: 1 }}>

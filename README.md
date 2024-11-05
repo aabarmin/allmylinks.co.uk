@@ -3,7 +3,7 @@
 Will use `docker-compose.yml` file with the PostgreSQL and Adminer.
 
 ```shell
-podman compose up
+docker compose up
 ```
 
 ## Running Prisma Migrations
