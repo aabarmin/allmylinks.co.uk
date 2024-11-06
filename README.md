@@ -19,3 +19,7 @@ Populates the database from the `prisma/seed.ts` script.
 ```shell
 npx prisma db seed
 ```
+
+## Todo
+
+Emails to create: `hello`, `privacy`. 
