@@ -70,6 +70,14 @@ export class Page {
     });
   }
 
+  public withoutBlock(block: Block<object>): Page {
+    return this.clone(newPage => {
+      newPage.blocks = this.blocks.filter(b => b.id !== block.id);
+      newPage.blocks.forEach((b, i) => b.order = i + 1);
+      return newPage;
+    });
+  }
+
   private clone(callback: (page: Page) => Page): Page {
     const newPage = new Page(this.id, this.title);
     newPage.blocks = this.blocks;

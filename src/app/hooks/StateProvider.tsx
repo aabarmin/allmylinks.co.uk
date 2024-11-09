@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useReducer } from "react";
 import { ApplicationState } from "./ApplicationState";
 import { BlockAddRequest } from "./block/BlockAddRequest";
+import { BlockDeleteRequest } from "./block/BlockDeleteRequest";
 import { BlockMoveDownRequest } from "./block/BlockMoveDownRequest";
 import { BlockMoveUpRequest } from "./block/BlockMoveUpRequest";
 import { BlockSelectRequest } from "./block/BlockSelectRequest";
@@ -56,6 +57,10 @@ function stateReducer(state: ApplicationState, action: StateChangeRequest) {
     case StateChangeRequestType.BLOCK_MOVE_DOWN: {
       const payload = action as BlockMoveDownRequest<object>;
       return state.withBlockMovedDown(payload.page, payload.block);
+    }
+    case StateChangeRequestType.BLOCK_DELETE: {
+      const payload = action as BlockDeleteRequest<object>;
+      return state.withoutBlock(payload.page, payload.block);
     }
     case StateChangeRequestType.LEFT_PANEL_CHANGE: {
       const payload = action as LeftPanelChangeRequest;

@@ -10,7 +10,7 @@ export async function GET(
   if (!block) {
     return respondNotFound("Block not found");
   }
-  moveBlock(block, "up");
+  await moveBlock(block, "up");
 
   return Response.json({ ok: true });
 }

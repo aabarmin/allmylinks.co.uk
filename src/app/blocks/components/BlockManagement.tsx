@@ -67,7 +67,7 @@ export function BlockManagement({ block, disabled, setLoading }: BlockManagement
     onMenuClose();
     deleteBlock(block)
       .then(() => {
-        dispatch(new BlockDeleteRequest(block));
+        dispatch(new BlockDeleteRequest(state.getCurrentPage(), block));
       })
       .finally(() => setLoading(false));
   }

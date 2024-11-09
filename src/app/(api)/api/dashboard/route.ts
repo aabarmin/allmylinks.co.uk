@@ -20,7 +20,16 @@ export async function GET() {
   }
   const pages: PageWithBlocks[] = await getDbClient().page.findMany({
     where: { profileId: profile.id },
-    include: { blocks: true },
+    include: {
+      blocks: {
+        orderBy: {
+          order: 'asc'
+        },
+        where: {
+          isDeleted: false
+        }
+      }
+    },
     orderBy: {
       isHome: 'desc'
     }

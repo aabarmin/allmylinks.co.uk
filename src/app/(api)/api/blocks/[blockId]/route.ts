@@ -1,6 +1,25 @@
+import { deleteBlock } from "@/lib/server/blockActions";
 import { getDbClient } from "@/lib/server/dbClient";
 import { z } from "zod";
+import { respondNotFound } from "../../restUtils";
 import { UpdateBlockRequest } from "./UpdateBlockRequest";
+
+export async function DELETE(
+  request: Request,
+  { params }: { params: Promise<{ blockId: string }> }
+) {
+  const blockId = (await params).blockId;
+
+  const block = await getDbClient().block.findUnique({
+    where: { id: +blockId },
+  })
+  if (!block) {
+    return respondNotFound("Block not found")
+  }
+  await deleteBlock(block)
+
+  return Response.json({ 'ok': true })
+}
 
 export async function PATCH(
   request: Request,

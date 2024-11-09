@@ -13,9 +13,6 @@ export type PageResponse = {
 }
 
 function toSinglePageResponse(page: PageWithBlocks): SinglePageResponse {
-  // todo, extract in correct order from the db
-  page.blocks.sort((a, b) => a.order - b.order);
-
   return {
     id: page.id,
     title: page.title,

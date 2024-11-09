@@ -126,6 +126,18 @@ export class ApplicationState {
     });
   }
 
+  public withoutBlock(page: Page, block: Block<object>): ApplicationState {
+    return this.clone(newState => {
+      newState.pages = this.pages.map(p => {
+        if (p.id != page.id) {
+          return p;
+        }
+        return p.withoutBlock(block);
+      });
+      return newState;
+    });
+  }
+
   public withUpdatedPage(page: Page, callback: (page: Page) => Page): ApplicationState {
     return this.clone(newState => {
       newState.pages = this.pages.map(p => {

@@ -17,6 +17,30 @@ export async function getBlock(id: number) {
   });
 }
 
+export async function deleteBlock(block: Block) {
+  const blocks = await getPageBlocks(block.pageId);
+  await getDbClient().$transaction(async (tx) => {
+    let index = 1;
+    for (const b of blocks) {
+      if (b.id === block.id) {
+        await tx.block.update({
+          where: { id: b.id },
+          data: {
+            isDeleted: true,
+            order: 999
+          },
+        });
+        continue;
+      }
+      await tx.block.update({
+        where: { id: b.id },
+        data: { order: index },
+      });
+      index++;
+    }
+  });
+}
+
 export async function moveBlock(block: Block, direction: "up" | "down") {
   const blocks = await getPageBlocks(block.pageId);
   const currentIndex = blocks.findIndex(b => b.id === block.id);
