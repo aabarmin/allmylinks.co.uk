@@ -31,3 +31,36 @@ export async function updateBlock<T extends object>(block: Block<T>, props: T): 
 
   return await response.json();
 }
+
+export async function moveUpBlock(block: Block<object>): Promise<void> {
+  const response = await fetch(`/api/blocks/${block.id}/up`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  });
+
+  return await response.json();
+}
+
+export async function moveDownBlock(block: Block<object>): Promise<void> {
+  const response = await fetch(`/api/blocks/${block.id}/down`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  });
+
+  return await response.json();
+}
+
+export async function deleteBlock(block: Block<object>): Promise<void> {
+  const response = await fetch(`/api/blocks/${block.id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  });
+
+  return await response.json();
+}

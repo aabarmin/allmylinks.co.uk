@@ -3,6 +3,8 @@
 import React, { createContext, useContext, useReducer } from "react";
 import { ApplicationState } from "./ApplicationState";
 import { BlockAddRequest } from "./block/BlockAddRequest";
+import { BlockMoveDownRequest } from "./block/BlockMoveDownRequest";
+import { BlockMoveUpRequest } from "./block/BlockMoveUpRequest";
 import { BlockSelectRequest } from "./block/BlockSelectRequest";
 import { BlockUpdatePropsRequest } from "./block/BlockUpdatePropsRequest";
 import { DashboardLoadDataRequest } from "./global/DashboardLoadDataRequest";
@@ -46,6 +48,14 @@ function stateReducer(state: ApplicationState, action: StateChangeRequest) {
     case StateChangeRequestType.BLOCK_UPDATE_PROPS: {
       const payload = action as BlockUpdatePropsRequest<object>
       return state.withUpdatedBlock(payload.block, payload.callback)
+    }
+    case StateChangeRequestType.BLOCK_MOVE_UP: {
+      const payload = action as BlockMoveUpRequest<object>;
+      return state.withBlockMovedUp(payload.page, payload.block);
+    }
+    case StateChangeRequestType.BLOCK_MOVE_DOWN: {
+      const payload = action as BlockMoveDownRequest<object>;
+      return state.withBlockMovedDown(payload.page, payload.block);
     }
     case StateChangeRequestType.LEFT_PANEL_CHANGE: {
       const payload = action as LeftPanelChangeRequest;

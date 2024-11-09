@@ -42,6 +42,7 @@ model Block {
   order     Int
   type      String    @map("type") @db.VarChar(255)
   props     Json
+  isDeleted Boolean   @default(false) @map("is_deleted")
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @map("updated_at")
 

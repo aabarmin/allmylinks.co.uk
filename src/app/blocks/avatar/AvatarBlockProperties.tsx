@@ -8,6 +8,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 import Stack from "@mui/material/Stack";
 import Image from "next/image";
 import { BaseSyntheticEvent, useEffect, useRef, useState } from "react";
+import { BlockManagement } from "../components/BlockManagement";
 import { AvatarBlock, AvatarBlockProps, DEFAULT_AVATAR } from "./AvatarBlock";
 
 export function AvatarBlockProperties(block: AvatarBlock) {
@@ -78,6 +79,10 @@ export function AvatarBlockProperties(block: AvatarBlock) {
           onClick={saveChanges}>
           Save
         </Button>
+        <BlockManagement
+          block={block}
+          setLoading={setLoading}
+          disabled={isLoading} />
       </Box>
 
       {isLoading && <LinearProgress />}

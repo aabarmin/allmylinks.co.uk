@@ -11,6 +11,7 @@ import Select from "@mui/material/Select";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import { useEffect, useState } from "react";
+import { BlockManagement } from "../components/BlockManagement";
 import { SocialNetwork, SocialNetworksBlock, SocialNetworksBlockProps } from "./SocialNetworksBlock";
 
 function arrayCopyAndAdd<T>(arr: T[], item: T): T[] {
@@ -107,6 +108,10 @@ export function SocialNetworksBlockProperties(block: SocialNetworksBlock) {
           onClick={saveForm}>
           Save
         </Button>
+        <BlockManagement
+          block={block}
+          setLoading={setLoading}
+          disabled={isLoading} />
       </Box>
 
       {isLoading && <LinearProgress />}

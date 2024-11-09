@@ -15,6 +15,7 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import { z } from "zod";
+import { BlockManagement } from "../components/BlockManagement";
 import { HeaderAlignment, HeaderBlock, HeaderBlockProps, HeaderLevel } from "./HeaderBlock";
 
 type FormState = {
@@ -98,6 +99,10 @@ export function HeaderBlockProperties(block: HeaderBlock) {
           disabled={isLoading}>
           Save
         </Button>
+        <BlockManagement
+          block={block}
+          setLoading={setLoading}
+          disabled={isLoading} />
       </Box>
 
       {isLoading && <LinearProgress />}
