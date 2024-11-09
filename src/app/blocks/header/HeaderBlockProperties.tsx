@@ -2,18 +2,36 @@ import { BlockUpdatePropsRequest } from "@/app/hooks/block/BlockUpdatePropsReque
 import { useAppState } from "@/app/hooks/StateProvider";
 import { updateBlock } from "@/lib/client/blockActions";
 import { FormatAlignCenter, FormatAlignLeft, FormatAlignRight } from "@mui/icons-material";
+import { FormHelperText } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import LinearProgress from "@mui/material/LinearProgress";
+import MenuItem from "@mui/material/MenuItem";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
+import { z } from "zod";
 import { HeaderAlignment, HeaderBlock, HeaderBlockProps, HeaderLevel } from "./HeaderBlock";
 
+type FormState = {
+  errors?: {
+    level?: string[],
+    alignment?: string[],
+    text?: string[]
+  }
+} | undefined;
+
 export function HeaderBlockProperties(block: HeaderBlock) {
+  const validatinonScheme = z.object({
+    level: z.string(),
+    alignment: z.string(),
+    text: z.string().min(3)
+  });
+  const [validation, setValidation] = useState<FormState>();
   const { state, dispatch } = useAppState();
   const [isLoading, setLoading] = useState(false);
   const [form, setFormData] = useState(({
@@ -33,6 +51,16 @@ export function HeaderBlockProperties(block: HeaderBlock) {
     props.level = HeaderLevel[form['level'] as keyof typeof HeaderLevel]
     props.text = form['text']
     setLoading(true);
+
+    const validationResult = validatinonScheme.safeParse(props);
+    if (!validationResult.success) {
+      setLoading(false);
+      setValidation({
+        errors: validationResult.error.flatten().fieldErrors
+      });
+      return;
+    }
+    setValidation(undefined);
 
     updateBlock(block, props).then(() => {
       setLoading(false);
@@ -75,6 +103,24 @@ export function HeaderBlockProperties(block: HeaderBlock) {
       {isLoading && <LinearProgress />}
 
       <Typography>
+        Level:
+      </Typography>
+
+      <Select
+        placeholder="Header level"
+        value={form['level']}
+        onChange={(e: SelectChangeEvent) => handleInput('level', e.target.value)}>
+        <MenuItem value={HeaderLevel.H1}>Level 1</MenuItem>
+        <MenuItem value={HeaderLevel.H2}>Level 2</MenuItem>
+        <MenuItem value={HeaderLevel.H3}>Level 3</MenuItem>
+      </Select>
+      {validation?.errors?.level && (
+        <FormHelperText error>
+          {validation.errors.level.join(', ')}
+        </FormHelperText>
+      )}
+
+      <Typography>
         Alignment:
       </Typography>
 
@@ -93,45 +139,20 @@ export function HeaderBlockProperties(block: HeaderBlock) {
           <FormatAlignRight />
         </ToggleButton>
       </ToggleButtonGroup>
+      {validation?.errors?.alignment && (
+        <FormHelperText error>
+          {validation.errors.alignment.join(', ')}
+        </FormHelperText>
+      )}
 
       <TextField
         disabled={isLoading}
         label="Text"
         onChange={(e) => handleInput('text', e.target.value)}
+        error={!!validation?.errors?.text}
+        helperText={validation?.errors?.text?.join(', ')}
         value={form['text']}
       />
-
-      {/* <FormControl>
-        <FormLabel>Level:</FormLabel>
-        <Select placeholder="Header level" value={form['level']} onChange={(e, v) => handleInput('level', v)}>
-          <Option value={HeaderLevel.H1}>Level 1</Option>
-          <Option value={HeaderLevel.H2}>Level 2</Option>
-          <Option value={HeaderLevel.H3}>Level 3</Option>
-        </Select>
-      </FormControl>
-
-      <FormControl>
-        <FormLabel>Alignment:</FormLabel>
-        <ToggleButtonGroup value={form['alignment']} onChange={(e, v) => handleInput('alignment', v)}>
-          <IconButton value={HeaderAlignment.LEFT}>
-            <FormatAlignLeft />
-          </IconButton>
-          <IconButton value={HeaderAlignment.CENTER}>
-            <FormatAlignCenter />
-          </IconButton>
-          <IconButton value={HeaderAlignment.RIGHT}>
-            <FormatAlignRight />
-          </IconButton>
-        </ToggleButtonGroup>
-      </FormControl>
-
-      <FormControl>
-        <FormLabel>Text:</FormLabel>
-        <Input
-          placeholder="Text"
-          value={form['text']}
-          onChange={(e) => handleInput('text', e.target.value)} />
-      </FormControl> */}
     </Stack>
   );
 }
