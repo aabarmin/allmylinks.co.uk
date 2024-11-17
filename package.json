@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "postinstall": "npx prisma generate && npx prisma migrate deploy",
-    "migrate-reset": "dotenv -e .env.local -- npx prisma migrate reset"
+    "migrate-reset": "dotenv -e .env.local -- npx prisma migrate reset",
+    "prepare": "husky"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -40,6 +41,7 @@
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.2.15",
+    "husky": "^9.1.6",
     "prisma": "^5.21.1",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.2",
