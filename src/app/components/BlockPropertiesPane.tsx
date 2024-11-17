@@ -5,6 +5,8 @@ import { AvatarBlock } from "../blocks/avatar/AvatarBlock";
 import { AvatarBlockProperties } from "../blocks/avatar/AvatarBlockProperties";
 import { HeaderBlock } from "../blocks/header/HeaderBlock";
 import { HeaderBlockProperties } from "../blocks/header/HeaderBlockProperties";
+import { LinkButtonBlock } from "../blocks/link-button/LinkButtonBlock";
+import { LinkButtonBlockProperties } from "../blocks/link-button/LinkButtonBlockProperties";
 import { SocialNetworksBlock } from "../blocks/networks/SocialNetworksBlock";
 import { SocialNetworksBlockProperties } from "../blocks/networks/SocialNetworksBlockProperties";
 import { useAppState } from "../hooks/StateProvider";
@@ -38,6 +40,10 @@ function getBlockProperties(block: Block<object> | undefined) {
     case BlockType.BLOCK_SOCIAL_NETWORKS: {
       const b = block as SocialNetworksBlock
       return <SocialNetworksBlockProperties {...b} />
+    }
+    case BlockType.BLOCK_LINK_BUTTON: {
+      const b = block as LinkButtonBlock;
+      return <LinkButtonBlockProperties {...b} />
     }
     default: return <NoBlockProperties type={block.type} />
   }

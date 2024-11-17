@@ -26,7 +26,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     )
   }
   const pageBlocks = await getDbClient().block.findMany({
-    where: { pageId: homePage.id },
+    where: { pageId: homePage.id, isDeleted: false },
     orderBy: { order: 'asc' }
   })
   const nodes: React.ReactNode[] = blocksToReactNodes(recordsToBlocks(pageBlocks))

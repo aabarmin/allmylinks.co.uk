@@ -1,11 +1,12 @@
 'use client';
 
-import { AccountCircle, ThumbUp, Title } from "@mui/icons-material";
+import { AccountCircle, AddLink, ThumbUp, Title } from "@mui/icons-material";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
+import { UnknownBlock } from "../blocks/UnknownBlock";
 import { BlockSelectRequest } from "../hooks/block/BlockSelectRequest";
 import { useAppState } from "../hooks/StateProvider";
 import { BlockType } from "../model/Block";
@@ -51,6 +52,22 @@ export function PageBlockList() {
                 </ListItemIcon>
                 Social Networks
               </ListItemButton>
+            )
+          } else if (block.type == BlockType.BLOCK_LINK_BUTTON) {
+            return (
+              <ListItemButton key={block.id} onClick={() => blockSelect(block.id)}>
+                <ListItemIcon>
+                  <AddLink />
+                </ListItemIcon>
+                Link Button
+              </ListItemButton>
+            )
+          } else if (block.type == BlockType.UNKNOWN) {
+            const b = block as UnknownBlock
+            return (
+              <ListItem key={block.id} onClick={() => blockSelect(block.id)}>
+                Unknown block of type {b.props.realType}, update PageBlockList and pageBlockUtils
+              </ListItem>
             )
           } else {
             return (

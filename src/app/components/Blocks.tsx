@@ -1,7 +1,8 @@
 'use client';
 
 import { addBlock } from "@/lib/client/blockActions";
-import { AccountCircle, Title } from "@mui/icons-material";
+import { AccountCircle, AddLink, Title } from "@mui/icons-material";
+import ThumbUp from "@mui/icons-material/ThumbUp";
 import LinearProgress from "@mui/material/LinearProgress";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -9,6 +10,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import { useState } from "react";
 import { AvatarBlock, AvatarBlockProps } from "../blocks/avatar/AvatarBlock";
 import { HeaderBlock, HeaderBlockProps } from "../blocks/header/HeaderBlock";
+import { LinkButtonBlock, LinkButtonBlockProps } from "../blocks/link-button/LinkButtonBlock";
 import { SocialNetworksBlock, SocialNetworksBlockProps } from "../blocks/networks/SocialNetworksBlock";
 import { BlockAddRequest } from "../hooks/block/BlockAddRequest";
 import { useAppState } from "../hooks/StateProvider";
@@ -66,6 +68,22 @@ export function Blocks() {
       });
   }
 
+  const addLinkButton = () => {
+    setLoading(true)
+    addBlock(state.getCurrentPage(), BlockType.BLOCK_LINK_BUTTON)
+      .then(r => {
+        dispatch(new BlockAddRequest(
+          state.getCurrentPage(),
+          new LinkButtonBlock(
+            r.id,
+            r.order,
+            new LinkButtonBlockProps()
+          )
+        ));
+      })
+      .finally(() => setLoading(false));
+  };
+
   return (
     <>
       {isLoading && <LinearProgress />}
@@ -88,9 +106,16 @@ export function Blocks() {
 
         <ListItemButton onClick={addSocialNetworks} disabled={isLoading}>
           <ListItemIcon>
-            <Title />
+            <ThumbUp />
           </ListItemIcon>
           Social Networks
+        </ListItemButton>
+
+        <ListItemButton onClick={addLinkButton} disabled={isLoading}>
+          <ListItemIcon>
+            <AddLink />
+          </ListItemIcon>
+          Link Button
         </ListItemButton>
       </List>
     </>

@@ -2,8 +2,11 @@ import { AvatarBlock, AvatarBlockOptionalProps, AvatarBlockProps, fromOptionalPr
 import AvatarBlockComponent from "@/app/blocks/avatar/AvatarBlockComponent";
 import { HeaderBlock, HeaderBlockOptionalProps, HeaderBlockProps, fromOptionalProps as headerFromOptionalProps } from "@/app/blocks/header/HeaderBlock";
 import { HeaderBlockComponent } from "@/app/blocks/header/HeaderBlockComponent";
+import { fromOptionalProps as lbFromOptionalProps, LinkButtonBlock, LinkButtonBlockOptionalProps, LinkButtonBlockProps } from "@/app/blocks/link-button/LinkButtonBlock";
+import { LinkButtonBlockComponent } from "@/app/blocks/link-button/LinkButtonBlockComponent";
 import { fromOptionalProps as snFromOptionalProps, SocialNetworksBlock, SocialNetworksBlockProps, SocialNetworksOptionalProps } from "@/app/blocks/networks/SocialNetworksBlock";
 import { SocialNetworksBlockComponent } from "@/app/blocks/networks/SocialNetworksBlockComponent";
+import { UnknownBlock } from "@/app/blocks/UnknownBlock";
 import { Block, BlockType } from "@/app/model/Block";
 import { BlockLikeRecord } from "@/app/model/BlockLikeRecord";
 
@@ -37,9 +40,16 @@ export function recordToBlock(record: BlockLikeRecord): Block<object> {
       const props = record.props as SocialNetworksOptionalProps
       return new SocialNetworksBlock(record.id, record.order, snFromOptionalProps(props));
     }
+    case BlockType.BLOCK_LINK_BUTTON: {
+      const props = record.props as LinkButtonBlockOptionalProps
+      return new LinkButtonBlock(record.id, record.order, lbFromOptionalProps(props));
+    }
+    default: {
+      return new UnknownBlock(record.id, record.order, {
+        realType: record.type,
+      });
+    }
   }
-
-  throw new Error(`Block of type ${record.type} not supported`);
 }
 
 function blockToReactNode(block: Block<object>): React.ReactNode {
@@ -56,6 +66,10 @@ function blockToReactNode(block: Block<object>): React.ReactNode {
       const props = block.props as SocialNetworksBlockProps
       return <SocialNetworksBlockComponent key={block.id} {...props} />
     }
-    default: <div key={999}>No block of type {block.type}</div>
+    case BlockType.BLOCK_LINK_BUTTON: {
+      const props = block.props as LinkButtonBlockProps
+      return <LinkButtonBlockComponent key={block.id} {...props} />
+    }
+    default: return (<div key={999}>No block of type {block.type}, update block Utils</div>)
   }
 }

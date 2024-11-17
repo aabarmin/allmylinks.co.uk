@@ -1,6 +1,7 @@
 import { BlockType } from "@/app/model/Block";
 import { getDbClient } from "@/lib/server/dbClient";
 import { z } from "zod";
+import { respondInvalidRequest } from "../../../restUtils";
 import { CreateBlockResponse } from "./CrateBlockResponse";
 import { CreateBlockRequest } from "./CreateBlockRequest";
 
@@ -12,14 +13,16 @@ export async function POST(
   const requestBody = (await request.json()) as CreateBlockRequest;
 
   const createRequest = z.object({
-    type: z.enum([BlockType.BLOCK_AVATAR, BlockType.BLOCK_HEADER, BlockType.BLOCK_SOCIAL_NETWORKS]),
+    type: z.enum([
+      BlockType.BLOCK_AVATAR,
+      BlockType.BLOCK_HEADER,
+      BlockType.BLOCK_SOCIAL_NETWORKS,
+      BlockType.BLOCK_LINK_BUTTON
+    ]),
   });
   const parsingResult = createRequest.safeParse(requestBody);
   if (!parsingResult.success) {
-    return Response.json({
-      error: 'Invalid request body',
-      errors: parsingResult.error
-    }, { status: 400 });
+    return respondInvalidRequest(parsingResult.error);
   }
 
   const page = await getDbClient().page.findUnique({
