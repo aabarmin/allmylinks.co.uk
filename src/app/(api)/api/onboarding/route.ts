@@ -41,7 +41,8 @@ export async function POST(request: Request) {
     const profile = await tx.profile.create({
       data: {
         userId: user.id,
-        link: onboardingRequest.link
+        link: onboardingRequest.link,
+        active: true,
       }
     });
     const homePage = await tx.page.create({

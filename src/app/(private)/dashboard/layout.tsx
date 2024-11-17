@@ -2,9 +2,10 @@ import "@/app/globals.css";
 import { StateProvider } from "@/app/hooks/StateProvider";
 import { isOnboardingCompleted } from "@/lib/server/onboardingActions";
 import { getCurrentUser } from "@/lib/server/userActions";
-import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { PrivateNavigation } from "./components/PrivateNavigation";
 
 export const metadata: Metadata = {
   title: "All My Links",
@@ -26,10 +27,13 @@ export default async function RootLayout({
   }
 
   return (
-    <Box sx={{ height: '100vh' }}>
-      <StateProvider>
-        {children}
-      </StateProvider>
-    </Box>
+    <>
+      <PrivateNavigation />
+      <Paper elevation={0}>
+        <StateProvider>
+          {children}
+        </StateProvider>
+      </Paper>
+    </>
   );
 }

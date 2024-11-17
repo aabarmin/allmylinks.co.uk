@@ -11,3 +11,7 @@ export function respondInvalidRequest(error: ZodError): Response {
 export function respondNotFound(message?: string): Response {
   return Response.json({ error: message ? message : "Not found" }, { status: 404 });
 }
+
+export function respondServerError(message?: string): Response {
+  return Response.json({ error: message ? message : "Internal server error" }, { status: 500 });
+}

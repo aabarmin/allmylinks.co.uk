@@ -79,3 +79,7 @@ export async function onNewUserRegistered(user: User): Promise<void> {
     sendEmail(user, EmailTemplate.REGISTERED)
   ]).then();
 }
+
+export async function deactivateUser(user: User): Promise<User> {
+  return user;
+}
