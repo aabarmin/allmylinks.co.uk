@@ -2,90 +2,90 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <body>
 
-    <div th:fragment="content">
-        <div class="container">
-            <div class="row">
+<div th:fragment="content">
+  <div class="container">
+    <div class="row">
 
-                <div class="col">
-                    <th:block th:replace="~{public/components-home/why-us :: why-us-left}"></th:block>
-                </div>
-                <div class="col">
-                    <th:block th:replace="~{public/components-home/why-us :: why-us-right}"></th:block>
-                </div>
+      <div class="col">
+        <th:block th:replace="~{public/components-home/why-us :: why-us-left}"></th:block>
+      </div>
+      <div class="col">
+        <th:block th:replace="~{public/components-home/why-us :: why-us-right}"></th:block>
+      </div>
 
-            </div>
-        </div>
     </div>
+  </div>
+</div>
 
-    <div th:fragment="why-us-left">
+<div th:fragment="why-us-left">
+  <h5>
+    Why choose us?
+  </h5>
+
+  <p>
+    With powerful customization options and versatile content blocks, your profile will rise above the noise.
+    Plus, we are more affordable than the competition and an excellent choice for teams.
+  </p>
+
+  <a class="btn btn-primary btn-lg"
+     type="button"
+     th:href="@{/private/dashboard}">
+    Get started
+  </a>
+</div>
+
+<div th:fragment="why-us-right">
+  <div class="container">
+    <div class="row">
+      <div class="col text-center"
+           style="display: flex; flex-direction: column; ">
+
+        <i class="bi bi-ui-checks-grid" style="font-size: 5em"></i>
         <h5>
-            Why choose us?
+          More customizable
         </h5>
-
         <p>
-            With powerful customization options and versatile content blocks, your profile will rise above the noise.
-            Plus, we are more affordable than the competition and an excellent choice for teams.
+          With powerful customization options and versatile content blocks, your profile will rise above the noise.
         </p>
+      </div>
+      <div class="col text-center"
+           style="display: flex; flex-direction: column; ">
 
-        <a class="btn btn-primary btn-lg"
-           type="button"
-           th:href="@{/private/dashboard}">
-            Get started
-        </a>
+        <i class="bi bi-battery-charging" style="font-size: 5em"></i>
+        <h5>
+          More powerful
+        </h5>
+        <p>
+          Greater variety of block layouts and more options for organization
+        </p>
+      </div>
     </div>
 
-    <div th:fragment="why-us-right">
-        <div class="container">
-            <div class="row">
-                <div class="col text-center"
-                     style="display: flex; flex-direction: column; ">
+    <div class="row">
+      <div class="col text-center"
+           style="display: flex; flex-direction: column; ">
 
-                    <i class="bi bi-ui-checks-grid" style="font-size: 5em"></i>
-                    <h5>
-                        More customizable
-                    </h5>
-                    <p>
-                        With powerful customization options and versatile content blocks, your profile will rise above the noise.
-                    </p>
-                </div>
-                <div class="col text-center"
-                     style="display: flex; flex-direction: column; ">
+        <i class="bi bi-gift" style="font-size: 5em"></i>
+        <h5>
+          More affordable
+        </h5>
+        <p>
+          We are more affordable than the competition and an excellent choice for teams.
+        </p>
+      </div>
+      <div class="col text-center"
+           style="display: flex; flex-direction: column; ">
 
-                    <i class="bi bi-battery-charging" style="font-size: 5em"></i>
-                    <h5>
-                        More powerful
-                    </h5>
-                    <p>
-                        Greater variety of block layouts and more options for organization
-                    </p>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col text-center"
-                     style="display: flex; flex-direction: column; ">
-
-                    <i class="bi bi-gift" style="font-size: 5em"></i>
-                    <h5>
-                        More affordable
-                    </h5>
-                    <p>
-                        We are more affordable than the competition and an excellent choice for teams.
-                    </p>
-                </div>
-                <div class="col text-center"
-                     style="display: flex; flex-direction: column; ">
-
-                    <i class="bi bi-speedometer2" style="font-size: 5em"></i>
-                    <h5>
-                        Live in minutes
-                    </h5>
-                    <p>
-                        Get started in minutes with our easy-to-use interface
-                    </p>
-                </div>
-            </div>
-        </div>
+        <i class="bi bi-speedometer2" style="font-size: 5em"></i>
+        <h5>
+          Live in minutes
+        </h5>
+        <p>
+          Get started in minutes with our easy-to-use interface
+        </p>
+      </div>
     </div>
+  </div>
+</div>
 </body>
 </html>
