@@ -1,7 +1,0 @@
-{
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-        "source.organizeImports": "always"
-    },
-    "editor.tabSize": 2
-}
