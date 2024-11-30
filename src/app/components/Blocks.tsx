@@ -1,70 +1,123 @@
 'use client';
 
-import { AccountCircle, ThumbUp, Title } from "@mui/icons-material";
-import { List, ListItemButton, ListItemDecorator } from "@mui/joy";
-import { AvatarBlock } from "../blocks/AvatarBlock";
-import { HeaderBlock } from "../blocks/HeaderBlock";
-import { SocialNetworksBlock } from "../blocks/SocialNetworksBlock";
+import { addBlock } from "@/lib/client/blockActions";
+import { AccountCircle, AddLink, Title } from "@mui/icons-material";
+import ThumbUp from "@mui/icons-material/ThumbUp";
+import LinearProgress from "@mui/material/LinearProgress";
+import List from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import { useState } from "react";
+import { AvatarBlock, AvatarBlockProps } from "../blocks/avatar/AvatarBlock";
+import { HeaderBlock, HeaderBlockProps } from "../blocks/header/HeaderBlock";
+import { LinkButtonBlock, LinkButtonBlockProps } from "../blocks/link-button/LinkButtonBlock";
+import { SocialNetworksBlock, SocialNetworksBlockProps } from "../blocks/networks/SocialNetworksBlock";
 import { BlockAddRequest } from "../hooks/block/BlockAddRequest";
 import { useAppState } from "../hooks/StateProvider";
+import { BlockType } from "../model/Block";
 
 export function Blocks() {
   const { state, dispatch } = useAppState();
+  const [isLoading, setLoading] = useState<boolean>(false);
 
   const addAvatar = () => {
-    dispatch(new BlockAddRequest(
-      state.getCurrentPage(),
-      new AvatarBlock(
-        state.getCurrentPage().id * 100 + state.getCurrentPage().blocks.length,
-        state.getCurrentPage().id * 100 + state.getCurrentPage().blocks.length
-      )
-    ))
+    setLoading(true)
+    addBlock(state.getCurrentPage(), BlockType.BLOCK_AVATAR)
+      .then(response => {
+        setLoading(false)
+        dispatch(new BlockAddRequest(
+          state.getCurrentPage(),
+          new AvatarBlock(
+            response.id,
+            response.order,
+            new AvatarBlockProps()
+          )
+        ));
+      })
   };
 
   const addHeader = () => {
-    dispatch(new BlockAddRequest(
-      state.getCurrentPage(),
-      new HeaderBlock(
-        state.getCurrentPage().id * 100 + state.getCurrentPage().blocks.length,
-        state.getCurrentPage().id * 100 + state.getCurrentPage().blocks.length
-      )
-    ));
+    setLoading(true)
+    addBlock(state.getCurrentPage(), BlockType.BLOCK_HEADER)
+      .then(response => {
+        setLoading(false)
+        dispatch(new BlockAddRequest(
+          state.getCurrentPage(),
+          new HeaderBlock(
+            response.id,
+            response.order,
+            new HeaderBlockProps()
+          )
+        ))
+      });
   }
 
   const addSocialNetworks = () => {
-    dispatch(new BlockAddRequest(
-      state.getCurrentPage(),
-      new SocialNetworksBlock(
-        state.getCurrentPage().id * 100 + state.getCurrentPage().blocks.length,
-        state.getCurrentPage().id * 100 + state.getCurrentPage().blocks.length
-      )
-    ))
+    setLoading(true)
+    addBlock(state.getCurrentPage(), BlockType.BLOCK_SOCIAL_NETWORKS)
+      .then(response => {
+        setLoading(false)
+        dispatch(new BlockAddRequest(
+          state.getCurrentPage(),
+          new SocialNetworksBlock(
+            response.id,
+            response.order,
+            new SocialNetworksBlockProps()
+          )
+        ))
+      });
   }
 
+  const addLinkButton = () => {
+    setLoading(true)
+    addBlock(state.getCurrentPage(), BlockType.BLOCK_LINK_BUTTON)
+      .then(r => {
+        dispatch(new BlockAddRequest(
+          state.getCurrentPage(),
+          new LinkButtonBlock(
+            r.id,
+            r.order,
+            new LinkButtonBlockProps()
+          )
+        ));
+      })
+      .finally(() => setLoading(false));
+  };
+
   return (
-    <List sx={{
-      p: 2
-    }}>
-      <ListItemButton onClick={addAvatar}>
-        <ListItemDecorator>
-          <AccountCircle />
-        </ListItemDecorator>
-        Avatar
-      </ListItemButton>
+    <>
+      {isLoading && <LinearProgress />}
+      <List sx={{
+        p: 2
+      }}>
+        <ListItemButton onClick={addAvatar} disabled={isLoading}>
+          <ListItemIcon>
+            <AccountCircle />
+          </ListItemIcon>
+          Avatar
+        </ListItemButton>
 
-      <ListItemButton onClick={addHeader}>
-        <ListItemDecorator>
-          <Title />
-        </ListItemDecorator>
-        Header
-      </ListItemButton>
+        <ListItemButton onClick={addHeader} disabled={isLoading}>
+          <ListItemIcon>
+            <Title />
+          </ListItemIcon>
+          Header
+        </ListItemButton>
 
-      <ListItemButton onClick={addSocialNetworks}>
-        <ListItemDecorator>
-          <ThumbUp />
-        </ListItemDecorator>
-        Social Networks
-      </ListItemButton>
-    </List>
+        <ListItemButton onClick={addSocialNetworks} disabled={isLoading}>
+          <ListItemIcon>
+            <ThumbUp />
+          </ListItemIcon>
+          Social Networks
+        </ListItemButton>
+
+        <ListItemButton onClick={addLinkButton} disabled={isLoading}>
+          <ListItemIcon>
+            <AddLink />
+          </ListItemIcon>
+          Link Button
+        </ListItemButton>
+      </List>
+    </>
   );
 }

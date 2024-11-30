@@ -1,3 +1,6 @@
+import { recordsToBlocks } from "@/lib/blockUtils";
+import { DashboardResponse } from "../(api)/api/dashboard/DashboardResponse";
+import { ProfileResponse } from "../(api)/api/dashboard/ProfileResponse";
 import { Block } from "../model/Block";
 import { Page } from "../model/Page";
 
@@ -8,9 +11,17 @@ export class ApplicationState {
   private pages: Page[] = [
     new Page(this.currentPageId, "Home")
   ];
+  private profile?: ProfileResponse;
 
   public getPages(): Page[] {
     return this.pages;
+  }
+
+  public getProfile(): ProfileResponse {
+    if (this.profile == null) {
+      throw new Error("Profile is not set");
+    }
+    return this.profile;
   }
 
   public getCurrentLeftPane(): string {
@@ -47,87 +58,129 @@ export class ApplicationState {
     return blocks[0];
   }
 
-  public withLeftPane(paneAlias: string): ApplicationState {
+  public withInitialData(data: DashboardResponse): ApplicationState {
     const newState = new ApplicationState();
-    newState.currentLeftPane = paneAlias;
-    newState.currentPageId = this.currentPageId;
-    newState.currentBlockId = this.currentBlockId;
-    newState.pages = this.pages;
+    newState.profile = data.profile;
+    newState.currentPageId = data.pages.currentPageId;
+    newState.pages = data.pages.pages.map(p => {
+      const page = new Page(p.id, p.title);
+      page.blocks = recordsToBlocks(p.blocks);
+      return page;
+    })
     return newState;
+  }
+
+  public withLeftPane(paneAlias: string): ApplicationState {
+    return this.clone(newState => {
+      newState.currentLeftPane = paneAlias;
+      return newState;
+    });
   }
 
   public withCurrentPage(page: Page): ApplicationState {
-    const newState = new ApplicationState();
-    newState.currentLeftPane = this.currentLeftPane;
-    newState.currentPageId = page.id;
-    newState.currentBlockId = this.currentBlockId;
-    newState.pages = this.pages;
-    return newState;
+    return this.clone(newState => {
+      newState.currentPageId = page.id;
+      return newState;
+    });
   }
 
   public withCurrentBlock(block: Block<object>): ApplicationState {
-    const newState = new ApplicationState();
-    newState.currentLeftPane = this.currentLeftPane;
-    newState.currentPageId = this.currentPageId;
-    newState.currentBlockId = block.id;
-    newState.pages = this.pages;
-    return newState;
+    return this.clone(newState => {
+      newState.currentBlockId = block.id;
+      return newState;
+    });
   }
 
   public withUpdatedBlock<T extends object>(block: Block<T>, callback: (current: T) => T): ApplicationState {
-    const newState = new ApplicationState();
-    newState.currentLeftPane = this.currentLeftPane;
-    newState.currentPageId = this.currentPageId;
-    newState.currentBlockId = this.currentBlockId;
-    newState.pages = this.pages.map(p => {
-      return p.withUpdatedBlock(block, callback);
+    return this.clone(newState => {
+      newState.pages = this.pages.map(p => {
+        return p.withUpdatedBlock(block, callback);
+      });
+      return newState;
     });
-    return newState;
   }
 
   public withBlock(page: Page, block: Block<object>): ApplicationState {
-    const newState = new ApplicationState();
-    newState.currentLeftPane = this.currentLeftPane;
-    newState.currentPageId = this.currentPageId;
-    newState.currentBlockId = this.currentBlockId;
-    newState.pages = this.pages.map(p => {
-      if (p.id != page.id) {
-        return p;
-      }
-      return p.withBlock(block);
+    return this.clone(newState => {
+      newState.pages = this.pages.map(p => {
+        if (p.id != page.id) {
+          return p;
+        }
+        return p.withBlock(block);
+      });
+      return newState;
     });
-    return newState;
   }
 
   public withPage(page: Page): ApplicationState {
-    const newState = new ApplicationState();
-    newState.currentLeftPane = this.currentLeftPane;
-    newState.currentPageId = this.currentPageId;
-    newState.currentBlockId = this.currentBlockId;
-    newState.pages = [...this.pages, page]
-    return newState;
+    return this.clone(newState => {
+      newState.pages = [...this.pages, page];
+      return newState;
+    });
   }
 
   public withoutPage(page: Page): ApplicationState {
-    const newState = new ApplicationState();
-    newState.currentLeftPane = this.currentLeftPane;
-    newState.currentPageId = this.currentPageId;
-    newState.currentBlockId = this.currentBlockId;
-    newState.pages = this.pages.filter(p => p.id != page.id);
-    return newState;
+    return this.clone(newState => {
+      newState.pages = this.pages.filter(p => p.id != page.id);
+      return newState;
+    });
+  }
+
+  public withoutBlock(page: Page, block: Block<object>): ApplicationState {
+    return this.clone(newState => {
+      newState.pages = this.pages.map(p => {
+        if (p.id != page.id) {
+          return p;
+        }
+        return p.withoutBlock(block);
+      });
+      return newState;
+    });
   }
 
   public withUpdatedPage(page: Page, callback: (page: Page) => Page): ApplicationState {
+    return this.clone(newState => {
+      newState.pages = this.pages.map(p => {
+        if (p.id != page.id) {
+          return p;
+        }
+        return callback(p);
+      })
+      return newState;
+    });
+  }
+
+  public withBlockMovedUp(page: Page, block: Block<object>): ApplicationState {
+    return this.clone(newState => {
+      newState.pages = this.pages.map(p => {
+        if (p.id != page.id) {
+          return p;
+        }
+        return p.withBlockMovedUp(block);
+      });
+      return newState;
+    });
+  }
+
+  public withBlockMovedDown(page: Page, block: Block<object>): ApplicationState {
+    return this.clone(newState => {
+      newState.pages = this.pages.map(p => {
+        if (p.id != page.id) {
+          return p;
+        }
+        return p.withBlockMovedDown(block);
+      });
+      return newState;
+    });
+  }
+
+  private clone(modifier: (c: ApplicationState) => ApplicationState): ApplicationState {
     const newState = new ApplicationState();
     newState.currentLeftPane = this.currentLeftPane;
     newState.currentPageId = this.currentPageId;
     newState.currentBlockId = this.currentBlockId;
-    newState.pages = this.pages.map(p => {
-      if (p.id != page.id) {
-        return p;
-      }
-      return callback(p);
-    })
-    return newState;
+    newState.pages = this.pages;
+    newState.profile = this.profile;
+    return modifier(newState);
   }
 }

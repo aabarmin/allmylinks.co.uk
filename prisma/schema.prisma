@@ -1,0 +1,100 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model Profile {
+  id        Int       @id @default(autoincrement())
+  link      String    @unique @db.VarChar(255)
+  active    Boolean   @default(false)
+  userId    Int       @unique @map("user_id")
+  pages     Page[]
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+
+  @@map("profiles")
+}
+
+model Page {
+  id        Int       @id @default(autoincrement())
+  profileId Int       @map("profile_id")
+  profile   Profile   @relation(fields: [profileId], references: [id])
+  title     String    @db.VarChar(255)
+  deleted   Boolean   @default(false)
+  isHome    Boolean   @default(false) @map("is_home")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+  blocks    Block[]
+
+  @@map("pages")
+}
+
+model Block {
+  id        Int       @id @default(autoincrement())
+  pageId    Int       @map("page_id")
+  page      Page      @relation(fields: [pageId], references: [id])
+  order     Int
+  type      String    @map("type") @db.VarChar(255)
+  props     Json
+  isDeleted Boolean   @default(false) @map("is_deleted")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+
+  @@map("blocks")
+}
+
+model UploadedFile {
+  id        Int       @id @default(autoincrement())
+  authorId  Int       @map("author_id")
+  filePath  String    @map("file_path") @db.VarChar(1024)
+  fileName  String    @map("file_name") @db.VarChar(1024)
+  publicUrl String    @map("public_url") @db.VarChar(4096)
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+
+  @@map("uploaded_files")
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  name     String  @db.VarChar(255)
+  email    String  @unique @db.VarChar(255)
+  provider String  @db.VarChar(255)
+  isActive Boolean @default(false) @map("is_active")
+  image    String? @db.VarChar(255)
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  lastLogin DateTime? @map("last_login")
+  updatedAt DateTime? @map("updated_at")
+
+  @@map("users")
+}
+
+model Onboarding {
+  id          Int     @id @default(autoincrement())
+  userId      Int     @unique @map("user_id")
+  isCompleted Boolean @default(false) @map("is_completed")
+
+  link           String   @unique @db.VarChar(255)
+  name           String   @db.VarChar(255)
+  socialNetworks String[] @map("social_networks")
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+
+  @@map("onboarding")
+}
+
+model Subscription {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique @db.VarChar(255)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("subscriptions")
+}

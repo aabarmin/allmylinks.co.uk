@@ -10,6 +10,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:latest
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_DB: aam_online_db
+          POSTGRES_USER: aam_online_user
+          POSTGRES_PASSWORD: aam_online_password    
+
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js 22
@@ -17,5 +27,12 @@ jobs:
       with:
         node-version: 22
         cache: 'npm'
+    - name: Add environment variables to .env
+      run: |
+        echo "" >> .env
+        echo "RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}" >> .env
+        echo "AUTH_SECRET=${{ secrets.AUTH_SECRET }}" >> .env
+        echo "AUTH_GOOGLE_ID=${{ secrets.AUTH_GOOGLE_ID }}" >> .env
+        echo "AUTH_GOOGLE_SECRET=${{ secrets.AUTH_GOOGLE_SECRET }}" >> .env
     - run: npm install
     - run: npm run build

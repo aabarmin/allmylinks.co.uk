@@ -3,8 +3,12 @@
 import React, { createContext, useContext, useReducer } from "react";
 import { ApplicationState } from "./ApplicationState";
 import { BlockAddRequest } from "./block/BlockAddRequest";
+import { BlockDeleteRequest } from "./block/BlockDeleteRequest";
+import { BlockMoveDownRequest } from "./block/BlockMoveDownRequest";
+import { BlockMoveUpRequest } from "./block/BlockMoveUpRequest";
 import { BlockSelectRequest } from "./block/BlockSelectRequest";
 import { BlockUpdatePropsRequest } from "./block/BlockUpdatePropsRequest";
+import { DashboardLoadDataRequest } from "./global/DashboardLoadDataRequest";
 import { PageAddRequest } from "./page/PageAddRequest";
 import { PageDeleteRequest } from "./page/PageDeleteRequest";
 import { PageSelectRequest } from "./page/PageSelectRequest";
@@ -46,11 +50,27 @@ function stateReducer(state: ApplicationState, action: StateChangeRequest) {
       const payload = action as BlockUpdatePropsRequest<object>
       return state.withUpdatedBlock(payload.block, payload.callback)
     }
+    case StateChangeRequestType.BLOCK_MOVE_UP: {
+      const payload = action as BlockMoveUpRequest<object>;
+      return state.withBlockMovedUp(payload.page, payload.block);
+    }
+    case StateChangeRequestType.BLOCK_MOVE_DOWN: {
+      const payload = action as BlockMoveDownRequest<object>;
+      return state.withBlockMovedDown(payload.page, payload.block);
+    }
+    case StateChangeRequestType.BLOCK_DELETE: {
+      const payload = action as BlockDeleteRequest<object>;
+      return state.withoutBlock(payload.page, payload.block);
+    }
     case StateChangeRequestType.LEFT_PANEL_CHANGE: {
       const payload = action as LeftPanelChangeRequest;
       return state.withLeftPane(payload.componentAlias);
     }
-    default: console.error('No reducer for action of type ' + action.type)
+    case StateChangeRequestType.DASHBOARD_LOAD_DATA: {
+      const payload = action as DashboardLoadDataRequest;
+      return state.withInitialData(payload.data);
+    }
+    default: console.error('No reducer for action of type ' + action.type + '. Update State Provider')
   }
 
   return state;
@@ -63,7 +83,9 @@ interface StateContextValue {
 
 export const StateContext = createContext<StateContextValue>({
   state: initialState,
-  dispatch: () => console.log("Smth strange has happened")
+  dispatch: (action: StateChangeRequest) => {
+    console.log("No reducer for action " + action.type + '. Update State Provider')
+  }
 });
 
 export function StateProvider({ children }: { children: React.ReactNode }) {

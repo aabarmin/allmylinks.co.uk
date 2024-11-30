@@ -1,9 +1,14 @@
 'use client';
 
-import { Box } from "@mui/joy";
-import { AvatarBlock, AvatarBlockProperties } from "../blocks/AvatarBlock";
-import { HeaderBlock, HeaderBlockProperties } from "../blocks/HeaderBlock";
-import { SocialNetworksBlock, SocialNetworksBlockProperties } from "../blocks/SocialNetworksBlock";
+import Box from "@mui/material/Box";
+import { AvatarBlock } from "../blocks/avatar/AvatarBlock";
+import { AvatarBlockProperties } from "../blocks/avatar/AvatarBlockProperties";
+import { HeaderBlock } from "../blocks/header/HeaderBlock";
+import { HeaderBlockProperties } from "../blocks/header/HeaderBlockProperties";
+import { LinkButtonBlock } from "../blocks/link-button/LinkButtonBlock";
+import { LinkButtonBlockProperties } from "../blocks/link-button/LinkButtonBlockProperties";
+import { SocialNetworksBlock } from "../blocks/networks/SocialNetworksBlock";
+import { SocialNetworksBlockProperties } from "../blocks/networks/SocialNetworksBlockProperties";
 import { useAppState } from "../hooks/StateProvider";
 import { Block, BlockType } from "../model/Block";
 
@@ -35,6 +40,10 @@ function getBlockProperties(block: Block<object> | undefined) {
     case BlockType.BLOCK_SOCIAL_NETWORKS: {
       const b = block as SocialNetworksBlock
       return <SocialNetworksBlockProperties {...b} />
+    }
+    case BlockType.BLOCK_LINK_BUTTON: {
+      const b = block as LinkButtonBlock;
+      return <LinkButtonBlockProperties {...b} />
     }
     default: return <NoBlockProperties type={block.type} />
   }

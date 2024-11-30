@@ -1,14 +1,7 @@
-'use client';
-
-import { Box } from "@mui/joy";
-import Link from "next/link";
+import { HomePage } from "./(public)/HomePage";
 
 export default function Home() {
   return (
-    <Box>
-      <Link href={"/dashboard"}>
-        To the dashboard
-      </Link>
-    </Box>
+    <HomePage />
   );
 }
