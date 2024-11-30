@@ -25,15 +25,20 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 	implementation "org.webjars.npm:jquery:3.7.1"
 	implementation "org.webjars.npm:bootstrap:5.3.3"
 	implementation 'org.webjars.npm:bootstrap-icons:1.11.3'
+	implementation 'org.webjars.npm:htmx.org:2.0.3'
 
+	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 	implementation 'org.flywaydb:flyway-core'
-	compileOnly 'org.projectlombok:lombok'
+	implementation 'org.flywaydb:flyway-database-postgresql'
+	runtimeOnly 'org.postgresql:postgresql'
+
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 

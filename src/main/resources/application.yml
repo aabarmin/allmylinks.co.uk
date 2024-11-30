@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: all-my-links
+  datasource:
+    url: jdbc:postgresql://localhost:5432/aml
+    username: postgres
+    password: postgres

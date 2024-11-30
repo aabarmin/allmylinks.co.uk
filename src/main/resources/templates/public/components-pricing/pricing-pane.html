@@ -64,19 +64,43 @@
     </div>
 
     <div th:fragment="pricing-pane-premium">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">
-                    Premium
-                </h5>
+        <form th:hx-post="@{/subscribe-from-pricing}">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        Premium
+                    </h5>
 
-                <p class="card-text">
-                    Premium features coming soon. Stay tuned!
-                </p>
+                    <p class="card-text">
+                        Premium features coming soon. Stay tuned!
+                    </p>
 
-                <div class="card-body input-group">
-                    <input type="email" class="form-control" placeholder="Enter your email">
-                    <button class="btn btn-primary btn-lg">Subscribe</button>
+                    <div class="card-body input-group">
+                        <input type="email"
+                               required
+                               name="email"
+                               class="form-control"
+                               placeholder="Enter your email">
+                        <button class="btn btn-primary btn-lg"
+                                type="submit">
+                            Subscribe
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div th:fragment="done">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 offset-md-2 text-center">
+                    <h2>
+                        Thank you for subscribing
+                    </h2>
+                    <p>
+                        You will let you know when the premium features are available
+                    </p>
                 </div>
             </div>
         </div>
