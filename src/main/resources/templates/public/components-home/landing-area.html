@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+    <div th:fragment="content">
+        <div class="container">
+            <div class="row">
+
+                <div class="col"
+                     style="display: flex; align-items: center;">
+                    <th:block th:replace="public/components-home/landing-area :: landing-area-left"></th:block>
+                </div>
+                <div class="col"
+                     style="display: flex; justify-content: center;">
+                    <th:block th:replace="public/components-home/landing-area :: landing-area-right"></th:block>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div th:fragment="landing-area-left"
+         style="display: flex; flex-direction: column;">
+        <h1>
+            Centralize your online presence
+        </h1>
+
+        <p>
+            Bring together your socials, music, videos, and more on a stunning, interactive link-in-bio page.
+            Claim your name now and make your bio stand out!
+        </p>
+
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="input-group">
+                        <input type="text"
+                               class="form-control"
+                               placeholder="Your email to start">
+                        <button class="btn btn-primary btn-lg"
+                                type="button">
+                            Get started
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:fragment="landing-area-right">
+        <img th:src="@{/img/preview.jpg}"
+             class="img-fluid"
+             width="284"
+             height="525"
+             alt="Landing page image" />
+    </div>
+</body>
+</html>
