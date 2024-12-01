@@ -20,6 +20,10 @@ public class SecurityConfiguration {
       .formLogin(form -> form
         .loginPage("/login")
         .permitAll())
+      .logout(logout -> logout
+        .logoutUrl("/private/logout")
+        .logoutSuccessUrl("/")
+        .permitAll())
       .authorizeHttpRequests(authorize -> authorize
         .requestMatchers("/", "/error").permitAll()
         .requestMatchers("/webjars/**").permitAll()
@@ -30,8 +34,9 @@ public class SecurityConfiguration {
         .requestMatchers("/legal/**").permitAll()
 
         .requestMatchers("/login", "/register").permitAll()
-
         .requestMatchers("/subscribe", "/subscribe-from-pricing").permitAll()
+
+        .requestMatchers("/private/**").hasRole("USER")
 
         .anyRequest().authenticated())
       .build();

@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface ProfileRepository extends CrudRepository<Profile, Long> {
   Optional<Profile> findByLink(String link);
+  Optional<Profile> findByUserId(long userId);
 }

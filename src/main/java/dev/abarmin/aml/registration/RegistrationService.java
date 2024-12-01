@@ -1,7 +1,7 @@
 package dev.abarmin.aml.registration;
 
-import dev.abarmin.aml.domain.Page;
-import dev.abarmin.aml.domain.PageRepository;
+import dev.abarmin.aml.dashboard.domain.Page;
+import dev.abarmin.aml.dashboard.repository.PageRepository;
 import dev.abarmin.aml.registration.domain.Account;
 import dev.abarmin.aml.registration.domain.AccountType;
 import dev.abarmin.aml.registration.domain.Profile;
@@ -57,7 +57,9 @@ public class RegistrationService {
       profile.id(),
       "Home",
       true,
-      Instant.now()
+      false,
+      Instant.now(),
+      null
     ));
   }
 

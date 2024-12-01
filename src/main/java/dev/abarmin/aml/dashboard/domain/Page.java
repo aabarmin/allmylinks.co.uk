@@ -1,4 +1,4 @@
-package dev.abarmin.aml.domain;
+package dev.abarmin.aml.dashboard.domain;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
@@ -12,6 +12,8 @@ public record Page(
   @Column("profile_id") long profileId,
   @Column("page_title") String title,
   @Column("page_home") boolean isHome,
-  @Column("created_at")Instant createdAt
+  @Column("page_deleted") boolean isDeleted,
+  @Column("created_at")Instant createdAt,
+  @Column("updated_at")Instant updatedAt
   ) {
 }

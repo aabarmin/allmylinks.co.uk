@@ -6,8 +6,11 @@ spring:
     username: postgres
     password: postgres
 
-logging:
-  level:
-    org:
-      springframework:
-        security: DEBUG
+aml:
+  base-url: http://localhost:8080
+
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        security: DEBUG
