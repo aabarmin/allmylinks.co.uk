@@ -4,30 +4,34 @@ import dev.abarmin.aml.dashboard.domain.HeaderBlockProps;
 import dev.abarmin.aml.dashboard.model.HeaderLevel;
 import dev.abarmin.aml.dashboard.model.TextAlignment;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import org.springframework.web.bind.annotation.ModelAttribute;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Data
 public class HeaderBlockPropsForm {
-  private B currentBlock;
+  @Valid
+  @NotNull
+  private CurrentBlock currentBlock;
 
   @Data
-  public static class Props {
-    private String text;
+  public static class CurrentBlock {
+    @NotNull
+    @Valid
+    private BlockProps blockProps;
   }
 
   @Data
-  public static class B {
-    private Props blockProps;
+  public static class BlockProps {
+    private String text;
+    private HeaderLevel level;
+    private TextAlignment alignment;
   }
 
   public HeaderBlockProps toProps() {
-    throw new UnsupportedOperationException("Not implemented");
-//    return new HeaderBlockProps(text, level, alignment);
+    return new HeaderBlockProps(
+      currentBlock.getBlockProps().getText(),
+      currentBlock.getBlockProps().getLevel(),
+      currentBlock.getBlockProps().getAlignment()
+    );
   }
 }

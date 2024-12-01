@@ -15,11 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class BlockUpdateHandler {
   private final BlockRepository blockRepository;
 
-  @ModelAttribute("currentBlock")
-  public HeaderBlockPropsForm currentBlock() {
-    return new HeaderBlockPropsForm();
-  }
-
   @PostMapping(
     value = "/private/dashboard/{pageId}/blocks/{blockId}",
     params = "type=HEADER_BLOCK")
