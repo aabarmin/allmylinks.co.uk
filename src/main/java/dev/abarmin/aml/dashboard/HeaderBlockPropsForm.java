@@ -9,16 +9,25 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Data
 public class HeaderBlockPropsForm {
-  @NotEmpty
-  private String text;
-  @NotNull
-  private HeaderLevel level;
-  @NotNull
-  private TextAlignment alignment;
+  private B currentBlock;
+
+  @Data
+  public static class Props {
+    private String text;
+  }
+
+  @Data
+  public static class B {
+    private Props blockProps;
+  }
 
   public HeaderBlockProps toProps() {
-    return new HeaderBlockProps(text, level, alignment);
+    throw new UnsupportedOperationException("Not implemented");
+//    return new HeaderBlockProps(text, level, alignment);
   }
 }
