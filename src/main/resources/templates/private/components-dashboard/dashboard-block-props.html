@@ -7,10 +7,10 @@
         th:action="@{/private/dashboard/{pId}/blocks/{bId}(pId=${model.currentPage.pageId},bId=${model.currentBlock.blockId})}"
         method="post">
 
-    <input type="hidden" name="type" th:value="${model.currentBlock.blockType.type}" />
+    <input type="hidden" name="type" th:value="${model.currentBlock.blockType.type}"/>
 
     <div class="container">
-      <th:block th:replace="~{private/components-dashboard/dashboard-block-props :: toolbar}" />
+      <th:block th:replace="~{private/components-dashboard/dashboard-block-props :: toolbar}"/>
 
       <div class="row">
         <div class="col">
@@ -81,23 +81,22 @@
           <input class="form-control"
                  id="headerText"
                  th:field="*{text}"
-                 type="text" />
+                 type="text"/>
         </div>
       </div>
     </div>
   </form>
 </div>
 
-<div th:fragment="toolbar">
-  <div class="row">
-    <div class="col">
-      <a th:href="@{/private/dashboard}" class="btn btn-outline-primary">
-        Back
-      </a>
-      <button type="submit" class="btn btn-primary">
-        Save
-      </button>
-    </div>
+<div th:fragment="toolbar"
+     class="row">
+  <div class="col">
+    <a th:href="@{/private/dashboard}" class="btn btn-outline-primary">
+      Back
+    </a>
+    <button type="submit" class="btn btn-primary">
+      Save
+    </button>
   </div>
 </div>
 
