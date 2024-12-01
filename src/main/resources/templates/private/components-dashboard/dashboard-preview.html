@@ -5,9 +5,15 @@
      class="container">
   <div class="row">
     <div class="col">
-      This is a preview of the dashboard
+      <th:block th:replace="~{private/components-dashboard/dashboard-preview :: preview-pane}"/>
     </div>
   </div>
 </div>
+
+<div th:fragment="preview-pane"
+     class="preview-pane">
+  1234
+</div>
+
 </body>
 </html>

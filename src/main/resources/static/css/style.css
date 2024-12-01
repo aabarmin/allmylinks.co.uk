@@ -1,4 +1,8 @@
-.aml-stack {
-    display: flex;
-    flex-direction: column;
+div.preview-pane {
+  padding: 8;
+  border: 5px solid #333;
+  border-radius: 3em;
+  max-width: 530px;
+  min-width: 530px;
+  min-height: 954px;
 }
