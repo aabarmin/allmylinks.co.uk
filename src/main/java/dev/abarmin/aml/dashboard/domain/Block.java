@@ -13,8 +13,20 @@ public record Block(
   @Column("block_type") BlockType type,
   @Column("block_order") int order,
   @Column("block_deleted") boolean isDeleted,
-  @Column("block_props") BlockProps props, // https://stackoverflow.com/questions/64521056/how-to-read-write-postgres-jsonb-type-with-spring-data-jdbc
+  @Column("block_props") BlockProps props,
   @Column("created_at") Instant createdAt,
   @Column("updated_at") Instant updatedAt
 ) {
+  public Block withProps(BlockProps props) {
+    return new Block(
+      id,
+      pageId,
+      type,
+      order,
+      isDeleted,
+      props,
+      createdAt,
+      Instant.now()
+    );
+  }
 }

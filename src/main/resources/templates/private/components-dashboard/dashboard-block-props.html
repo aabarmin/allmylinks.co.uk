@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+
+<div th:fragment="HEADER_BLOCK">
+  <form th:object="${model.currentBlock.blockProps}"
+        th:action="@{/private/dashboard/{pId}/blocks/{bId}(pId=${model.currentPage.pageId},bId=${model.currentBlock.blockId})}"
+        method="post">
+
+    <input type="hidden" name="type" th:value="${model.currentBlock.blockType.type}" />
+
+    <div class="container">
+      <th:block th:replace="~{private/components-dashboard/dashboard-block-props :: toolbar}" />
+
+      <div class="row">
+        <div class="col">
+          <label class="form-label"
+                 for="headerLevel">
+            Level:
+          </label>
+          <select class="form-select"
+                  th:field="*{level}"
+                  id="headerLevel">
+            <option value="H1">Level 1</option>
+            <option value="H2">Level 2</option>
+            <option value="H3">Level 3</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <label class="form-label">
+            Alignment:
+          </label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="btn-group">
+            <input type="radio"
+                   th:field="*{alignment}"
+                   value="LEFT"
+                   class="btn-check"
+                   id="alignmentLeft">
+            <label class="btn btn-outline-primary"
+                   for="alignmentLeft">
+              Left
+            </label>
+
+            <input type="radio"
+                   th:field="*{alignment}"
+                   value="CENTER"
+                   class="btn-check"
+                   id="alignmentCenter">
+            <label class="btn btn-outline-primary"
+                   for="alignmentCenter">
+              Center
+            </label>
+
+            <input type="radio"
+                   class="btn-check"
+                   th:field="*{alignment}"
+                   value="RIGHT"
+                   id="alignmentRight">
+            <label class="btn btn-outline-primary"
+                   for="alignmentRight">
+              Right
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <label class="form-label"
+                 for="headerText">
+            Text:
+          </label>
+          <input class="form-control"
+                 id="headerText"
+                 th:field="*{text}"
+                 type="text" />
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div th:fragment="toolbar">
+  <div class="row">
+    <div class="col">
+      <a th:href="@{/private/dashboard}" class="btn btn-outline-primary">
+        Back
+      </a>
+      <button type="submit" class="btn btn-primary">
+        Save
+      </button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

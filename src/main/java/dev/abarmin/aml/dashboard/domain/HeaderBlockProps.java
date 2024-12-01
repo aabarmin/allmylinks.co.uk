@@ -1,6 +1,21 @@
 package dev.abarmin.aml.dashboard.domain;
 
-public record HeaderBlockProps() implements BlockProps {
+import dev.abarmin.aml.dashboard.model.HeaderLevel;
+import dev.abarmin.aml.dashboard.model.TextAlignment;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class HeaderBlockProps implements BlockProps {
+  private String text;
+  private HeaderLevel level;
+  private TextAlignment alignment;
+
   @Override
   public BlockType type() {
     return BlockType.HEADER_BLOCK;

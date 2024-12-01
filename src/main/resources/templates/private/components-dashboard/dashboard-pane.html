@@ -11,7 +11,14 @@
         22
       </div>
       <div class="col-md-3">
-        334
+        <th:block th:switch="${model.currentBlock}">
+          <th:block th:case="null">
+            <th:block th:replace="~{private/components-dashboard/dashboard-page-props :: content}" />
+          </th:block>
+          <th:block th:case="*">
+            <th:block th:replace="~{private/components-dashboard/dashboard-block-props :: __${model.currentBlock.blockType.type}__}" />
+          </th:block>
+        </th:block>
       </div>
     </div>
   </div>

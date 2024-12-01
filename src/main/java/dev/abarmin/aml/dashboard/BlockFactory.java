@@ -4,6 +4,8 @@ import dev.abarmin.aml.dashboard.domain.Block;
 import dev.abarmin.aml.dashboard.domain.BlockType;
 import dev.abarmin.aml.dashboard.domain.HeaderBlockProps;
 import dev.abarmin.aml.dashboard.domain.Page;
+import dev.abarmin.aml.dashboard.model.HeaderLevel;
+import dev.abarmin.aml.dashboard.model.TextAlignment;
 import dev.abarmin.aml.dashboard.repository.BlockRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -30,7 +32,11 @@ public class BlockFactory {
       BlockType.HEADER_BLOCK,
       nextOrder(page),
       false,
-      new HeaderBlockProps(),
+      HeaderBlockProps.builder()
+        .level(HeaderLevel.H1)
+        .text("Test header")
+        .alignment(TextAlignment.CENTER)
+        .build(),
       Instant.now(),
       null
     );

@@ -13,7 +13,8 @@ public class BlockConverter {
   public BlockModel convert(Block block) {
     return new BlockModel(
       block.id(),
-      typeConverter.convert(block.type())
+      typeConverter.convert(block.type()),
+      block.props()
     );
   }
 }
