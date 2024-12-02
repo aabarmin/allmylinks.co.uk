@@ -23,10 +23,16 @@ public class SessionService {
     checkArgument(authentication.isAuthenticated(), "Not authenticated");
 
     final Object principalCandidate = authentication.getPrincipal();
-    checkArgument(principalCandidate instanceof CustomUserDetails, "Principal is not an instance of CustomUserDetails");
+    final String email;
 
-    CustomUserDetails principal = (CustomUserDetails) principalCandidate;
-    final User user = userRepository.findByEmail(principal.getUsername())
+    if (principalCandidate instanceof CustomUserDetails details) {
+      email = details.username();
+    } else if (principalCandidate instanceof org.springframework.security.core.userdetails.User securityUser) {
+      email = securityUser.getUsername();
+    } else {
+      throw new IllegalArgumentException("Unsupported principal type " + principalCandidate.getClass());
+    }
+    final User user = userRepository.findByEmail(email)
       .orElseThrow(() -> new IllegalStateException("User not found"));
 
     final Profile profile = profileRepository.findByUserId(user.id())

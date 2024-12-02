@@ -42,7 +42,9 @@ public class RegistrationService {
       });
 
     final Account account = createAccount(form, type, user);
-    final Profile profile = createProfile(form, account);
+    checkArgument(account != null, "Account wasn't created");
+
+    final Profile profile = createProfile(form, user);
     final Page homePage = createHomePage(profile);
 
     checkArgument(homePage != null, "Home page wasn't created");
@@ -63,10 +65,10 @@ public class RegistrationService {
     ));
   }
 
-  private Profile createProfile(RegistrationForm form, Account account) {
+  private Profile createProfile(RegistrationForm form, User user) {
     return profileRepository.save(new Profile(
       null,
-      account.id(),
+      user.id(),
       form.getLink(),
       Instant.now()
     ));

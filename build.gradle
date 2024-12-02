@@ -1,5 +1,6 @@
 plugins {
 	id 'java'
+    id 'idea'
 	id 'org.springframework.boot' version '3.4.0'
 	id 'io.spring.dependency-management' version '1.1.6'
 }
@@ -41,7 +42,9 @@ dependencies {
     implementation 'org.postgresql:postgresql'
 
     implementation 'com.google.guava:guava:33.3.1-jre'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    implementation 'org.apache.commons:commons-lang3:3.17.0'
+
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
 	'org.projectlombok:lombok'.with {
@@ -52,6 +55,7 @@ dependencies {
 	}
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 

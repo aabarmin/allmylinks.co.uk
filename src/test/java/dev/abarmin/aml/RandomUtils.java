@@ -1,0 +1,11 @@
+package dev.abarmin.aml;
+
+import lombok.experimental.UtilityClass;
+import org.apache.commons.lang3.RandomStringUtils;
+
+@UtilityClass
+public class RandomUtils {
+  public String email() {
+    return RandomStringUtils.secure().nextAlphabetic(5) + "@test.com";
+  }
+}
