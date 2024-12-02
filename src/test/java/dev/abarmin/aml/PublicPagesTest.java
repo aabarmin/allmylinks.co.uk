@@ -22,8 +22,8 @@ class PublicPagesTest {
   @ValueSource(strings = {
     "/",
     "/login",
-    "/register",
     "/pricing",
+    "/register",
     "/legal/privacy-policy",
     "/legal/terms-of-service",
     "/legal/cookie-policy"
