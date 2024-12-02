@@ -1,5 +1,7 @@
 package dev.abarmin.aml.dashboard;
 
+import dev.abarmin.aml.dashboard.block.BlockPropsSupport;
+import dev.abarmin.aml.dashboard.block.header.HeaderBlockPropsForm;
 import dev.abarmin.aml.dashboard.domain.Block;
 import dev.abarmin.aml.dashboard.repository.BlockRepository;
 import jakarta.validation.Valid;
@@ -20,18 +22,22 @@ public class BlockUpdateHandler {
     params = "type=HEADER_BLOCK")
   public String updateHeaderBlock(@PathVariable("pageId") long pageId,
                                   @PathVariable("blockId") long blockId,
-                                  @Valid @ModelAttribute("currentBlock") HeaderBlockPropsForm currentBlock,
+                                  @Valid @ModelAttribute("currentBlock") HeaderBlockPropsForm headerBlock,
                                   BindingResult bindingResult) {
 
     if (!bindingResult.hasErrors()) {
-      blockRepository.findById(blockId)
-        .map(block -> {
-          final Block withNewProps = block.withProps(currentBlock.toProps());
-          return blockRepository.save(withNewProps);
-        });
+      updateBlock(blockId, headerBlock);
     }
 
     return String.format("redirect:/private/dashboard/%s/blocks/%s", pageId, blockId);
+  }
+
+  private void updateBlock(long blockId, BlockPropsSupport props) {
+    blockRepository.findById(blockId)
+      .map(block -> {
+        final Block withNewProps = block.withProps(props.toProps());
+        return blockRepository.save(withNewProps);
+      });
   }
 }
 

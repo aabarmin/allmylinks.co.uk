@@ -1,8 +1,9 @@
 package dev.abarmin.aml.dashboard;
 
+import dev.abarmin.aml.dashboard.block.avatar.AvatarBlockProps;
+import dev.abarmin.aml.dashboard.block.header.HeaderBlockProps;
 import dev.abarmin.aml.dashboard.domain.Block;
 import dev.abarmin.aml.dashboard.domain.BlockType;
-import dev.abarmin.aml.dashboard.domain.HeaderBlockProps;
 import dev.abarmin.aml.dashboard.domain.Page;
 import dev.abarmin.aml.dashboard.model.HeaderLevel;
 import dev.abarmin.aml.dashboard.model.TextAlignment;
@@ -22,6 +23,7 @@ public class BlockFactory {
   public Block createBlock(BlockType type, Page page) {
     return switch (type) {
       case HEADER_BLOCK -> createHeaderBlock(page);
+      case AVATAR_BLOCK -> createAvatarBlock(page);
     };
   }
 
@@ -36,6 +38,20 @@ public class BlockFactory {
         .level(HeaderLevel.H1)
         .text("Test header")
         .alignment(TextAlignment.CENTER)
+        .build(),
+      Instant.now(),
+      null
+    );
+  }
+
+  private Block createAvatarBlock(Page page) {
+    return new Block(
+      null,
+      page.id(),
+      BlockType.AVATAR_BLOCK,
+      nextOrder(page),
+      false,
+      AvatarBlockProps.builder()
         .build(),
       Instant.now(),
       null

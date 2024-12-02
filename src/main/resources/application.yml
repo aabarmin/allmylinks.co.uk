@@ -14,6 +14,10 @@ aml:
   mail-service:
     from-email: robot@allmylinks.co.uk
     from-name: AML Robot
+  file-service:
+    backend: DISK
+    disk-storage:
+      base-path: ./storage
 
 #logging:
 #  level:

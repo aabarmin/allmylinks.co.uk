@@ -1,4 +1,4 @@
-package dev.abarmin.aml.mail;
+package dev.abarmin.aml.mail.extractor;
 
 import java.util.Map;
 

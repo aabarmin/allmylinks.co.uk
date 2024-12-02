@@ -1,4 +1,6 @@
-package dev.abarmin.aml.mail;
+package dev.abarmin.aml.mail.template;
+
+import dev.abarmin.aml.mail.extractor.MailParamsExtractor;
 
 public record MailTemplate<T>(
   String fromEmail,

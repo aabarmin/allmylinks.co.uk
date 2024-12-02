@@ -1,5 +1,7 @@
 package dev.abarmin.aml.mail;
 
+import dev.abarmin.aml.mail.extractor.MailParams;
+import dev.abarmin.aml.mail.template.MailTemplate;
 import jakarta.mail.internet.MimeMessage;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

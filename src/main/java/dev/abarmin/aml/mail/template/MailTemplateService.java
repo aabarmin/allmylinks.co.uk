@@ -1,4 +1,4 @@
-package dev.abarmin.aml.mail;
+package dev.abarmin.aml.mail.template;
 
 import dev.abarmin.aml.config.AppConfiguration;
 import dev.abarmin.aml.mail.extractor.RegistrationDoneExtractor;

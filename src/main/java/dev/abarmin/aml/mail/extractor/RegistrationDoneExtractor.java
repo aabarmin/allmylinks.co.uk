@@ -1,7 +1,5 @@
 package dev.abarmin.aml.mail.extractor;
 
-import dev.abarmin.aml.mail.MailParams;
-import dev.abarmin.aml.mail.MailParamsExtractor;
 import dev.abarmin.aml.registration.domain.User;
 import org.springframework.stereotype.Component;
 
