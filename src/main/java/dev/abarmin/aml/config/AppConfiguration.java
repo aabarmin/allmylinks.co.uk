@@ -10,7 +10,7 @@ import org.springframework.validation.annotation.Validated;
 
 @Data
 @Validated
-@ConfigurationProperties(prefix = "aml", ignoreUnknownFields = false)
+@ConfigurationProperties(prefix = "aml")
 public class AppConfiguration {
   @NotEmpty
   private String baseUrl;
