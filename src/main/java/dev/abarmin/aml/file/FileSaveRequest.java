@@ -1,4 +1,11 @@
 package dev.abarmin.aml.file;
 
-public record FileSaveRequest() {
+import dev.abarmin.aml.registration.domain.User;
+
+import java.io.InputStream;
+
+public record FileSaveRequest(
+  User owner,
+  String originalFilename,
+  InputStream fileContent) {
 }

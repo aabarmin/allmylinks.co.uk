@@ -2,6 +2,7 @@ package dev.abarmin.aml.file;
 
 import groovy.util.logging.Slf4j;
 import jakarta.annotation.PostConstruct;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
@@ -23,7 +24,7 @@ public class DiskStorageRepository implements StorageRepository {
   }
 
   @Override
-  public FileSaveResponse save(FileSaveRequest request) {
+  public FileSaveResponse save(@NonNull FileSaveRequest request) {
     return null;
   }
 }
