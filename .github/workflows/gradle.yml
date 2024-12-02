@@ -26,7 +26,12 @@ jobs:
           --health-cmd="pg_isready -U postgres -d postgres"
           --health-interval=10s
           --health-timeout=5s
-          --health-retries=5      
+          --health-retries=5
+      mail:
+        image: rnwood/smtp4dev
+        ports:
+          - 5000:80
+          - 2525:25
 
     steps:
       - uses: actions/checkout@v4

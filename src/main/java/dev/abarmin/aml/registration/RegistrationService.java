@@ -2,6 +2,10 @@ package dev.abarmin.aml.registration;
 
 import dev.abarmin.aml.dashboard.domain.Page;
 import dev.abarmin.aml.dashboard.repository.PageRepository;
+import dev.abarmin.aml.mail.MailSendResult;
+import dev.abarmin.aml.mail.MailService;
+import dev.abarmin.aml.mail.MailTemplate;
+import dev.abarmin.aml.mail.MailTemplateService;
 import dev.abarmin.aml.registration.domain.Account;
 import dev.abarmin.aml.registration.domain.AccountType;
 import dev.abarmin.aml.registration.domain.Profile;
@@ -27,6 +31,8 @@ public class RegistrationService {
   private final PageRepository pageRepository;
   private final TransactionTemplate transactionTemplate;
   private final PasswordEncoder passwordEncoder;
+  private final MailService mailService;
+  private final MailTemplateService templateService;
 
   public User register(RegistrationForm form, AccountType type) {
     return transactionTemplate.execute(status -> registerInTx(form, type));
@@ -50,7 +56,15 @@ public class RegistrationService {
     checkArgument(homePage != null, "Home page wasn't created");
     checkArgument(homePage.isHome(), "Home page wasn't marked as home");
 
+    final MailSendResult sendResult = sendWelcomeEmail(user);
+    checkArgument(sendResult.isOk(), "Welcome email wasn't sent");
+
     return user;
+  }
+
+  private MailSendResult sendWelcomeEmail(User user) {
+    final MailTemplate<User> template = templateService.registrationDone();
+    return mailService.send(template, user);
   }
 
   private Page createHomePage(Profile profile) {

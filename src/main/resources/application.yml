@@ -5,9 +5,15 @@ spring:
     url: jdbc:postgresql://localhost:5432/aml
     username: postgres
     password: postgres
+  mail:
+    host: localhost
+    port: 2525
 
 aml:
   base-url: http://localhost:8080
+  mail-service:
+    from-email: robot@allmylinks.co.uk
+    from-name: AML Robot
 
 #logging:
 #  level:

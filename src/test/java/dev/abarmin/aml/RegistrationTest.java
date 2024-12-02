@@ -3,6 +3,7 @@ package dev.abarmin.aml;
 import dev.abarmin.aml.registration.TestCredentials;
 import dev.abarmin.aml.registration.TestRegistrationService;
 import dev.abarmin.aml.registration.repository.UserRepository;
+import dev.abarmin.aml.utils.RandomUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

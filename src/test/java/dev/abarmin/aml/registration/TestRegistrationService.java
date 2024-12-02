@@ -1,6 +1,6 @@
 package dev.abarmin.aml.registration;
 
-import dev.abarmin.aml.RandomUtils;
+import dev.abarmin.aml.utils.RandomUtils;
 import dev.abarmin.aml.registration.domain.AccountType;
 import dev.abarmin.aml.registration.domain.User;
 import dev.abarmin.aml.registration.repository.ProfileRepository;

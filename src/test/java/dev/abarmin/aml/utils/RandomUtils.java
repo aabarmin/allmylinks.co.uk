@@ -1,4 +1,4 @@
-package dev.abarmin.aml;
+package dev.abarmin.aml.utils;
 
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.RandomStringUtils;
