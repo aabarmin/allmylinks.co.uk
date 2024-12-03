@@ -2,6 +2,74 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <body>
 
+<div th:fragment="SOCIAL_NETWORKS_BLOCK"
+     id="socialNetworksBlockForm">
+  <form th:object="${model.currentBlock.blockProps}"
+        th:with="props=${model.currentBlock.blockProps}"
+        th:action="@{/private/dashboard/{pId}/blocks/{bId}(pId=${model.currentPage.pageId},bId=${model.currentBlock.blockId})}"
+        method="post">
+
+    <input type="hidden" name="type" th:value="${model.currentBlock.blockType.type}"/>
+
+    [[${props}]]
+
+    <div class="container">
+      <th:block th:replace="~{private/components-dashboard/dashboard-block-props :: toolbar}"/>
+
+      <div class="row">
+        <div class="col d-grid">
+          <button th:hx-post="@{/private/dashboard/{pId}/blocks/{bId}(pId=${model.currentPage.pageId},bId=${model.currentBlock.blockId})}"
+                  hx-target="#socialNetworksBlockForm"
+                  class="btn btn-primary"
+                  name="action"
+                  value="add-network"
+                  type="submit">
+            Add social network
+          </button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <table class="table">
+            <tr>
+              <th>
+                Icon
+              </th>
+              <th>
+                Link
+              </th>
+              <th>
+                Actions
+              </th>
+            </tr>
+            <tr th:each="link : ${props.links}">
+              <td>
+                <select class="form-select"
+                        th:name="currentBlock.blockProps.links[${}]">
+                  <option th:each="sn : ${T(dev.abarmin.aml.dashboard.block.social.SocialNetworkIcon).values()}"
+                          th:text="${sn.name()}">
+                  </option>
+                </select>
+              </td>
+              <td>
+                <input type="text"
+                       class="form-control"/>
+              </td>
+              <td>
+                <button class="btn btn-danger">
+                  Remove
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+
 <div th:fragment="BUTTON_BLOCK">
   <form th:object="${model.currentBlock.blockProps}"
         th:with="props=${model.currentBlock.blockProps}"

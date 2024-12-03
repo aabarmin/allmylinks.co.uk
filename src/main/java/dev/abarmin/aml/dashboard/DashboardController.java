@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Objects;
-import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,7 +27,7 @@ import java.util.Optional;
 })
 public class DashboardController {
   private final SessionService sessionService;
-  private final DashboardModelConverter modelProvider;
+  private final DashboardModelConverter dashboardConverter;
   private final PageRepository pageRepository;
   private final BlockRepository blockRepository;
 
@@ -40,7 +39,7 @@ public class DashboardController {
     final Page currentPage = getCurrentPage(profile, pageId);
     final Block currentBlock = getCurrentBlock(blockId);
 
-    return modelProvider.convert(profile, currentPage, currentBlock);
+    return dashboardConverter.convert(profile, currentPage, currentBlock);
   }
 
   @GetMapping

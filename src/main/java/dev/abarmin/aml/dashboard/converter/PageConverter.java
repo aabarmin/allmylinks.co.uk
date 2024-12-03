@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -21,6 +22,7 @@ public class PageConverter {
   public PageModel convert(Page page) {
     final List<BlockModel> pageBlocks = blockRepository.findAllByPageId(page.id(), Sort.by(Sort.Direction.ASC, "block_order"))
       .stream()
+      .sorted(Comparator.comparing(Block::order))
       .filter(Predicate.not(Block::isDeleted))
       .map(blockConverter::convert)
       .toList();

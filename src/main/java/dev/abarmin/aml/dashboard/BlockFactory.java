@@ -6,6 +6,7 @@ import dev.abarmin.aml.dashboard.block.header.HeaderBlockProps;
 import dev.abarmin.aml.dashboard.block.header.HeaderLevel;
 import dev.abarmin.aml.dashboard.block.header.TextAlignment;
 import dev.abarmin.aml.dashboard.block.link.LinkButtonBlockProps;
+import dev.abarmin.aml.dashboard.block.social.SocialNetworksBlockProps;
 import dev.abarmin.aml.dashboard.domain.Block;
 import dev.abarmin.aml.dashboard.domain.BlockProps;
 import dev.abarmin.aml.dashboard.domain.BlockType;
@@ -34,6 +35,7 @@ public class BlockFactory {
       case HEADER_BLOCK -> createHeaderBlock(page);
       case AVATAR_BLOCK -> createAvatarBlock(page);
       case BUTTON_BLOCK -> createLinkButtonBlock(page);
+      case SOCIAL_NETWORKS_BLOCK -> createSocialNetworksBlock(page);
     };
   }
 
@@ -47,6 +49,13 @@ public class BlockFactory {
       .build();
 
     return createBlock(page, BlockType.BUTTON_BLOCK, blockProps);
+  }
+
+  private Block createSocialNetworksBlock(Page page) {
+    final SocialNetworksBlockProps blockProps = SocialNetworksBlockProps.builder()
+      .build();
+
+    return createBlock(page, BlockType.SOCIAL_NETWORKS_BLOCK, blockProps);
   }
 
   private Block createHeaderBlock(Page page) {

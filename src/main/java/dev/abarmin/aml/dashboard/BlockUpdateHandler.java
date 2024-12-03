@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 @RequiredArgsConstructor
 public class BlockUpdateHandler {
-  private static final String UPDATE_BLOCK_ENDPOINT = "/private/dashboard/{pageId}/blocks/{blockId}";
+  public static final String UPDATE_BLOCK_ENDPOINT = "/private/dashboard/{pageId}/blocks/{blockId}";
 
   private final BlockRepository blockRepository;
 

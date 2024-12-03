@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <body>
+
+<div th:fragment="SOCIAL_NETWORKS_BLOCK(block)"
+     th:with="props=${block.blockProps}"
+     class="container">
+  <div class="row">
+    <div class="col">
+      <pre th:text="${props}" />
+    </div>
+  </div>
+</div>
+
 <div th:fragment="AVATAR_BLOCK(block)"
      th:with="props=${block.blockProps}"
      class="container">
