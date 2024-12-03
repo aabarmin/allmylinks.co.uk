@@ -2,11 +2,13 @@ package dev.abarmin.aml.dashboard;
 
 import dev.abarmin.aml.dashboard.block.avatar.AvatarBlockProps;
 import dev.abarmin.aml.dashboard.block.header.HeaderBlockProps;
-import dev.abarmin.aml.dashboard.domain.Block;
-import dev.abarmin.aml.dashboard.domain.BlockType;
-import dev.abarmin.aml.dashboard.domain.Page;
 import dev.abarmin.aml.dashboard.block.header.HeaderLevel;
 import dev.abarmin.aml.dashboard.block.header.TextAlignment;
+import dev.abarmin.aml.dashboard.block.link.LinkButtonBlockProps;
+import dev.abarmin.aml.dashboard.domain.Block;
+import dev.abarmin.aml.dashboard.domain.BlockProps;
+import dev.abarmin.aml.dashboard.domain.BlockType;
+import dev.abarmin.aml.dashboard.domain.Page;
 import dev.abarmin.aml.dashboard.repository.BlockRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -24,36 +26,44 @@ public class BlockFactory {
     return switch (type) {
       case HEADER_BLOCK -> createHeaderBlock(page);
       case AVATAR_BLOCK -> createAvatarBlock(page);
+      case BUTTON_BLOCK -> createLinkButtonBlock(page);
     };
   }
 
+  private Block createLinkButtonBlock(Page page) {
+    final LinkButtonBlockProps blockProps = LinkButtonBlockProps.builder()
+      .build();
+
+    return createBlock(page, BlockType.BUTTON_BLOCK, blockProps);
+  }
+
   private Block createHeaderBlock(Page page) {
-    return new Block(
-      null,
-      page.id(),
-      BlockType.HEADER_BLOCK,
-      nextOrder(page),
-      false,
-      HeaderBlockProps.builder()
-        .level(HeaderLevel.H1)
-        .text("Test header")
-        .alignment(TextAlignment.CENTER)
-        .build(),
-      Instant.now(),
-      null
-    );
+    final HeaderBlockProps blockProps = HeaderBlockProps.builder()
+      .level(HeaderLevel.H1)
+      .text("Test header")
+      .alignment(TextAlignment.CENTER)
+      .build();
+
+    return createBlock(page, BlockType.HEADER_BLOCK, blockProps);
   }
 
   private Block createAvatarBlock(Page page) {
+    final AvatarBlockProps blockProps = AvatarBlockProps
+      .builder()
+      .imageUrl(AvatarBlockProps.DEFAULT_AVATAR)
+      .build();
+
+    return createBlock(page, BlockType.AVATAR_BLOCK, blockProps);
+  }
+
+  private Block createBlock(Page page, BlockType blockType, BlockProps props) {
     return new Block(
       null,
       page.id(),
-      BlockType.AVATAR_BLOCK,
+      blockType,
       nextOrder(page),
       false,
-      AvatarBlockProps.builder()
-        .imageUrl(AvatarBlockProps.DEFAULT_AVATAR)
-        .build(),
+      props,
       Instant.now(),
       null
     );

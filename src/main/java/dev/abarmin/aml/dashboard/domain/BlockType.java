@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum BlockType {
   AVATAR_BLOCK("Avatar", "bi-fonts"),
+  BUTTON_BLOCK("Link button", "bi-fonts"),
   HEADER_BLOCK("Header", "bi-fonts");
 
   private final String name;

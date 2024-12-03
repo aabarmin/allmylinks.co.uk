@@ -2,6 +2,47 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <body>
 
+<div th:fragment="BUTTON_BLOCK">
+  <form th:object="${model.currentBlock.blockProps}"
+        th:with="props=${model.currentBlock.blockProps}"
+        th:action="@{/private/dashboard/{pId}/blocks/{bId}(pId=${model.currentPage.pageId},bId=${model.currentBlock.blockId})}"
+        method="post">
+
+    <input type="hidden" name="type" th:value="${model.currentBlock.blockType.type}"/>
+
+    <div class="container">
+      <th:block th:replace="~{private/components-dashboard/dashboard-block-props :: toolbar}"/>
+
+      <div class="row">
+        <div class="col">
+          <label class="form-label"
+                 for="buttonText">
+            Text:
+          </label>
+          <input class="form-control"
+                 id="buttonText"
+                 th:field="*{text}"
+                 type="text"/>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <label class="form-label"
+                 for="buttonLink">
+            Link:
+          </label>
+          <input class="form-control"
+                 id="buttonLink"
+                 th:field="*{link}"
+                 type="text"/>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+
 <div th:fragment="AVATAR_BLOCK">
   <form th:object="${model.currentBlock.blockProps}"
         th:with="props=${model.currentBlock.blockProps}"

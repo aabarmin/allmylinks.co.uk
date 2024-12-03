@@ -4,6 +4,7 @@ import dev.abarmin.aml.dashboard.block.BlockPropsSupport;
 import dev.abarmin.aml.dashboard.block.avatar.AvatarBlockProps;
 import dev.abarmin.aml.dashboard.block.avatar.AvatarBlockPropsForm;
 import dev.abarmin.aml.dashboard.block.header.HeaderBlockPropsForm;
+import dev.abarmin.aml.dashboard.block.link.LinkButtonBlockPropsForm;
 import dev.abarmin.aml.dashboard.domain.Block;
 import dev.abarmin.aml.dashboard.repository.BlockRepository;
 import jakarta.validation.Valid;
@@ -58,7 +59,23 @@ public class BlockUpdateHandler {
     return String.format("redirect:/private/dashboard/%s/blocks/%s", pageId, blockId);
   }
 
-  private void updateBlock(long blockId, BlockPropsSupport props) {
+  @PostMapping(
+    value = UPDATE_BLOCK_ENDPOINT,
+    params = "type=BUTTON_BLOCK"
+  )
+  public String updateButtonBlock(@PathVariable("pageId") long pageId,
+                                  @PathVariable("blockId") long blockId,
+                                  @Valid @ModelAttribute("currentBlock") LinkButtonBlockPropsForm buttonBlock,
+                                  BindingResult bindingResult) {
+
+    if (!bindingResult.hasErrors()) {
+      updateBlock(blockId, buttonBlock);
+    }
+
+    return String.format("redirect:/private/dashboard/%s/blocks/%s", pageId, blockId);
+  }
+
+  private void updateBlock(long blockId, BlockPropsSupport<?> props) {
     blockRepository.findById(blockId)
       .map(block -> {
         final Block withNewProps = block.withProps(props.toProps());
