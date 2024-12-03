@@ -2,8 +2,6 @@ package dev.abarmin.aml.dashboard.block.header;
 
 import dev.abarmin.aml.dashboard.domain.BlockProps;
 import dev.abarmin.aml.dashboard.domain.BlockType;
-import dev.abarmin.aml.dashboard.model.HeaderLevel;
-import dev.abarmin.aml.dashboard.model.TextAlignment;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

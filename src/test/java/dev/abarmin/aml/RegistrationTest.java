@@ -19,6 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -66,6 +67,7 @@ class RegistrationTest {
     userRepository.findByEmail(email).orElseThrow();
 
     mockMvc.perform(formLogin("/login")
+        .userParameter("email")
         .user(email)
         .password(password))
       .andExpect(authenticated().withRoles("USER"))
@@ -79,6 +81,7 @@ class RegistrationTest {
     mockMvc.perform(get("/private/dashboard")
         .with(user(credentials.username()).password(credentials.password())))
       .andExpect(model().hasNoErrors())
+      .andExpect(view().name("private/dashboard"))
       .andExpect(status().is2xxSuccessful());
   }
 }

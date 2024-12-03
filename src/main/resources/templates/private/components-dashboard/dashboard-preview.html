@@ -12,7 +12,11 @@
 
 <div th:fragment="preview-pane"
      class="preview-pane">
-  1234
+
+  <th:block th:each="block : ${model.currentPage.pageBlocks}">
+    <th:block th:replace="~{private/components-dashboard/dashboard-block :: __${block.blockType.type}__(${block})}" />
+  </th:block>
+
 </div>
 
 </body>

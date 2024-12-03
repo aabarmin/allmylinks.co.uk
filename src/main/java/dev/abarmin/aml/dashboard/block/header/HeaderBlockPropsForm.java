@@ -1,8 +1,6 @@
 package dev.abarmin.aml.dashboard.block.header;
 
 import dev.abarmin.aml.dashboard.block.BlockPropsSupport;
-import dev.abarmin.aml.dashboard.model.HeaderLevel;
-import dev.abarmin.aml.dashboard.model.TextAlignment;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

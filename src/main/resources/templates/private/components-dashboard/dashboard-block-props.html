@@ -2,6 +2,26 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <body>
 
+<div th:fragment="AVATAR_BLOCK">
+  <form th:object="${model.currentBlock.blockProps}"
+        th:action="@{/private/dashboard/{pId}/blocks/{bId}(pId=${model.currentPage.pageId},bId=${model.currentBlock.blockId})}"
+        method="post">
+
+    <input type="hidden" name="type" th:value="${model.currentBlock.blockType.type}"/>
+
+    <div class="container">
+      <th:block th:replace="~{private/components-dashboard/dashboard-block-props :: toolbar}"/>
+
+      <div class="row">
+        <div class="col">
+          Props will go here
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+
 <div th:fragment="HEADER_BLOCK">
   <form th:object="${model.currentBlock.blockProps}"
         th:action="@{/private/dashboard/{pId}/blocks/{bId}(pId=${model.currentPage.pageId},bId=${model.currentBlock.blockId})}"

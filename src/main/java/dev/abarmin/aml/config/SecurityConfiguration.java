@@ -19,6 +19,7 @@ public class SecurityConfiguration {
     return http
       .formLogin(form -> form
         .loginPage("/login")
+        .usernameParameter("email")
         .permitAll())
       .logout(logout -> logout
         .logoutUrl("/private/logout")

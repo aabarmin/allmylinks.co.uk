@@ -36,6 +36,9 @@ public class CustomUserDetailsService implements UserDetailsService {
       .param("user_email", username)
       .query(mapper)
       .optional()
-      .orElse(null);
+      .orElseThrow(() -> new UsernameNotFoundException(String.format(
+        "User with email %s not found",
+        username
+      )));
   }
 }
