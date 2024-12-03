@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LinkButtonBlockProps implements BlockProps {
+  public static final String DEFAULT_TEXT = "All my links page";
+
   private String text;
   private String link;
 

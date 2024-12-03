@@ -1,5 +1,6 @@
 package dev.abarmin.aml.dashboard;
 
+import dev.abarmin.aml.config.AppConfiguration;
 import dev.abarmin.aml.dashboard.block.avatar.AvatarBlockProps;
 import dev.abarmin.aml.dashboard.block.header.HeaderBlockProps;
 import dev.abarmin.aml.dashboard.block.header.HeaderLevel;
@@ -10,17 +11,23 @@ import dev.abarmin.aml.dashboard.domain.BlockProps;
 import dev.abarmin.aml.dashboard.domain.BlockType;
 import dev.abarmin.aml.dashboard.domain.Page;
 import dev.abarmin.aml.dashboard.repository.BlockRepository;
+import dev.abarmin.aml.dashboard.repository.PageRepository;
+import dev.abarmin.aml.registration.domain.Profile;
+import dev.abarmin.aml.registration.repository.ProfileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.function.Predicate;
 
 @Component
 @RequiredArgsConstructor
 public class BlockFactory {
   private final BlockRepository blockRepository;
+  private final ProfileRepository profileRepository;
+  private final AppConfiguration configuration;
 
   public Block createBlock(BlockType type, Page page) {
     return switch (type) {
@@ -31,7 +38,12 @@ public class BlockFactory {
   }
 
   private Block createLinkButtonBlock(Page page) {
+    final Profile profile = profileRepository.findById(page.profileId()).orElseThrow();
+    final String profileUrl = configuration.getBaseUrl() + "/l/" + profile.link();
+
     final LinkButtonBlockProps blockProps = LinkButtonBlockProps.builder()
+      .text(LinkButtonBlockProps.DEFAULT_TEXT)
+      .link(profileUrl)
       .build();
 
     return createBlock(page, BlockType.BUTTON_BLOCK, blockProps);
