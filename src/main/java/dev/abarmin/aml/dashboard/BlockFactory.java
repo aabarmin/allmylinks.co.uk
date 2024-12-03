@@ -52,6 +52,7 @@ public class BlockFactory {
       nextOrder(page),
       false,
       AvatarBlockProps.builder()
+        .imageUrl(AvatarBlockProps.DEFAULT_AVATAR)
         .build(),
       Instant.now(),
       null

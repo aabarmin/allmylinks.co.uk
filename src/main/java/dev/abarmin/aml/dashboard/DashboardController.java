@@ -22,6 +22,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RequestMapping({
   "/private/dashboard",
+  "/private/dashboard/",
   "/private/dashboard/{pageId}",
   "/private/dashboard/{pageId}/blocks/{blockId}"
 })

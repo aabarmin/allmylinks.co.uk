@@ -4,7 +4,9 @@
 
 <div th:fragment="AVATAR_BLOCK">
   <form th:object="${model.currentBlock.blockProps}"
+        th:with="props=${model.currentBlock.blockProps}"
         th:action="@{/private/dashboard/{pId}/blocks/{bId}(pId=${model.currentPage.pageId},bId=${model.currentBlock.blockId})}"
+        enctype="multipart/form-data"
         method="post">
 
     <input type="hidden" name="type" th:value="${model.currentBlock.blockType.type}"/>
@@ -13,8 +15,46 @@
       <th:block th:replace="~{private/components-dashboard/dashboard-block-props :: toolbar}"/>
 
       <div class="row">
+        <div class="col text-center">
+          <img th:src="${props.imageUrl}"
+               class="rounded-circle"
+               height="200"
+               width="200" />
+        </div>
+      </div>
+
+      <div class="row">
         <div class="col">
-          Props will go here
+          &nbsp;
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="form-check form-switch">
+            <input class="form-check-input"
+                   type="checkbox"
+                   name="resetAvatar"
+                   id="resetAvatar">
+            <label class="form-check-label"
+                   for="resetAvatar">
+              Reset avatar
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="mb-3">
+            <label for="newAvatar" class="form-label">
+              Upload new avatar
+            </label>
+            <input class="form-control"
+                   name="newAvatar"
+                   type="file"
+                   id="newAvatar">
+          </div>
         </div>
       </div>
     </div>
@@ -108,17 +148,23 @@
   </form>
 </div>
 
-<div th:fragment="toolbar"
-     class="row">
-  <div class="col">
-    <a th:href="@{/private/dashboard}" class="btn btn-outline-primary">
-      Back
-    </a>
-    <button type="submit" class="btn btn-primary">
-      Save
-    </button>
+<th:block th:fragment="toolbar">
+  <div class="row">
+    <div class="col">
+      <a th:href="@{/private/dashboard}" class="btn btn-outline-primary">
+        Back
+      </a>
+      <button type="submit" class="btn btn-primary">
+        Save
+      </button>
+    </div>
   </div>
-</div>
+  <div class="row">
+    <div class="col">
+      &nbsp;
+    </div>
+  </div>
+</th:block>
 
 </body>
 </html>

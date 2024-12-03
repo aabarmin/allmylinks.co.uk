@@ -2,10 +2,14 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <body>
 <div th:fragment="AVATAR_BLOCK(block)"
+     th:with="props=${block.blockProps}"
      class="container">
   <div class="row">
-    <div class="col">
-      This is avatar block
+    <div class="col text-center">
+      <img th:src="${props.imageUrl}"
+           class="rounded-circle"
+           height="200"
+           width="200" />
     </div>
   </div>
 </div>

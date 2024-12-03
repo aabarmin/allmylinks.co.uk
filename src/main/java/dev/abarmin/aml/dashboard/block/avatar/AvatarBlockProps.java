@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AvatarBlockProps implements BlockProps {
+  public static final String DEFAULT_AVATAR = "/img/avatar_placeholder.png";
+
   private String imageUrl;
 
   @Override
