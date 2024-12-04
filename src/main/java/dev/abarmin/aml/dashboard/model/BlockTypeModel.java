@@ -1,8 +1,12 @@
 package dev.abarmin.aml.dashboard.model;
 
-public record BlockTypeModel(
-  String name,
-  String icon,
-  String type
-) {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+public class BlockTypeModel {
+  private String name;
+  private String icon;
+  private String type;
 }

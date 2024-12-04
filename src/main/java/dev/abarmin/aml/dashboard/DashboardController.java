@@ -20,12 +20,14 @@ import java.util.Objects;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping({
-  "/private/dashboard",
+  DashboardController.DASHBOARD_ENDPOINT,
   "/private/dashboard/",
   "/private/dashboard/{pageId}",
   "/private/dashboard/{pageId}/blocks/{blockId}"
 })
 public class DashboardController {
+  public static final String DASHBOARD_ENDPOINT = "/private/dashboard";
+
   private final SessionService sessionService;
   private final DashboardModelConverter dashboardConverter;
   private final PageRepository pageRepository;
