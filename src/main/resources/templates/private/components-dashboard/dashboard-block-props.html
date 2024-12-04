@@ -11,8 +11,6 @@
 
     <input type="hidden" name="type" th:value="${model.currentBlock.blockType.type}"/>
 
-    [[${props}]]
-
     <div class="container">
       <th:block th:replace="~{private/components-dashboard/dashboard-block-props :: toolbar}"/>
 
@@ -32,33 +30,32 @@
       <div class="row">
         <div class="col">
           <table class="table">
-            <tr>
-              <th>
-                Icon
-              </th>
-              <th>
-                Link
-              </th>
-              <th>
-                Actions
-              </th>
-            </tr>
-            <tr th:each="link : ${props.links}">
+            <tr th:each="link, stat : ${props.links}">
               <td>
                 <select class="form-select"
-                        th:name="currentBlock.blockProps.links[${}]">
+                        th:value="${link.network}"
+                        th:name="currentBlock.blockProps.links[__${stat.index}__].network">
                   <option th:each="sn : ${T(dev.abarmin.aml.dashboard.block.social.SocialNetworkIcon).values()}"
+                          th:value="${sn.name()}"
+                          th:selected="${#strings.equals(sn.name(), link.network)}"
                           th:text="${sn.name()}">
                   </option>
                 </select>
               </td>
               <td>
                 <input type="text"
+                       th:value="${link.url}"
+                       th:name="currentBlock.blockProps.links[__${stat.index}__].url"
                        class="form-control"/>
               </td>
               <td>
-                <button class="btn btn-danger">
-                  Remove
+                <button class="btn btn-danger"
+                        name="action"
+                        th:hx-post="@{/private/dashboard/{pId}/blocks/{bId}(pId=${model.currentPage.pageId},bId=${model.currentBlock.blockId})}"
+                        hx-target="#socialNetworksBlockForm"
+                        th:value="'remove-network__' + ${stat.index}"
+                        type="submit">
+                  <i class="bi bi-trash"></i>
                 </button>
               </td>
             </tr>

@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 @Data
 public class SocialNetworksBlockPropsForm implements BlockPropsSupport<SocialNetworksBlockProps> {
@@ -21,7 +21,7 @@ public class SocialNetworksBlockPropsForm implements BlockPropsSupport<SocialNet
 
   @Data
   public static class BlockProps {
-    private Collection<SocialNetworkLink> links = new ArrayList<>();
+    private List<SocialNetworkLink> links = new ArrayList<>();
   }
 
 

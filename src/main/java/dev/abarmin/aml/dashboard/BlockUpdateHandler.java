@@ -5,6 +5,7 @@ import dev.abarmin.aml.dashboard.block.avatar.AvatarBlockProps;
 import dev.abarmin.aml.dashboard.block.avatar.AvatarBlockPropsForm;
 import dev.abarmin.aml.dashboard.block.header.HeaderBlockPropsForm;
 import dev.abarmin.aml.dashboard.block.link.LinkButtonBlockPropsForm;
+import dev.abarmin.aml.dashboard.block.social.SocialNetworksBlockPropsForm;
 import dev.abarmin.aml.dashboard.domain.Block;
 import dev.abarmin.aml.dashboard.repository.BlockRepository;
 import jakarta.validation.Valid;
@@ -70,6 +71,22 @@ public class BlockUpdateHandler {
 
     if (!bindingResult.hasErrors()) {
       updateBlock(blockId, buttonBlock);
+    }
+
+    return String.format("redirect:/private/dashboard/%s/blocks/%s", pageId, blockId);
+  }
+
+  @PostMapping(
+    value = UPDATE_BLOCK_ENDPOINT,
+    params = "type=SOCIAL_NETWORKS_BLOCK"
+  )
+  public String saveSocialNetworksBlock(@PathVariable("pageId") long pageId,
+                                          @PathVariable("blockId") long blockId,
+                                          @Valid @ModelAttribute("currentBlock") SocialNetworksBlockPropsForm networks,
+                                          BindingResult bindingResult) {
+
+    if (!bindingResult.hasErrors()) {
+      updateBlock(blockId, networks);
     }
 
     return String.format("redirect:/private/dashboard/%s/blocks/%s", pageId, blockId);

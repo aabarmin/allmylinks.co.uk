@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SocialNetworkLink {
-    private SocialNetworkIcon network;
-    private String url;
+  @Builder.Default
+  private SocialNetworkIcon network = SocialNetworkIcon.FACEBOOK;
+  private String url;
 }

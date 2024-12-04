@@ -6,8 +6,19 @@
      th:with="props=${block.blockProps}"
      class="container">
   <div class="row">
-    <div class="col">
-      <pre th:text="${props}" />
+    <div class="col text-center">
+      <a th:each="link : ${props.links}"
+         th:href="${link.url}"
+         style="padding-left: 5px;"
+         class="icon-link"
+         target="_blank">
+
+        <i class="bi"
+           style="font-size: 2em"
+           th:classappend="${link.network.htmlClass}">
+        </i>
+
+      </a>
     </div>
   </div>
 </div>

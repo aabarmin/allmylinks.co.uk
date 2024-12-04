@@ -11,12 +11,14 @@ import dev.abarmin.aml.dashboard.repository.PageRepository;
 import dev.abarmin.aml.registration.domain.Profile;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import static dev.abarmin.aml.dashboard.BlockUpdateHandler.UPDATE_BLOCK_ENDPOINT;
 
@@ -30,14 +32,22 @@ public class SocialNetworksBlockUpdateHandler {
 
   @PostMapping(
     value = UPDATE_BLOCK_ENDPOINT,
-    params = {"type=SOCIAL_NETWORKS_BLOCK", "action=add-network"})
-  public String addSocialNetwork(@PathVariable("pageId") long pageId,
-                                 @PathVariable("blockId") long blockId,
-                                 Authentication authentication,
-                                 @Valid @ModelAttribute("currentBlock") SocialNetworksBlockPropsForm networksBlock,
-                                 Model model) {
+    params = {"type=SOCIAL_NETWORKS_BLOCK", "action"})
+  public String updateSocialNetworks(@PathVariable("pageId") long pageId,
+                                     @PathVariable("blockId") long blockId,
+                                     Authentication authentication,
+                                     @RequestParam("action") String action,
+                                     @Valid @ModelAttribute("currentBlock") SocialNetworksBlockPropsForm networksBlock,
+                                     Model model) {
 
-    networksBlock.getCurrentBlock().getBlockProps().getLinks().add(new SocialNetworkLink());
+
+    if (isAddAction(action)) {
+      networksBlock.getCurrentBlock().getBlockProps().getLinks().add(new SocialNetworkLink());
+    } else if (isRemoveAction(action)) {
+      final int toRemoveIndex = getNetworkToRemove(action);
+      networksBlock.getCurrentBlock().getBlockProps().getLinks().remove(toRemoveIndex);
+    }
+
     final Block block = blockRepository.findById(blockId).orElseThrow();
     final Block updatedBlock = block.withProps(networksBlock.toProps());
 
@@ -50,5 +60,20 @@ public class SocialNetworksBlockUpdateHandler {
     );
 
     return "private/components-dashboard/dashboard-block-props :: SOCIAL_NETWORKS_BLOCK";
+  }
+
+  private boolean isAddAction(String action) {
+    return StringUtils.equalsIgnoreCase(action, "add-network");
+  }
+
+  private boolean isRemoveAction(String action) {
+    return StringUtils.startsWithIgnoreCase(action, "remove-network");
+  }
+
+  private int getNetworkToRemove(String action) {
+    if (!isRemoveAction(action)) {
+      throw new IllegalArgumentException("Action is not remove-network");
+    }
+    return Integer.parseInt(StringUtils.substringAfterLast(action, "__"));
   }
 }
