@@ -39,7 +39,7 @@
                      th:field="*{currentEmail}"
                      class="form-control"
                      disabled="true"
-              required />
+                     required />
             </div>
 
             <div class="mb-3">
@@ -56,8 +56,6 @@
             </div>
 
             <button type="submit"
-                    name="action"
-                    value="create"
                     th:disabled="${profile.hasActiveEmailChangeRequest}"
                     class="btn btn-primary">
               Create a request
