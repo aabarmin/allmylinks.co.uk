@@ -6,3 +6,8 @@ div.preview-pane {
   min-width: 530px;
   min-height: 954px;
 }
+
+div.preview-pane-container {
+  display: flex;
+  justify-content: center;
+}
