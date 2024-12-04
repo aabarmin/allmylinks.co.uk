@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+<div th:fragment="content"
+     class="container">
+
+  <form th:object="${profile}"
+        th:action="@{/private/profile/email}"
+        method="post">
+
+    <div class="row">
+      <div class="col">
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Contact Details</h5>
+
+            <div class="alert alert-primary"
+                 th:if="${profile.hasActiveEmailChangeRequest}">
+              <p>
+                You already have an active email change request. Please wait until it is processed.
+              </p>
+
+              <a th:href="@{/private/profile/email/cancel}"
+                 class="btn btn-danger">
+                Cancel the request
+              </a>
+            </div>
+
+            <p class="card-text">Create a request to update the email.</p>
+
+            <div class="mb-3">
+              <label for="currentEmail"
+                     class="form-label">
+                Current email:
+              </label>
+              <input type="text"
+                     id="currentEmail"
+                     th:field="*{currentEmail}"
+                     class="form-control"
+                     disabled="true"
+              required />
+            </div>
+
+            <div class="mb-3">
+              <label for="newEmail"
+                     class="form-label">
+                New email:
+              </label>
+              <input type="email"
+                     id="newEmail"
+                     name="newEmail"
+                     th:disabled="${profile.hasActiveEmailChangeRequest}"
+                     class="form-control"
+                     required />
+            </div>
+
+            <button type="submit"
+                    name="action"
+                    value="create"
+                    th:disabled="${profile.hasActiveEmailChangeRequest}"
+                    class="btn btn-primary">
+              Create a request
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </form>
+</div>
+</body>
+</html>
