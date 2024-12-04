@@ -3,18 +3,56 @@
 <body>
 <div th:fragment="content"
      class="container">
-  <div class="row">
-    <div class="col">
+  <form th:object="${profile}"
+        th:action="@{/private/profile/deactivate}"
+        method="post">
 
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Deactivate Profile</h5>
-          Something goes here...
+    <div class="row">
+      <div class="col">
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Contact Details</h5>
+
+            <div class="alert alert-primary"
+                 th:if="${profile.hasActiveDeactivationRequest}">
+              <p>
+                You already have an active profile deactivation request. Please wait until it is processed.
+              </p>
+
+              <a th:href="@{/private/profile/deactivate/cancel}"
+                 class="btn btn-danger">
+                Cancel the request
+              </a>
+            </div>
+
+            <p class="card-text">Create a request to deactivate your profile.</p>
+
+            <div class="mb-3">
+              <label for="reason"
+                     class="form-label">
+                Reason:
+              </label>
+              <textarea type="text"
+                        id="reason"
+                        name="reason"
+                        th:disabled="${profile.hasActiveDeactivationRequest}"
+                        class="form-control"
+                        required></textarea>
+            </div>
+
+            <button type="submit"
+                    th:disabled="${profile.hasActiveDeactivationRequest}"
+                    class="btn btn-primary">
+              Create a request
+            </button>
+          </div>
         </div>
-      </div>
 
+      </div>
     </div>
-  </div>
+
+  </form>
 </div>
 </body>
 </html>

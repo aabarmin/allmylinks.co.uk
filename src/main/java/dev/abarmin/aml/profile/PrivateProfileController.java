@@ -4,6 +4,7 @@ import dev.abarmin.aml.dashboard.SessionService;
 import dev.abarmin.aml.profile.converter.ProfileConverter;
 import dev.abarmin.aml.profile.domain.ChangeEmailRequest;
 import dev.abarmin.aml.profile.domain.ChangeLinkRequest;
+import dev.abarmin.aml.profile.domain.DeactivateProfileRequest;
 import dev.abarmin.aml.profile.domain.ProfileChangeRequest;
 import dev.abarmin.aml.profile.domain.ProfileChangeStatus;
 import dev.abarmin.aml.profile.domain.ProfileChangeType;
@@ -58,8 +59,8 @@ public class PrivateProfileController {
 
   @PostMapping("/private/profile/link")
   public String changeLink(Authentication authentication,
-                            @Valid ChangeLinkRequest request,
-                            BindingResult bindingResult) {
+                           @Valid ChangeLinkRequest request,
+                           BindingResult bindingResult) {
 
     if (!bindingResult.hasErrors()) {
       final Profile profile = sessionService.getProfile(authentication);
@@ -73,12 +74,29 @@ public class PrivateProfileController {
     return "redirect:/private/profile";
   }
 
+  @PostMapping("/private/profile/deactivate")
+  public String profileDeactivate(Authentication authentication,
+                                  @Valid DeactivateProfileRequest request,
+                                  BindingResult bindingResult) {
+
+    if (!bindingResult.hasErrors()) {
+      final Profile profile = sessionService.getProfile(authentication);
+      changeRepository.save(new ProfileChangeRequest(
+        profile,
+        ProfileChangeType.PROFILE_DEACTIVATE,
+        request
+      ));
+    }
+
+    return "redirect:/private/profile";
+  }
+
   @GetMapping("/private/profile/email/cancel")
   public String cancelChangeEmail(Authentication authentication) {
     final Profile profile = sessionService.getProfile(authentication);
     changeRepository.findByProfileIdAndChangeTypeAndChangeStatus(
-      profile.id(), ProfileChangeType.CHANGE_EMAIL, ProfileChangeStatus.CREATED
-    )
+        profile.id(), ProfileChangeType.CHANGE_EMAIL, ProfileChangeStatus.CREATED
+      )
       .map(ProfileChangeRequest::cancel)
       .ifPresent(changeRepository::save);
 
@@ -90,6 +108,18 @@ public class PrivateProfileController {
     final Profile profile = sessionService.getProfile(authentication);
     changeRepository.findByProfileIdAndChangeTypeAndChangeStatus(
         profile.id(), ProfileChangeType.CHANGE_LINK, ProfileChangeStatus.CREATED
+      )
+      .map(ProfileChangeRequest::cancel)
+      .ifPresent(changeRepository::save);
+
+    return "redirect:/private/profile";
+  }
+
+  @GetMapping("/private/profile/deactivate/cancel")
+  public String cancelDeactivation(Authentication authentication) {
+    final Profile profile = sessionService.getProfile(authentication);
+    changeRepository.findByProfileIdAndChangeTypeAndChangeStatus(
+        profile.id(), ProfileChangeType.PROFILE_DEACTIVATE, ProfileChangeStatus.CREATED
       )
       .map(ProfileChangeRequest::cancel)
       .ifPresent(changeRepository::save);
