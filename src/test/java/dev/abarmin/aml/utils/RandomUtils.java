@@ -5,7 +5,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 @UtilityClass
 public class RandomUtils {
-  public String email() {
+  public static String email() {
     return RandomStringUtils.secure().nextAlphabetic(5) + "@test.com";
   }
 }
