@@ -4,31 +4,24 @@ import lombok.SneakyThrows;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.stereotype.Service;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 
 @Service
 public class ImagePresets {
-  public ImagePreset noop() {
-    return bufferedImage -> bufferedImage;
-  }
-
-  public ImagePreset avatarPreset() {
+  public ImagePreset avatar() {
     return new ImagePreset() {
       @Override
       @SneakyThrows
-      public BufferedImage apply(BufferedImage bufferedImage) {
+      public byte[] apply(InputStream inputStream) {
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
-        Thumbnails.of(bufferedImage)
+        Thumbnails.of(inputStream)
           .outputFormat("JPEG")
           .outputQuality(0.9)
           .size(150, 150)
           .toOutputStream(outputStream);
 
-        return ImageIO.read(new ByteArrayInputStream(outputStream.toByteArray()));
+        return outputStream.toByteArray();
       }
     };
   }

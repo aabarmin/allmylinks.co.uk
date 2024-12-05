@@ -1,7 +1,8 @@
 package dev.abarmin.aml.image;
 
-import java.awt.image.BufferedImage;
+import java.io.InputStream;
 import java.util.function.Function;
 
-public interface ImagePreset extends Function<BufferedImage, BufferedImage> {
+public interface ImagePreset extends Function<InputStream, byte[]> {
+
 }

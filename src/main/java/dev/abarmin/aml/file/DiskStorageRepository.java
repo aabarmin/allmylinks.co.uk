@@ -49,9 +49,8 @@ public class DiskStorageRepository implements StorageRepository {
     final String filePath = targetPath.subpath(nameParts - 2, nameParts).toString();
     // done, build the response back
     return new FileSaveResponse(
-      Storage.DISK,
-      request.originalFilename(),
-      filePath
+      FileId.disk(filePath),
+      request.originalFilename()
     );
   }
 

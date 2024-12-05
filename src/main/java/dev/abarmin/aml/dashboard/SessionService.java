@@ -18,8 +18,7 @@ public class SessionService {
   private final UserRepository userRepository;
   private final ProfileRepository profileRepository;
 
-  public Profile getProfile(@NonNull Authentication authentication) {
-    checkArgument(authentication != null, "Authentication is required");
+  public User getUser(@NonNull Authentication authentication) {
     checkArgument(authentication.isAuthenticated(), "Not authenticated");
 
     final Object principalCandidate = authentication.getPrincipal();
@@ -32,8 +31,12 @@ public class SessionService {
     } else {
       throw new IllegalArgumentException("Unsupported principal type " + principalCandidate.getClass());
     }
-    final User user = userRepository.findByEmail(email)
+    return userRepository.findByEmail(email)
       .orElseThrow(() -> new IllegalStateException("User not found"));
+  }
+
+  public Profile getProfile(@NonNull Authentication authentication) {
+    final User user = getUser(authentication);
 
     final Profile profile = profileRepository.findByUserId(user.id())
       .orElseThrow(() -> new IllegalStateException("Profile not found"));

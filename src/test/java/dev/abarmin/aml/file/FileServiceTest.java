@@ -12,7 +12,6 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -43,13 +42,7 @@ class FileServiceTest {
     Files.writeString(tempFilePath, "Hello, World!");
 
     final User user = TestUserFactory.build();
-
-    try (final InputStream inputStream = Files.newInputStream(tempFilePath)) {
-      final FileSaveRequest request = new FileSaveRequest(user, "test.txt", inputStream);
-
-      final FileSaveResponse response = fileService.save(request);
-
-      assertThat(response).isNotNull();
-    }
+    final FileSaveResponse response = FileSaveRequest.of(user, tempFilePath, r -> fileService.save(r));
+    assertThat(response).isNotNull();
   }
 }

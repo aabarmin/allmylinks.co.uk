@@ -4,12 +4,14 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.awt.image.BufferedImage;
+import java.io.InputStream;
 
 @Service
 @RequiredArgsConstructor
 public class ImageService {
-  public BufferedImage process(@NonNull BufferedImage source, @NonNull ImagePreset preset) {
-    return preset.apply(source);
+  public byte[] process(@NonNull InputStream inputStream,
+                        @NonNull ImagePreset preset) {
+
+    return preset.apply(inputStream);
   }
 }

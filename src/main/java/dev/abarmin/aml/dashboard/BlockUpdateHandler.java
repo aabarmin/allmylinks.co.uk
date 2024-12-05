@@ -2,14 +2,20 @@ package dev.abarmin.aml.dashboard;
 
 import dev.abarmin.aml.dashboard.block.BlockPropsSupport;
 import dev.abarmin.aml.dashboard.block.avatar.AvatarBlockProps;
-import dev.abarmin.aml.dashboard.block.avatar.AvatarBlockPropsForm;
 import dev.abarmin.aml.dashboard.block.header.HeaderBlockPropsForm;
 import dev.abarmin.aml.dashboard.block.link.LinkButtonBlockPropsForm;
 import dev.abarmin.aml.dashboard.block.social.SocialNetworksBlockPropsForm;
 import dev.abarmin.aml.dashboard.domain.Block;
 import dev.abarmin.aml.dashboard.repository.BlockRepository;
+import dev.abarmin.aml.file.FileSaveRequest;
+import dev.abarmin.aml.file.FileSaveResponse;
+import dev.abarmin.aml.file.FileService;
+import dev.abarmin.aml.image.ImagePresets;
+import dev.abarmin.aml.image.ImageService;
+import dev.abarmin.aml.registration.domain.User;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,12 +24,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
+
 @Controller
 @RequiredArgsConstructor
 public class BlockUpdateHandler {
   public static final String UPDATE_BLOCK_ENDPOINT = "/private/dashboard/{pageId}/blocks/{blockId}";
 
   private final BlockRepository blockRepository;
+  private final FileService fileService;
+  private final SessionService sessionService;
+  private final ImageService imageService;
+  private final ImagePresets imagePresets;
 
   @PostMapping(
     value = UPDATE_BLOCK_ENDPOINT,
@@ -48,13 +60,21 @@ public class BlockUpdateHandler {
                                   @PathVariable("blockId") long blockId,
                                   @RequestParam(value = "resetAvatar", required = false, defaultValue = "false") boolean resetAvatar,
                                   @RequestParam(value = "newAvatar", required = false) MultipartFile newAvatar,
-                                  @Valid @ModelAttribute("currentBlock") AvatarBlockPropsForm avatarBlock,
-                                  BindingResult bindingResult) {
+                                  Authentication authentication) throws Exception {
 
-    if (resetAvatar) {
-      avatarBlock.getCurrentBlock().getBlockProps().setImageUrl(AvatarBlockProps.DEFAULT_AVATAR);
-    } if (newAvatar.isEmpty()) {
-      // todo: integrate with the file upload service
+    final Block block = blockRepository.findById(blockId).orElseThrow();
+    if (block.props() instanceof AvatarBlockProps avatarProps) {
+      if (resetAvatar) {
+        avatarProps.setImageUrl(AvatarBlockProps.DEFAULT_AVATAR);
+      }
+      if (!newAvatar.isEmpty()) {
+        final User user = sessionService.getUser(authentication);
+        final byte[] processedImage = imageService.process(newAvatar.getInputStream(), imagePresets.avatar());
+        final FileSaveRequest request = new FileSaveRequest(user, "avatar.jpg", new ByteArrayInputStream(processedImage));
+        final FileSaveResponse savedAvatar = fileService.save(request);
+        avatarProps.setImageUrl(savedAvatar.fileId().asString());
+      }
+      blockRepository.save(block.withProps(avatarProps));
     }
 
     return String.format("redirect:/private/dashboard/%s/blocks/%s", pageId, blockId);
@@ -81,9 +101,9 @@ public class BlockUpdateHandler {
     params = "type=SOCIAL_NETWORKS_BLOCK"
   )
   public String saveSocialNetworksBlock(@PathVariable("pageId") long pageId,
-                                          @PathVariable("blockId") long blockId,
-                                          @Valid @ModelAttribute("currentBlock") SocialNetworksBlockPropsForm networks,
-                                          BindingResult bindingResult) {
+                                        @PathVariable("blockId") long blockId,
+                                        @Valid @ModelAttribute("currentBlock") SocialNetworksBlockPropsForm networks,
+                                        BindingResult bindingResult) {
 
     if (!bindingResult.hasErrors()) {
       updateBlock(blockId, networks);
