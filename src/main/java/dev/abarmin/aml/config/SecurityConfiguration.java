@@ -33,6 +33,7 @@ public class SecurityConfiguration {
 
         .requestMatchers("/pricing").permitAll()
         .requestMatchers("/legal/**").permitAll()
+        .requestMatchers("/l/**").permitAll()
 
         .requestMatchers("/login", "/register").permitAll()
         .requestMatchers("/subscribe", "/subscribe-from-pricing").permitAll()

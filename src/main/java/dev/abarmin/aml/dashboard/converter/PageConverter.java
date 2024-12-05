@@ -22,8 +22,8 @@ public class PageConverter {
   public PageModel convert(Page page) {
     final List<BlockModel> pageBlocks = blockRepository.findAllByPageId(page.id(), Sort.by(Sort.Direction.ASC, "block_order"))
       .stream()
-      .sorted(Comparator.comparing(Block::order))
       .filter(Predicate.not(Block::isDeleted))
+      .sorted(Comparator.comparing(Block::order))
       .map(blockConverter::convert)
       .toList();
 
