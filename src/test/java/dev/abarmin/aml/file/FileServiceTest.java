@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.nio.file.Files;
@@ -29,6 +30,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 class FileServiceTest {
   @Autowired
   FileService fileService;
+
+  @MockitoBean
+  FileRepository fileRepository;
 
   @DynamicPropertySource
   static void configure(DynamicPropertyRegistry registry) throws Exception {

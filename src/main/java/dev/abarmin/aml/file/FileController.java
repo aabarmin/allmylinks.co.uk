@@ -4,9 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,8 +20,12 @@ public class FileController {
   private final FileRepository fileRepository;
   private final DiskStorageConfiguration configuration;
 
-  @GetMapping("/file/{filePublicPath}")
-  public Resource showFile(@PathVariable("filePublicPath") String filePath) {
+  @ResponseBody
+  @GetMapping("/file/{userId}/{imagePath}")
+  public Resource showFile(
+    @PathVariable("userId") String userId,
+    @PathVariable("imagePath") String imagePath) {
+    final String filePath = userId + "/" + imagePath;
     final FileEntity fileEntity = fileRepository.findByPathAndStorage(filePath, Storage.DISK)
       .orElseThrow(() -> new IllegalArgumentException("File not found in the database"));
 

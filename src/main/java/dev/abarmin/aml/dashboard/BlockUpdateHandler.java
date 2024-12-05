@@ -65,14 +65,14 @@ public class BlockUpdateHandler {
     final Block block = blockRepository.findById(blockId).orElseThrow();
     if (block.props() instanceof AvatarBlockProps avatarProps) {
       if (resetAvatar) {
-        avatarProps.setImageUrl(AvatarBlockProps.DEFAULT_AVATAR);
+        avatarProps.setFileId(AvatarBlockProps.DEFAULT_AVATAR);
       }
       if (!newAvatar.isEmpty()) {
         final User user = sessionService.getUser(authentication);
         final byte[] processedImage = imageService.process(newAvatar.getInputStream(), imagePresets.avatar());
         final FileSaveRequest request = new FileSaveRequest(user, "avatar.jpg", new ByteArrayInputStream(processedImage));
         final FileSaveResponse savedAvatar = fileService.save(request);
-        avatarProps.setImageUrl(savedAvatar.fileId().asString());
+        avatarProps.setFileId(savedAvatar.fileId());
       }
       blockRepository.save(block.withProps(avatarProps));
     }

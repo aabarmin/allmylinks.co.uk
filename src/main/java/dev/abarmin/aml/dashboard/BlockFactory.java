@@ -12,7 +12,6 @@ import dev.abarmin.aml.dashboard.domain.BlockProps;
 import dev.abarmin.aml.dashboard.domain.BlockType;
 import dev.abarmin.aml.dashboard.domain.Page;
 import dev.abarmin.aml.dashboard.repository.BlockRepository;
-import dev.abarmin.aml.dashboard.repository.PageRepository;
 import dev.abarmin.aml.registration.domain.Profile;
 import dev.abarmin.aml.registration.repository.ProfileRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +19,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.concurrent.LinkedBlockingDeque;
 import java.util.function.Predicate;
 
 @Component
@@ -71,7 +69,7 @@ public class BlockFactory {
   private Block createAvatarBlock(Page page) {
     final AvatarBlockProps blockProps = AvatarBlockProps
       .builder()
-      .imageUrl(AvatarBlockProps.DEFAULT_AVATAR)
+      .fileId(AvatarBlockProps.DEFAULT_AVATAR)
       .build();
 
     return createBlock(page, BlockType.AVATAR_BLOCK, blockProps);

@@ -2,6 +2,7 @@ package dev.abarmin.aml.dashboard.block.avatar;
 
 import dev.abarmin.aml.dashboard.domain.BlockProps;
 import dev.abarmin.aml.dashboard.domain.BlockType;
+import dev.abarmin.aml.file.FileId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,9 +13,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AvatarBlockProps implements BlockProps {
-  public static final String DEFAULT_AVATAR = "/img/avatar_placeholder.png";
+  public static final FileId DEFAULT_AVATAR = FileId.resource("/img/avatar_placeholder.png");
 
-  private String imageUrl;
+  private FileId fileId;
 
   @Override
   public BlockType type() {

@@ -15,4 +15,14 @@ public record FileEntity(
   @Column("created_at") Instant createdAt,
   @Column("updated_at") Instant updatedAt
 ) {
+  public FileEntity(long userId, FileId fileId) {
+    this(
+      null,
+      userId,
+      fileId.storage(),
+      fileId.filePath(),
+      Instant.now(),
+      null
+    );
+  }
 }

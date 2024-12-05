@@ -1,6 +1,7 @@
 package dev.abarmin.aml.dashboard.block.avatar;
 
 import dev.abarmin.aml.dashboard.block.BlockPropsSupport;
+import dev.abarmin.aml.file.FileId;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -26,7 +27,7 @@ public class AvatarBlockPropsForm implements BlockPropsSupport<AvatarBlockProps>
   @Override
   public AvatarBlockProps toProps() {
     return AvatarBlockProps.builder()
-      .imageUrl(getCurrentBlock().getBlockProps().getImageUrl())
+      .fileId(FileId.disk(getCurrentBlock().getBlockProps().getImageUrl()))
       .build();
   }
 }
