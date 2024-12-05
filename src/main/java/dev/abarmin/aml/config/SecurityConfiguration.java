@@ -36,7 +36,7 @@ public class SecurityConfiguration {
         .requestMatchers("/l/**").permitAll()
         .requestMatchers("/file/**").permitAll()
 
-        .requestMatchers("/login", "/register").permitAll()
+        .requestMatchers("/login", "/register", "/register/pre").permitAll()
         .requestMatchers("/subscribe", "/subscribe-from-pricing").permitAll()
 
         .requestMatchers("/private/**").hasRole("USER")

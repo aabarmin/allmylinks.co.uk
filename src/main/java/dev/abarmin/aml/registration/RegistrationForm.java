@@ -26,8 +26,9 @@ public class RegistrationForm {
   private String password;
 
   @NotEmpty
-  @Pattern(regexp = "^[a-z]+$")
+  @Pattern(regexp = "^[a-z0-9]+$")
   private String link;
 
-  private boolean acceptTerms;
+  @Builder.Default
+  private boolean acceptTerms = true;
 }

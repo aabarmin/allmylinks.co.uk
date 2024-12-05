@@ -3,44 +3,55 @@
 <body>
 <div th:fragment="content"
      class="container">
-  <div class="row">
-    <div class="col"
-         style="display: flex; align-items: center;">
+  <div class="row align-items-center">
+    <div class="col">
       <th:block th:replace="~{public/components-home/landing-area :: landing-area-left}"></th:block>
     </div>
-    <div class="col"
-         style="display: flex; justify-content: center;">
+    <div class="col text-center">
       <th:block th:replace="~{public/components-home/landing-area :: landing-area-right}"></th:block>
     </div>
   </div>
 </div>
 
 <div th:fragment="landing-area-left"
+     id="landing-area-left"
      style="display: flex; flex-direction: column;">
-  <h1>
-    Centralize your online presence
-  </h1>
 
-  <p>
-    Bring together your socials, music, videos, and more on a stunning, interactive link-in-bio page.
-    Claim your name now and make your bio stand out!
-  </p>
+  <form th:object="${form}"
+        th:hx-post="@{/register/pre}"
+        hx-target="#landing-area-left"
+        hx-swap="outerHTML"
+        method="post">
+    <h1>
+      Centralize your online presence
+    </h1>
 
-  <div class="container">
-    <div class="row">
-      <div class="col">
-        <div class="input-group">
-          <input type="text"
-                 class="form-control"
-                 placeholder="Your email to start">
-          <button class="btn btn-primary btn-lg"
-                  type="button">
-            Get started
-          </button>
+    <p>
+      Bring together your socials, music, videos, and more on a stunning, interactive link-in-bio page.
+      Claim your name now and make your bio stand out!
+    </p>
+
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="input-group">
+            <input type="text"
+                   th:field="*{email}"
+                   th:class="'form-control ' + (${#fields.hasErrors('email')} ? 'is-invalid' : '')"
+                   placeholder="Your email to start">
+            <button class="btn btn-primary btn-lg"
+                    type="submit">
+              Get started
+            </button>
+            <div class="invalid-feedback"
+                 th:if="${#fields.hasErrors('email')}"
+                 th:errors="*{email}">
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </form>
 </div>
 
 <div th:fragment="landing-area-right">

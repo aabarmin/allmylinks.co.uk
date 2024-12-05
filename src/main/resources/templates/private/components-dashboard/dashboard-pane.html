@@ -34,7 +34,11 @@
      class="container">
   <div class="row">
     <div class="col">
-      <i class="bi bi-box-arrow-up-right"></i>
+      <a class="icon-link"
+         th:href="${model.profile.profileLink}"
+         target="_blank">
+        <i class="bi bi-box-arrow-up-right"></i>
+      </a>
 
       <a th:href="${model.profile.profileLink}"
          th:text="${model.profile.profileLink}"

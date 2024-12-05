@@ -2,6 +2,7 @@ package dev.abarmin.aml.image;
 
 import lombok.SneakyThrows;
 import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Positions;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
@@ -18,7 +19,8 @@ public class ImagePresets {
         Thumbnails.of(inputStream)
           .outputFormat("JPEG")
           .outputQuality(0.9)
-          .size(150, 150)
+          .size(200, 200)
+          .crop(Positions.CENTER)
           .toOutputStream(outputStream);
 
         return outputStream.toByteArray();

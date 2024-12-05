@@ -3,6 +3,7 @@ package dev.abarmin.aml.registration;
 import dev.abarmin.aml.registration.domain.AccountType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
@@ -30,6 +32,19 @@ public class RegistrationController {
   @GetMapping("/register")
   public String registration() {
     return "public/registration";
+  }
+
+  @GetMapping(value = "/register", params = "email")
+  public String afterPreRegistration(@RequestParam("email") String email,
+                                     Model model) {
+
+    final RegistrationForm form = RegistrationForm.builder()
+      .email(email)
+      .build();
+
+    model.addAttribute("form", form);
+
+    return "public/components-registration/registration-pane :: registration-form";
   }
 
   @PostMapping("/register")
