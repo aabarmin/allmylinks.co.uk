@@ -29,4 +29,30 @@ public record Block(
       Instant.now()
     );
   }
+
+  public Block withOrder(int newOrder) {
+    return new Block(
+      id,
+      pageId,
+      type,
+      newOrder,
+      isDeleted,
+      props,
+      createdAt,
+      Instant.now()
+    );
+  }
+
+  public Block withDeleted() {
+    return new Block(
+      id,
+      pageId,
+      type,
+      order,
+      true,
+      props,
+      createdAt,
+      Instant.now()
+    );
+  }
 }

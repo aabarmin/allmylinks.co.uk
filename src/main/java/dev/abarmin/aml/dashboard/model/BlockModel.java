@@ -8,6 +8,9 @@ import lombok.Data;
 @AllArgsConstructor
 public class BlockModel {
   private long blockId;
+  private long pageId;
   private BlockTypeModel blockType;
   private BlockProps blockProps;
+  private boolean canMoveUp;
+  private boolean canMoveDown;
 }

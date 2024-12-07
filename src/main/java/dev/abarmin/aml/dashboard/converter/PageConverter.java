@@ -6,12 +6,13 @@ import dev.abarmin.aml.dashboard.model.BlockModel;
 import dev.abarmin.aml.dashboard.model.PageModel;
 import dev.abarmin.aml.dashboard.repository.BlockRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
+
+import static dev.abarmin.aml.dashboard.converter.BlockOrderUtils.isFirst;
+import static dev.abarmin.aml.dashboard.converter.BlockOrderUtils.isLast;
 
 @Component
 @RequiredArgsConstructor
@@ -20,17 +21,19 @@ public class PageConverter {
   private final BlockConverter blockConverter;
 
   public PageModel convert(Page page) {
-    final List<BlockModel> pageBlocks = blockRepository.findAllByPageId(page.id(), Sort.by(Sort.Direction.ASC, "block_order"))
+    final List<Block> blocks = blockRepository.findAllVisible(page.id())
       .stream()
       .filter(Predicate.not(Block::isDeleted))
-      .sorted(Comparator.comparing(Block::order))
-      .map(blockConverter::convert)
+      .toList();
+
+    final List<BlockModel> models = blocks.stream()
+      .map(b -> blockConverter.convert(b, isFirst(b, blocks), isLast(b, blocks)))
       .toList();
 
     return new PageModel(
       page.id(),
       page.title(),
-      pageBlocks
+      models
     );
   }
 }

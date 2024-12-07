@@ -12,7 +12,7 @@
     <input type="hidden" name="type" th:value="${model.currentBlock.blockType.type}"/>
 
     <div class="container">
-      <th:block th:replace="~{private/components-dashboard/dashboard-block-props :: toolbar}"/>
+      <th:block th:replace="~{private/components-dashboard/dashboard-block-props :: toolbar(${model.currentBlock})}"/>
 
       <div class="row">
         <div class="col d-grid">
@@ -76,7 +76,7 @@
     <input type="hidden" name="type" th:value="${model.currentBlock.blockType.type}"/>
 
     <div class="container">
-      <th:block th:replace="~{private/components-dashboard/dashboard-block-props :: toolbar}"/>
+      <th:block th:replace="~{private/components-dashboard/dashboard-block-props :: toolbar(${model.currentBlock})}"/>
 
       <div class="row">
         <div class="col">
@@ -118,7 +118,7 @@
     <input type="hidden" name="type" th:value="${model.currentBlock.blockType.type}"/>
 
     <div class="container">
-      <th:block th:replace="~{private/components-dashboard/dashboard-block-props :: toolbar}"/>
+      <th:block th:replace="~{private/components-dashboard/dashboard-block-props :: toolbar(${model.currentBlock})}"/>
 
       <div class="row">
         <div class="col text-center">
@@ -176,7 +176,7 @@
     <input type="hidden" name="type" th:value="${model.currentBlock.blockType.type}"/>
 
     <div class="container">
-      <th:block th:replace="~{private/components-dashboard/dashboard-block-props :: toolbar}"/>
+      <th:block th:replace="~{private/components-dashboard/dashboard-block-props :: toolbar(${model.currentBlock})}"/>
 
       <div class="row">
         <div class="col">
@@ -254,7 +254,7 @@
   </form>
 </div>
 
-<th:block th:fragment="toolbar">
+<th:block th:fragment="toolbar(block)">
   <div class="row">
     <div class="col">
       <a th:href="@{/private/dashboard}" class="btn btn-outline-primary">
@@ -263,6 +263,42 @@
       <button type="submit" class="btn btn-primary">
         Save
       </button>
+    </div>
+    <div class="col text-end">
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle"
+                type="button"
+                data-bs-toggle="dropdown">
+          <i class="bi bi-gear"></i>
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <a class="dropdown-item"
+               th:href="@{/private/dashboard/{pId}/blocks/{bId}/up(pId=${block.pageId},bId=${block.blockId})}"
+               th:classappend="${!block.canMoveUp} ? 'disabled' : ''"
+               th:disabled="${!block.canMoveUp}">
+              <i class="bi bi-arrow-up"></i>
+              Move up
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item"
+               th:href="@{/private/dashboard/{pId}/blocks/{bId}/down(pId=${block.pageId},bId=${block.blockId})}"
+               th:classappend="${!block.canMoveDown} ? 'disabled' : ''"
+               th:disabled="${!block.canMoveDown}">
+              <i class="bi bi-arrow-down"></i>
+              Move down
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item"
+               th:href="@{/private/dashboard/{pId}/blocks/{bId}/delete(pId=${block.pageId},bId=${block.blockId})}">
+              <i class="bi bi-trash"></i>
+              Delete
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
   <div class="row">
