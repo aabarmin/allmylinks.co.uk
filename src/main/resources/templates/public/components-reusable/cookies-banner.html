@@ -5,7 +5,7 @@
      id="cookies-toast-container"
      class="toast-container position-fixed bottom-0 start-0 p-3">
   <div class="toast show"
-       th:if="${!cookiesAccepted}">
+       th:if="${cookiesAccepted != null && !cookiesAccepted}">
     <div class="toast-body">
       We use mandatory cookies only, no tracking or marketing.
       <div class="mt-2 pt-2 border-top text-end">
