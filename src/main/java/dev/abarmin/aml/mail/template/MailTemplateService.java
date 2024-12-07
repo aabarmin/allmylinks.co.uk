@@ -19,7 +19,7 @@ public class MailTemplateService {
     return new MailTemplate<>(
       mailService.getFromEmail(),
       mailService.getFromName(),
-      "Welcome and thank you for the registration!",
+      "\uD83D\uDE4C Welcome to AllMyLinks!",
       "mail/registration-done",
       context.getBean(RegistrationDoneExtractor.class)
     );

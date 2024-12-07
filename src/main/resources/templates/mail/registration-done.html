@@ -1,10 +1,32 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en"
+      layout:decorate="~{mail/layout.html}"
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
 <body>
-<th:block th:fragment="content">
-  <h1>
-    Thank you for the registration and welcome!
-  </h1>
+<th:block layout:fragment="main-content">
+  <p>
+    <strong>
+      Hello, [[${name}]]!
+    </strong>
+  </p>
+
+  <p>
+    Welcome to the AllMyLinks - the place which brings together your socials, music, videos,
+    and more on a stunning, interactive link-in-bio page
+  </p>
+
+  <p>
+    You may use your email <b>[[${email}]]</b> to <a th:href="${loginLink}" target="_blank">login</a>.
+  </p>
+
+  <p>
+    Your public profile is available at <a th:href="${profileLink}" target="_blank">[[${profileLink}]]</a>
+  </p>
+
+  <p>
+    See you soon!
+  </p>
 </th:block>
 </body>
 </html>
