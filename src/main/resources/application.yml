@@ -18,6 +18,8 @@ aml:
     backend: DISK
     disk-storage:
       base-path: ./storage
+  backoffice:
+    adminEmail: admin@allmylinks.co.uk
 
 #logging:
 #  level:

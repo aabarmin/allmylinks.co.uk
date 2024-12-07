@@ -11,7 +11,7 @@ import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
-public class RegistrationDoneExtractor implements MailParamsExtractor<User> {
+public class RegistrationDoneForBackofficeExtractor implements MailParamsExtractor<User> {
   private final AppConfiguration configuration;
   private final ProfileRepository profileRepository;
 
@@ -19,14 +19,17 @@ public class RegistrationDoneExtractor implements MailParamsExtractor<User> {
   public MailParams apply(User user) {
     final Profile profile = profileRepository.findByUserId(user.id()).orElseThrow();
 
-    return new MailParams(user.email(), Map.of(
-      "baseUrl", configuration.getBaseUrl(), // todo, extract to some basic class
-      "loginLink", configuration.getBaseUrl() + "/login",
-      "emailTo", user.email(),
+    return MailParams.of(
+      configuration.getBackoffice().getAdminEmail(),
+      Map.of(
+        "baseUrl", configuration.getBaseUrl(), // todo, extract to some basic class
+        "loginLink", configuration.getBaseUrl() + "/login",
+        "emailTo", configuration.getBackoffice().getAdminEmail(),
 
-      "name", user.userName(),
-      "email", user.email(),
-      "profileLink", configuration.getBaseUrl() + "/l/" + profile.link()
-    ));
+        "name", user.userName(),
+        "email", user.email(),
+        "profileLink", configuration.getBaseUrl() + "/l/" + profile.link()
+      )
+    );
   }
 }

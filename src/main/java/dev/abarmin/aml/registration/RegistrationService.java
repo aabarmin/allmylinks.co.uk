@@ -74,11 +74,19 @@ public class RegistrationService {
     final MailSendResult sendResult = sendWelcomeEmail(user);
     checkArgument(sendResult.isOk(), "Welcome email wasn't sent");
 
+    final MailSendResult adminNotification = sendWelcomeEmailToAdmin(user);
+    checkArgument(adminNotification.isOk(), "Admin notification wasn't sent");
+
     return user;
   }
 
   private MailSendResult sendWelcomeEmail(User user) {
     final MailTemplate<User> template = templateService.registrationDone();
+    return mailService.send(template, user);
+  }
+
+  private MailSendResult sendWelcomeEmailToAdmin(User user) {
+    final MailTemplate<User> template = templateService.registrationDoneAdmin();
     return mailService.send(template, user);
   }
 

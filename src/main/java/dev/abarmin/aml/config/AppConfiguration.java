@@ -2,6 +2,7 @@ package dev.abarmin.aml.config;
 
 import dev.abarmin.aml.file.Storage;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -20,7 +21,12 @@ public class AppConfiguration {
   private AppConfiguration.MailService mailService = new MailService();
 
   @Valid
+  @NotNull
   private FileService fileService = new FileService();
+
+  @Valid
+  @NotNull
+  private Backoffice backoffice = new Backoffice();
 
   @Data
   public static class MailService {
@@ -35,5 +41,12 @@ public class AppConfiguration {
   public static class FileService {
     @NotNull
     private Storage backend;
+  }
+
+  @Data
+  public static class Backoffice {
+    @Email
+    @NotEmpty
+    private String adminEmail;
   }
 }
