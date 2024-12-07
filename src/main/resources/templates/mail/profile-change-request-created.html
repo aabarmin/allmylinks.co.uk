@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en"
+      layout:decorate="~{mail/layout.html}"
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
+<body>
+<th:block layout:fragment="main-content">
+  <p>
+    New change request registered
+  </p>
+
+  <ul>
+    <li>
+      User: [[${userEmail}]]
+    </li>
+    <li>
+      Request type: [[${requestType}]]
+    </li>
+    <li>
+      Request content: [[${requestContent}]]
+    </li>
+  </ul>
+</th:block>
+</body>
+</html>
