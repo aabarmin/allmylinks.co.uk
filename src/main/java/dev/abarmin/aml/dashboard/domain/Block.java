@@ -17,6 +17,19 @@ public record Block(
   @Column("created_at") Instant createdAt,
   @Column("updated_at") Instant updatedAt
 ) {
+  public Block(long pageId, BlockType type, int order, BlockProps props) {
+    this(
+      null,
+      pageId,
+      type,
+      order,
+      false,
+      props,
+      Instant.now(),
+      null
+    );
+  }
+
   public Block withProps(BlockProps props) {
     return new Block(
       id,
