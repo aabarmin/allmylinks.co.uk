@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+<div th:fragment="content"
+     id="cookies-toast-container"
+     class="toast-container position-fixed bottom-0 start-0 p-3">
+  <div class="toast show" th:if="${!cookies.accepted}">
+    <div class="toast-body">
+      We use mandatory cookies only, no tracking or marketing.
+      <div class="mt-2 pt-2 border-top text-end">
+        <a th:href="@{/legal/cookie-policy}">
+          Read about our cookies policy
+        </a>
+        &nbsp;
+        <button type="button"
+                hx-target="#cookies-toast-container"
+                th:hx-post="@{/cookies/accept}"
+                class="btn btn-primary btn-sm">
+          OK
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div th:fragment="accepted"
+     data-bs-delay="1000"
+     class="toast show">
+  <div class="toast-header">
+    <strong class="me-auto">Cookies</strong>
+    <button type="button"
+            class="btn-close"
+            data-bs-dismiss="toast" />
+  </div>
+  <div class="toast-body">
+    Thank you for accepting our cookies policy.
+  </div>
+</div>
+</div>
+</body>
+</html>

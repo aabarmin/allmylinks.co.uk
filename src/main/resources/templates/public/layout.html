@@ -60,6 +60,8 @@
     </p>
 </div>
 
+<th:block th:insert="~{public/components-reusable/cookies-banner :: content}"></th:block>
+
 <script>
   document.body.addEventListener("htmx:configRequest", function (evt) {
     evt.detail.headers["accept"] = "text/html-partial";
