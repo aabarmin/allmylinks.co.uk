@@ -16,7 +16,7 @@ jobs:
     services:
       database:
         image: mariadb:11.6
-        environment:
+        env:
           MARIADB_ROOT_PASSWORD: root
           MARIADB_USER: mariadb
           MARIADB_PASSWORD: mariadb
