@@ -1,7 +1,7 @@
 CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     user_email VARCHAR(255) NOT NULL,
     user_name VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    unique(user_email)
-);
+    UNIQUE(user_email)
+) ENGINE=InnoDB;

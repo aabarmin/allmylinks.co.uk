@@ -1,11 +1,12 @@
 CREATE TABLE user_profile_requests (
-    id SERIAL PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     profile_id INT NOT NULL,
     change_type VARCHAR(255) NOT NULL,
     change_status VARCHAR(255) NOT NULL,
-    change_payload JSONB,
+    change_payload JSON,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP,
-    foreign key (user_id) references users(id)
-);
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (profile_id) REFERENCES user_profiles(id)
+) ENGINE=InnoDB;

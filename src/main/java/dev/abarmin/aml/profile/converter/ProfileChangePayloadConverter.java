@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.abarmin.aml.profile.domain.ProfileChangePayload;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.postgresql.util.PGobject;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.convert.ReadingConverter;
 import org.springframework.data.convert.WritingConverter;
@@ -12,28 +11,25 @@ import org.springframework.data.convert.WritingConverter;
 public class ProfileChangePayloadConverter {
   @WritingConverter
   @RequiredArgsConstructor
-  public static class Writer implements Converter<ProfileChangePayload, PGobject> {
+  public static class Writer implements Converter<ProfileChangePayload, String> {
     private final ObjectMapper objectMapper;
 
     @Override
     @SneakyThrows
-    public PGobject convert(ProfileChangePayload source) {
-      final PGobject pGobject = new PGobject();
-      pGobject.setType("jsonb");
-      pGobject.setValue(objectMapper.writeValueAsString(source));
-      return pGobject;
+    public String convert(ProfileChangePayload source) {
+      return objectMapper.writeValueAsString(source);
     }
   }
 
   @ReadingConverter
   @RequiredArgsConstructor
-  public static class Reader implements Converter<PGobject, ProfileChangePayload> {
+  public static class Reader implements Converter<String, ProfileChangePayload> {
     private final ObjectMapper objectMapper;
 
     @Override
     @SneakyThrows
-    public ProfileChangePayload convert(PGobject source) {
-      return objectMapper.readValue(source.getValue(), ProfileChangePayload.class);
+    public ProfileChangePayload convert(String source) {
+      return objectMapper.readValue(source, ProfileChangePayload.class);
     }
   }
 }

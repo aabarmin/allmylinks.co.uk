@@ -14,19 +14,15 @@ jobs:
       contents: read
 
     services:
-      postgres:
-        image: postgres:latest
+      database:
+        image: mariadb:11.6
+        environment:
+          MARIADB_ROOT_PASSWORD: root
+          MARIADB_USER: mariadb
+          MARIADB_PASSWORD: mariadb
+          MARIADB_DATABASE: aml
         ports:
-          - 5432:5432
-        env:
-          POSTGRES_DB: aml
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-        options: >-
-          --health-cmd="pg_isready -U postgres -d postgres"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
+          - 3306:3306
       mail:
         image: rnwood/smtp4dev
         ports:

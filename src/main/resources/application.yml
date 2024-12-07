@@ -2,9 +2,9 @@ spring:
   application:
     name: all-my-links
   datasource:
-    url: jdbc:postgresql://localhost:5432/aml
-    username: postgres
-    password: postgres
+    url: jdbc:mariadb://localhost:3306/aml
+    username: mariadb
+    password: mariadb
   mail:
     host: localhost
     port: 2525

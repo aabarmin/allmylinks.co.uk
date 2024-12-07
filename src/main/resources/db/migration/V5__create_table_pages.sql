@@ -1,10 +1,10 @@
 CREATE TABLE pages (
-    id SERIAL PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     profile_id INT NOT NULL,
     page_title VARCHAR(255) NOT NULL,
-    page_home boolean DEFAULT FALSE,
-    page_deleted boolean DEFAULT FALSE,
+    page_home BOOLEAN DEFAULT FALSE,
+    page_deleted BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP,
-    foreign key (profile_id) references user_profiles(id)
-);
+    FOREIGN KEY (profile_id) REFERENCES user_profiles(id)
+) ENGINE=InnoDB;

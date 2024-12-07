@@ -2,19 +2,19 @@ version: '3.9'
 
 services:
   db:
-    image: postgres
-    shm_size: 128mb
+    image: mariadb:11.6
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: aml
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_USER: mariadb
+      MARIADB_PASSWORD: mariadb
+      MARIADB_DATABASE: aml
     ports:
-      - 5432:5432
+      - 3306:3306
 
-  adminer:
-    image: adminer
+  pma:
+    image: phpmyadmin
     ports:
-      - 3000:8080
+      - 8800:80
 
   mail:
     image: rnwood/smtp4dev

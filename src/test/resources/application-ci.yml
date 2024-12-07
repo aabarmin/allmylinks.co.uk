@@ -3,6 +3,6 @@ spring:
     host: mail
     port: 2525
   datasource:
-    url: jdbc:postgresql://postgres:5432/aml
-    username: postgres
-    password: postgres
+    url: jdbc:mariadb://localhost:3306/aml
+    username: mariadb
+    password: mariadb
