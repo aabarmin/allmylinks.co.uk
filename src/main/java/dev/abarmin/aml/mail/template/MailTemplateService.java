@@ -1,11 +1,13 @@
 package dev.abarmin.aml.mail.template;
 
 import dev.abarmin.aml.config.AppConfiguration;
-import dev.abarmin.aml.mail.extractor.ProfileChangeRequestForBackofficeExtractor;
+import dev.abarmin.aml.mail.extractor.backoffice.BackofficeProfileChangeRequestExtractor;
 import dev.abarmin.aml.mail.extractor.RegistrationDoneExtractor;
-import dev.abarmin.aml.mail.extractor.RegistrationDoneForBackofficeExtractor;
+import dev.abarmin.aml.mail.extractor.backoffice.BackofficeRegistrationDoneExtractor;
+import dev.abarmin.aml.mail.extractor.backoffice.BackofficeSubscriptionExtractor;
 import dev.abarmin.aml.profile.domain.ProfileChangeRequest;
 import dev.abarmin.aml.registration.domain.User;
+import dev.abarmin.aml.subscribe.Subscription;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
@@ -36,7 +38,7 @@ public class MailTemplateService {
       mailService.getFromName(),
       "[AML] New user registered",
       "mail/registration-done-admin",
-      context.getBean(RegistrationDoneForBackofficeExtractor.class)
+      context.getBean(BackofficeRegistrationDoneExtractor.class)
     );
   }
 
@@ -48,7 +50,19 @@ public class MailTemplateService {
       mailService.getFromName(),
       "[AML] Profile change request created",
       "mail/profile-change-request-created",
-      context.getBean(ProfileChangeRequestForBackofficeExtractor.class)
+      context.getBean(BackofficeProfileChangeRequestExtractor.class)
+    );
+  }
+
+  public MailTemplate<Subscription> subscriptionCreated() {
+    final AppConfiguration.MailService mailService = appConfiguration.getMailService();
+
+    return new MailTemplate<>(
+      mailService.getFromEmail(),
+      mailService.getFromName(),
+      "[AML] New subscription created",
+      "mail/subscription-created",
+      context.getBean(BackofficeSubscriptionExtractor.class)
     );
   }
 }

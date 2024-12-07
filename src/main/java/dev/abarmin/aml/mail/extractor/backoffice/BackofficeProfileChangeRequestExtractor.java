@@ -1,7 +1,9 @@
-package dev.abarmin.aml.mail.extractor;
+package dev.abarmin.aml.mail.extractor.backoffice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.abarmin.aml.config.AppConfiguration;
+import dev.abarmin.aml.mail.extractor.MailParams;
+import dev.abarmin.aml.mail.extractor.MailParamsExtractor;
 import dev.abarmin.aml.profile.domain.ProfileChangeRequest;
 import dev.abarmin.aml.registration.domain.User;
 import dev.abarmin.aml.registration.repository.UserRepository;
@@ -13,7 +15,7 @@ import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
-public class ProfileChangeRequestForBackofficeExtractor implements MailParamsExtractor<ProfileChangeRequest> {
+public class BackofficeProfileChangeRequestExtractor implements MailParamsExtractor<ProfileChangeRequest> {
   private final AppConfiguration configuration;
   private final UserRepository userRepository;
   private final ObjectMapper objectMapper;

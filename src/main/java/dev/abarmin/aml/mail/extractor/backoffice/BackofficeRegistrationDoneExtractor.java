@@ -1,6 +1,8 @@
-package dev.abarmin.aml.mail.extractor;
+package dev.abarmin.aml.mail.extractor.backoffice;
 
 import dev.abarmin.aml.config.AppConfiguration;
+import dev.abarmin.aml.mail.extractor.MailParams;
+import dev.abarmin.aml.mail.extractor.MailParamsExtractor;
 import dev.abarmin.aml.registration.domain.Profile;
 import dev.abarmin.aml.registration.domain.User;
 import dev.abarmin.aml.registration.repository.ProfileRepository;
@@ -11,7 +13,7 @@ import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
-public class RegistrationDoneForBackofficeExtractor implements MailParamsExtractor<User> {
+public class BackofficeRegistrationDoneExtractor implements MailParamsExtractor<User> {
   private final AppConfiguration configuration;
   private final ProfileRepository profileRepository;
 
