@@ -2,6 +2,7 @@ package dev.abarmin.aml.dashboard.block.header;
 
 import dev.abarmin.aml.dashboard.block.BlockPropsSupport;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -20,8 +21,13 @@ public class HeaderBlockPropsForm implements BlockPropsSupport<HeaderBlockProps>
 
   @Data
   public static class BlockProps {
+    @NotEmpty
     private String text;
+
+    @NotNull
     private HeaderLevel level;
+
+    @NotNull
     private TextAlignment alignment;
   }
 

@@ -44,6 +44,7 @@
               </td>
               <td>
                 <input type="text"
+                       required
                        th:value="${link.url}"
                        th:name="currentBlock.blockProps.links[__${stat.index}__].url"
                        class="form-control"/>
@@ -84,10 +85,16 @@
                  for="buttonText">
             Text:
           </label>
-          <input class="form-control"
-                 id="buttonText"
+          <input id="buttonText"
+                 required
                  th:field="*{text}"
+                 th:class="'form-control ' + (${#fields.hasErrors('text')} ? 'is-invalid' : '')"
                  type="text"/>
+
+          <div class="invalid-feedback"
+               th:if="${#fields.hasErrors('text')}"
+               th:errors="*{text}">
+          </div>
         </div>
       </div>
 
@@ -97,10 +104,16 @@
                  for="buttonLink">
             Link:
           </label>
-          <input class="form-control"
-                 id="buttonLink"
+          <input id="buttonLink"
+                 required
                  th:field="*{link}"
+                 th:class="'form-control ' + (${#fields.hasErrors('link')} ? 'is-invalid' : '')"
                  type="text"/>
+
+          <div class="invalid-feedback"
+               th:if="${#fields.hasErrors('link')}"
+               th:errors="*{link}">
+          </div>
         </div>
       </div>
     </div>
@@ -184,13 +197,17 @@
                  for="headerLevel">
             Level:
           </label>
-          <select class="form-select"
-                  th:field="*{level}"
+          <select th:field="*{level}"
+                  th:class="'form-select ' + (${#fields.hasErrors('level')} ? 'is-invalid' : '')"
                   id="headerLevel">
             <option value="H1">Level 1</option>
             <option value="H2">Level 2</option>
             <option value="H3">Level 3</option>
           </select>
+          <div class="invalid-feedback"
+               th:if="${#fields.hasErrors('level')}"
+               th:errors="*{level}">
+          </div>
         </div>
       </div>
 
@@ -207,8 +224,8 @@
           <div class="btn-group">
             <input type="radio"
                    th:field="*{alignment}"
+                   th:class="'btn-check ' + (${#fields.hasErrors('alignment')} ? 'is-invalid' : '')"
                    value="LEFT"
-                   class="btn-check"
                    id="alignmentLeft">
             <label class="btn btn-outline-primary"
                    for="alignmentLeft">
@@ -217,8 +234,8 @@
 
             <input type="radio"
                    th:field="*{alignment}"
+                   th:class="'btn-check ' + (${#fields.hasErrors('alignment')} ? 'is-invalid' : '')"
                    value="CENTER"
-                   class="btn-check"
                    id="alignmentCenter">
             <label class="btn btn-outline-primary"
                    for="alignmentCenter">
@@ -226,14 +243,19 @@
             </label>
 
             <input type="radio"
-                   class="btn-check"
                    th:field="*{alignment}"
+                   th:class="'btn-check ' + (${#fields.hasErrors('alignment')} ? 'is-invalid' : '')"
                    value="RIGHT"
                    id="alignmentRight">
             <label class="btn btn-outline-primary"
                    for="alignmentRight">
               Right
             </label>
+
+            <div class="invalid-feedback"
+                 th:if="${#fields.hasErrors('alignment')}"
+                 th:errors="*{alignment}">
+            </div>
           </div>
         </div>
       </div>
@@ -246,8 +268,15 @@
           </label>
           <input class="form-control"
                  id="headerText"
+                 required
+                 th:class="'form-control ' + (${#fields.hasErrors('text')} ? 'is-invalid' : '')"
                  th:field="*{text}"
                  type="text"/>
+
+          <div class="invalid-feedback"
+               th:if="${#fields.hasErrors('text')}"
+               th:errors="*{text}">
+          </div>
         </div>
       </div>
     </div>
