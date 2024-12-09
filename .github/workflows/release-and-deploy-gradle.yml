@@ -1,22 +1,16 @@
 name: Release and deploy
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-#on:
-#  workflow_dispatch:
-#    inputs:
-#      VERSION:
-#        description: 'Version to deploy'
-#        required: true
-#        default: '0.0.0'
-#      BRANCH:
-#        description: 'Branch to deploy'
-#        required: true
-#        default: 'main'
+  workflow_dispatch:
+    inputs:
+      VERSION:
+        description: 'Version to deploy'
+        required: true
+        default: '0.0.0'
+      BRANCH:
+        description: 'Branch to deploy'
+        required: true
+        default: 'main'
 
 jobs:
   build:
@@ -89,7 +83,7 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            if [ -d "/home/${{ secrets.SERVER_USERNAME }}/app/0.0.6" ]; then exit 1; fi
+            if [ -d "/home/${{ secrets.SERVER_USERNAME }}/app/${{ github.event.inputs.VERSION }}" ]; then exit 1; fi
             
       - name: Upload to the server
         uses: appleboy/scp-action@v0.1.7
@@ -99,7 +93,7 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           source: "./app.jar"
-          target: /home/${{ secrets.SERVER_USERNAME }}/app/0.0.6
+          target: /home/${{ secrets.SERVER_USERNAME }}/app/${{ github.event.inputs.VERSION }}
 
   run:
     runs-on: ubuntu-latest
@@ -129,5 +123,5 @@ jobs:
           script: |
             cd /home/${{ secrets.SERVER_USERNAME }}/app/
             rm app.jar
-            ln -fs /home/${{ secrets.SERVER_USERNAME }}/app/0.0.6/app.jar app.jar
+            ln -fs /home/${{ secrets.SERVER_USERNAME }}/app/${{ github.event.inputs.VERSION }}/app.jar app.jar
             ./run.sh
