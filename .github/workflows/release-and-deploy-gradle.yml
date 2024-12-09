@@ -89,7 +89,7 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            if [ -d "/home/${{ secrets.SERVER_USERNAME }}/app/0.0.5" ]; then exit 1; fi
+            if [ -d "/home/${{ secrets.SERVER_USERNAME }}/app/0.0.6" ]; then exit 1; fi
             
       - name: Upload to the server
         uses: appleboy/scp-action@v0.1.7
@@ -99,7 +99,7 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           source: "./app.jar"
-          target: /home/${{ secrets.SERVER_USERNAME }}/app/0.0.5
+          target: /home/${{ secrets.SERVER_USERNAME }}/app/0.0.6
 
   run:
     runs-on: ubuntu-latest
@@ -129,5 +129,5 @@ jobs:
           script: |
             cd /home/${{ secrets.SERVER_USERNAME }}/app/
             rm app.jar
-            ln -fs /home/${{ secrets.SERVER_USERNAME }}/0.0.5/app.jar app.jar
+            ln -fs /home/${{ secrets.SERVER_USERNAME }}/app/0.0.6/app.jar app.jar
             ./run.sh
