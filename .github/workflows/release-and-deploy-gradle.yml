@@ -89,4 +89,4 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            if [ -d "/home/${{ secrets.SERVER_USERNAME }}/app/0.0.1" ]; exit; fi
+            if [ -d "/home/${{ secrets.SERVER_USERNAME }}/app/0.0.3" ]; exit; fi
