@@ -11,3 +11,8 @@ div.preview-pane-container {
   display: flex;
   justify-content: center;
 }
+
+.htmx-request {
+  opacity: 0.6;
+  background-color: #c0c0c0;
+}

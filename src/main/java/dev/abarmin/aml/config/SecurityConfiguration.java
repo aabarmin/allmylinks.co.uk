@@ -30,6 +30,7 @@ public class SecurityConfiguration {
         .requestMatchers("/webjars/**").permitAll()
         .requestMatchers("/img/**").permitAll()
         .requestMatchers("/css/**").permitAll()
+        .requestMatchers("/js/**").permitAll()
 
         .requestMatchers("/pricing").permitAll()
         .requestMatchers("/legal/**").permitAll()

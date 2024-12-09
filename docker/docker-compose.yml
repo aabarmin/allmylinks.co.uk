@@ -9,7 +9,7 @@ services:
       MARIADB_PASSWORD: mariadb
       MARIADB_DATABASE: aml
     ports:
-      - 3306:3306
+      - 13306:3306
 
   pma:
     image: phpmyadmin
