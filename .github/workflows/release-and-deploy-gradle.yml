@@ -89,7 +89,7 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            if [ -d "/home/${{ secrets.SERVER_USERNAME }}/app/0.0.3" ]; then exit 1; fi
+            if [ -d "/home/${{ secrets.SERVER_USERNAME }}/app/0.0.4" ]; then exit 1; fi
             
       - name: Upload to the server
         uses: appleboy/scp-action@v0.1.7
@@ -99,4 +99,35 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           source: "./app.jar"
-          target: /home/${{ secrets.SERVER_USERNAME }}/app/0.0.3
+          target: /home/${{ secrets.SERVER_USERNAME }}/app/0.0.4
+
+  run:
+    runs-on: ubuntu-latest
+    name: "Run the version"
+    environment: Production
+    needs: upload
+
+    steps:
+      - name: Stop the existing app
+        uses: appleboy/ssh-action@v1.0.2
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          port: ${{ secrets.SERVER_PORT }}
+          script: |
+            APP_PID=$(jps | grep app.jar | grep -Eo '[0-9]+')
+            if [ -n "$APP_PID" ]; then kill -9 $APP_PID; fi
+
+      - name: Run the new version
+        uses: appleboy/ssh-action@v1.0.2
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          port: ${{ secrets.SERVER_PORT }}
+          script: |
+            cd /home/${{ secrets.SERVER_USERNAME }}/app/
+            rm app.jar
+            ln -fs /0.0.4/app.jar app.jar
+            ./run.sh
