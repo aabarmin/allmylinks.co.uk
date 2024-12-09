@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+<div th:fragment="content"
+     class="container">
+  <div class="row">
+    <div class="col preview-pane-container">
+      <th:block th:replace="~{private/components-dashboard/dashboard-preview :: preview-pane}"/>
+    </div>
+  </div>
+</div>
+
+<div th:fragment="preview-pane"
+     class="preview-pane">
+
+  <th:block th:each="block : ${model.currentPage.pageBlocks}">
+    <th:block th:replace="~{private/components-dashboard/dashboard-block :: __${block.blockType.type}__(${block})}" />
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          &nbsp;
+        </div>
+      </div>
+    </div>
+  </th:block>
+
+</div>
+
+</body>
+</html>

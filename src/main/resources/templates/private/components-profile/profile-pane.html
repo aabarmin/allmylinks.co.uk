@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+<div th:fragment="content"
+     class="container">
+  <div class="row">
+    <div class="col">
+      <th:block th:replace="~{private/components-profile/profile-email :: content}" />
+    </div>
+    <div class="col">
+      <th:block th:replace="~{private/components-profile/profile-link :: content}" />
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <th:block th:replace="~{private/components-reusable/page-divider :: content}"></th:block>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <th:block th:replace="~{private/components-profile/profile-deactivate :: content}" />
+    </div>
+    <div class="col">
+      &nbsp;
+    </div>
+  </div>
+</div>
+</body>
+</html>

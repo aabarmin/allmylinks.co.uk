@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
+    <img src="./docs/img/logo.png" alt="All My Links Logo" />
+    <h1>
+        All My Links
+    </h1>
+</div>
 
-## Getting Started
+Welcome to the [AllMyLinks](https://allmylinks.co.uk) codebase. We're building a platform that allows you to create 
+a personal page with all your links in one place. This repository contains the code of the platform.
 
-First, run the development server:
+## 🛠️ Tech stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+👨‍💻**TLDR: Java 17, Spring Boot 3.4, MariaDB, HTMX**
+
+We're trying to keep the tech stack as simple as possible in order to move as fast as possible. And also because 
+there are very a few people who's working on the project. 
+
+The most complicated part is to build the frontend. The first version of the application was built with NextJS but
+unfortunately due to unforeseen maintenance burden, we decided to switch to a more traditional approach. Currently, 
+the frontend is built by using [HTMX](https://htmx.org/) as it allows to limit amount of JavaScript and rely on 
+the backend technologies as much as possible. 
+
+## 🔮 Installation and running locally
+
+1. Install [docker](https://docs.docker.com/get-docker/) and [docker-compose](https://docs.docker.com/compose/install/).
+2. Clone the repository:
+
+```shell
+$ git clone https://github.com/aabarmin/allmylinks.co.uk.git
+$ cd allmylinks.co.uk
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Run dependencies in docker: 
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```shell
+$ docker-compose up -f ./docker/docker-compose.yml
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Run the application:
 
-## Learn More
+```shell
+$ ./gradlew bootRun
+```
 
-To learn more about Next.js, take a look at the following resources:
+This will run the application in development mode on [http://localhost:8080](http://localhost:8080), as well as other
+necessary dependencies: MariaDB database, phpMyAdmin, and smtp4dev. 
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Auto-reloading for backend and frontend is performed automatically by using Spring Boot DevTools and HTMX.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🧪 Testing
 
-## Deploy on Vercel
+We use standard JUnit 5 and Spring Boot for testing. No magic here.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🚀 Deployment
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+No k8s, no AWS, no clouds, we ship `jar` files directly via ssh and it's beautiful!
+
+## 🐞 How to report a bug? 
+
+- 🆕 Open [a new issue](https://github.com/aabarmin/allmylinks.co.uk/issues/new) and describe the problem.
+
+## 📢 Contributions
+
+Contributions are welcome. If you want to have a new feature added, please [open a new issue](https://github.com/aabarmin/allmylinks.co.uk/issues/new)
+and describe the feature you want to have.

@@ -1,0 +1,11 @@
+spring:
+  mail:
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+aml:
+  base-url: https://allmylinks.co.uk

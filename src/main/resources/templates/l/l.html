@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en"
+      layout:decorate="~{l/layout.html}"
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+
+</head>
+<body>
+<th:block layout:fragment="main-content">
+
+  <th:block th:replace="~{private/components-dashboard/dashboard-preview :: content}"/>
+
+</th:block>
+</body>
+</html>

@@ -1,0 +1,23 @@
+version: '3.9'
+
+services:
+  db:
+    image: mariadb:11.6
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_USER: mariadb
+      MARIADB_PASSWORD: mariadb
+      MARIADB_DATABASE: aml
+    ports:
+      - 3306:3306
+
+  pma:
+    image: phpmyadmin
+    ports:
+      - 8800:80
+
+  mail:
+    image: rnwood/smtp4dev
+    ports:
+      - 4000:80
+      - 2525:25

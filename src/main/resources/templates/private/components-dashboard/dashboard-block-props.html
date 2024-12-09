@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+
+<div th:fragment="SOCIAL_NETWORKS_BLOCK"
+     id="socialNetworksBlockForm">
+  <form th:object="${model.currentBlock.blockProps}"
+        th:with="props=${model.currentBlock.blockProps}"
+        th:action="@{/private/dashboard/{pId}/blocks/{bId}(pId=${model.currentPage.pageId},bId=${model.currentBlock.blockId})}"
+        method="post">
+
+    <input type="hidden" name="type" th:value="${model.currentBlock.blockType.type}"/>
+
+    <div class="container">
+      <th:block th:replace="~{private/components-dashboard/dashboard-block-props :: toolbar(${model.currentBlock})}"/>
+
+      <div class="row">
+        <div class="col d-grid">
+          <button th:hx-post="@{/private/dashboard/{pId}/blocks/{bId}(pId=${model.currentPage.pageId},bId=${model.currentBlock.blockId})}"
+                  hx-target="#socialNetworksBlockForm"
+                  class="btn btn-primary"
+                  name="action"
+                  value="add-network"
+                  type="submit">
+            Add social network
+          </button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <table class="table">
+            <tr th:each="link, stat : ${props.links}">
+              <td>
+                <select class="form-select"
+                        th:value="${link.network}"
+                        th:name="currentBlock.blockProps.links[__${stat.index}__].network">
+                  <option th:each="sn : ${T(dev.abarmin.aml.dashboard.block.social.SocialNetworkIcon).values()}"
+                          th:value="${sn.name()}"
+                          th:selected="${#strings.equals(sn.name(), link.network)}"
+                          th:text="${sn.name()}">
+                  </option>
+                </select>
+              </td>
+              <td>
+                <input type="text"
+                       th:value="${link.url}"
+                       th:name="currentBlock.blockProps.links[__${stat.index}__].url"
+                       class="form-control"/>
+              </td>
+              <td>
+                <button class="btn btn-danger"
+                        name="action"
+                        th:hx-post="@{/private/dashboard/{pId}/blocks/{bId}(pId=${model.currentPage.pageId},bId=${model.currentBlock.blockId})}"
+                        hx-target="#socialNetworksBlockForm"
+                        th:value="'remove-network__' + ${stat.index}"
+                        type="submit">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<div th:fragment="BUTTON_BLOCK">
+  <form th:object="${model.currentBlock.blockProps}"
+        th:with="props=${model.currentBlock.blockProps}"
+        th:action="@{/private/dashboard/{pId}/blocks/{bId}(pId=${model.currentPage.pageId},bId=${model.currentBlock.blockId})}"
+        method="post">
+
+    <input type="hidden" name="type" th:value="${model.currentBlock.blockType.type}"/>
+
+    <div class="container">
+      <th:block th:replace="~{private/components-dashboard/dashboard-block-props :: toolbar(${model.currentBlock})}"/>
+
+      <div class="row">
+        <div class="col">
+          <label class="form-label"
+                 for="buttonText">
+            Text:
+          </label>
+          <input class="form-control"
+                 id="buttonText"
+                 th:field="*{text}"
+                 type="text"/>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <label class="form-label"
+                 for="buttonLink">
+            Link:
+          </label>
+          <input class="form-control"
+                 id="buttonLink"
+                 th:field="*{link}"
+                 type="text"/>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<div th:fragment="AVATAR_BLOCK">
+  <form th:object="${model.currentBlock.blockProps}"
+        th:with="props=${model.currentBlock.blockProps}"
+        th:action="@{/private/dashboard/{pId}/blocks/{bId}(pId=${model.currentPage.pageId},bId=${model.currentBlock.blockId})}"
+        enctype="multipart/form-data"
+        method="post">
+
+    <input type="hidden" name="type" th:value="${model.currentBlock.blockType.type}"/>
+
+    <div class="container">
+      <th:block th:replace="~{private/components-dashboard/dashboard-block-props :: toolbar(${model.currentBlock})}"/>
+
+      <div class="row">
+        <div class="col text-center">
+          <img th:src="${props.imageUrl}"
+               class="rounded-circle"
+               height="200"
+               width="200" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          &nbsp;
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="form-check form-switch">
+            <input class="form-check-input"
+                   type="checkbox"
+                   name="resetAvatar"
+                   id="resetAvatar">
+            <label class="form-check-label"
+                   for="resetAvatar">
+              Reset avatar
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="mb-3">
+            <label for="newAvatar" class="form-label">
+              Upload new avatar
+            </label>
+            <input class="form-control"
+                   name="newAvatar"
+                   type="file"
+                   id="newAvatar">
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<div th:fragment="HEADER_BLOCK">
+  <form th:object="${model.currentBlock.blockProps}"
+        th:action="@{/private/dashboard/{pId}/blocks/{bId}(pId=${model.currentPage.pageId},bId=${model.currentBlock.blockId})}"
+        method="post">
+
+    <input type="hidden" name="type" th:value="${model.currentBlock.blockType.type}"/>
+
+    <div class="container">
+      <th:block th:replace="~{private/components-dashboard/dashboard-block-props :: toolbar(${model.currentBlock})}"/>
+
+      <div class="row">
+        <div class="col">
+          <label class="form-label"
+                 for="headerLevel">
+            Level:
+          </label>
+          <select class="form-select"
+                  th:field="*{level}"
+                  id="headerLevel">
+            <option value="H1">Level 1</option>
+            <option value="H2">Level 2</option>
+            <option value="H3">Level 3</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <label class="form-label">
+            Alignment:
+          </label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="btn-group">
+            <input type="radio"
+                   th:field="*{alignment}"
+                   value="LEFT"
+                   class="btn-check"
+                   id="alignmentLeft">
+            <label class="btn btn-outline-primary"
+                   for="alignmentLeft">
+              Left
+            </label>
+
+            <input type="radio"
+                   th:field="*{alignment}"
+                   value="CENTER"
+                   class="btn-check"
+                   id="alignmentCenter">
+            <label class="btn btn-outline-primary"
+                   for="alignmentCenter">
+              Center
+            </label>
+
+            <input type="radio"
+                   class="btn-check"
+                   th:field="*{alignment}"
+                   value="RIGHT"
+                   id="alignmentRight">
+            <label class="btn btn-outline-primary"
+                   for="alignmentRight">
+              Right
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <label class="form-label"
+                 for="headerText">
+            Text:
+          </label>
+          <input class="form-control"
+                 id="headerText"
+                 th:field="*{text}"
+                 type="text"/>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<th:block th:fragment="toolbar(block)">
+  <div class="row">
+    <div class="col">
+      <a th:href="@{/private/dashboard}" class="btn btn-outline-primary">
+        Back
+      </a>
+      <button type="submit" class="btn btn-primary">
+        Save
+      </button>
+    </div>
+    <div class="col text-end">
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle"
+                type="button"
+                data-bs-toggle="dropdown">
+          <i class="bi bi-gear"></i>
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <a class="dropdown-item"
+               th:href="@{/private/dashboard/{pId}/blocks/{bId}/up(pId=${block.pageId},bId=${block.blockId})}"
+               th:classappend="${!block.canMoveUp} ? 'disabled' : ''"
+               th:disabled="${!block.canMoveUp}">
+              <i class="bi bi-arrow-up"></i>
+              Move up
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item"
+               th:href="@{/private/dashboard/{pId}/blocks/{bId}/down(pId=${block.pageId},bId=${block.blockId})}"
+               th:classappend="${!block.canMoveDown} ? 'disabled' : ''"
+               th:disabled="${!block.canMoveDown}">
+              <i class="bi bi-arrow-down"></i>
+              Move down
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item"
+               th:href="@{/private/dashboard/{pId}/blocks/{bId}/delete(pId=${block.pageId},bId=${block.blockId})}">
+              <i class="bi bi-trash"></i>
+              Delete
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      &nbsp;
+    </div>
+  </div>
+</th:block>
+
+</body>
+</html>
