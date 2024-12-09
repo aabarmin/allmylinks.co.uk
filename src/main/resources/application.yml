@@ -23,9 +23,11 @@ aml:
     disk-storage:
       base-path: ./storage
   backoffice:
-    adminEmail: admin@allmylinks.co.uk
+    adminEmail: robot@allmylinks.co.uk
 
-#logging:
+logging:
+  file:
+    path: ./logs
 #  level:
 #    org:
 #      springframework:
