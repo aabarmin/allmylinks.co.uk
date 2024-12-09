@@ -88,5 +88,5 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
-        script: |
-          if [ -d "/home/${{ secrets.SERVER_USERNAME }}/app/0.0.1"]; exit 1; fi
+          script: |
+            if [ -d "/home/${{ secrets.SERVER_USERNAME }}/app/0.0.1"]; exit 1; fi
