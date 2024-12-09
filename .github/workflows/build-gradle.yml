@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-
+    name: "Build"
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -58,6 +58,7 @@ jobs:
 
   dependency-submission:
 
+    name: "Generate and submit dependency graph"
     runs-on: ubuntu-latest
     permissions:
       contents: write
