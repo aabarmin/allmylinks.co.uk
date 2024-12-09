@@ -62,9 +62,9 @@ jobs:
           name: artifact
           path: ./build/libs/app.jar
 
-  upload:
+  deploy:
     runs-on: ubuntu-latest
-    name: "Upload the artifact"
+    name: "Deploy the artifact"
     environment: Production
     needs: build
 
@@ -84,7 +84,7 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             if [ -d "/home/${{ secrets.SERVER_USERNAME }}/app/${{ github.event.inputs.VERSION }}" ]; then exit 1; fi
-            
+
       - name: Upload to the server
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -95,13 +95,6 @@ jobs:
           source: "./app.jar"
           target: /home/${{ secrets.SERVER_USERNAME }}/app/${{ github.event.inputs.VERSION }}
 
-  run:
-    runs-on: ubuntu-latest
-    name: "Run the version"
-    environment: Production
-    needs: upload
-
-    steps:
       - name: Stop the existing app
         uses: appleboy/ssh-action@v1.0.2
         with:
@@ -124,4 +117,4 @@ jobs:
             cd /home/${{ secrets.SERVER_USERNAME }}/app/
             rm app.jar
             ln -fs /home/${{ secrets.SERVER_USERNAME }}/app/${{ github.event.inputs.VERSION }}/app.jar app.jar
-            ./run.sh
+            nohup ./run.sh
