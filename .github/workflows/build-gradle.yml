@@ -22,7 +22,7 @@ jobs:
           MARIADB_PASSWORD: mariadb
           MARIADB_DATABASE: aml
         ports:
-          - 3306:3306
+          - 13306:3306
       mail:
         image: rnwood/smtp4dev
         ports:
@@ -41,7 +41,7 @@ jobs:
         uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
 
       - name: Build with Gradle Wrapper
-        run: export SPRING_PROFILES_ACTIVE=ci && ./gradlew build
+        run: ./gradlew build
 
       - name: "Store test results"
         uses: actions/upload-artifact@v4
