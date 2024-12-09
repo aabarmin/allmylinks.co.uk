@@ -11,13 +11,13 @@
       <th:block th:replace="~{private/components-dashboard/dashboard-preview :: content}"/>
     </div>
     <div class="col-md-3">
-      <th:block th:switch="${model.currentBlock}">
+      <th:block th:switch="${currentBlock}">
         <th:block th:case="null">
           <th:block th:replace="~{private/components-dashboard/dashboard-page-props :: content}"/>
         </th:block>
         <th:block th:case="*">
           <th:block
-            th:replace="~{private/components-dashboard/dashboard-block-props :: __${model.currentBlock.blockType.type}__}"/>
+            th:replace="~{private/components-dashboard/dashboard-block-props :: __${currentBlock.blockType.type}__}"/>
         </th:block>
       </th:block>
     </div>

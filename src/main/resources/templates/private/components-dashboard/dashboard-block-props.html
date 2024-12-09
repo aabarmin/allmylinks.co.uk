@@ -4,19 +4,19 @@
 
 <div th:fragment="SOCIAL_NETWORKS_BLOCK"
      id="socialNetworksBlockForm">
-  <form th:object="${model.currentBlock.blockProps}"
-        th:with="props=${model.currentBlock.blockProps}"
-        th:action="@{/private/dashboard/{pId}/blocks/{bId}(pId=${model.currentPage.pageId},bId=${model.currentBlock.blockId})}"
+  <form th:object="${currentBlock.blockProps}"
+        th:with="props=${currentBlock.blockProps}"
+        th:action="@{/private/dashboard/{pId}/blocks/{bId}(pId=${currentBlock.pageId},bId=${currentBlock.blockId})}"
         method="post">
 
-    <input type="hidden" name="type" th:value="${model.currentBlock.blockType.type}"/>
+    <input type="hidden" name="type" th:value="${currentBlock.blockType.type}"/>
 
     <div class="container">
-      <th:block th:replace="~{private/components-dashboard/dashboard-block-props :: toolbar(${model.currentBlock})}"/>
+      <th:block th:replace="~{private/components-dashboard/dashboard-block-props :: toolbar(${currentBlock})}"/>
 
       <div class="row">
         <div class="col d-grid">
-          <button th:hx-post="@{/private/dashboard/{pId}/blocks/{bId}(pId=${model.currentPage.pageId},bId=${model.currentBlock.blockId})}"
+          <button th:hx-post="@{/private/dashboard/{pId}/blocks/{bId}(pId=${currentBlock.pageId},bId=${currentBlock.blockId})}"
                   hx-target="#socialNetworksBlockForm"
                   class="btn btn-primary"
                   name="action"
@@ -32,27 +32,37 @@
           <table class="table">
             <tr th:each="link, stat : ${props.links}">
               <td>
-                <select class="form-select"
+                <select th:class="'form-select ' + (${#fields.hasErrors('links[__${stat.index}__].network')} ? 'is-invalid' : '')"
                         th:value="${link.network}"
-                        th:name="currentBlock.blockProps.links[__${stat.index}__].network">
+                        th:name="blockProps.links[__${stat.index}__].network">
                   <option th:each="sn : ${T(dev.abarmin.aml.dashboard.block.social.SocialNetworkIcon).values()}"
                           th:value="${sn.name()}"
                           th:selected="${#strings.equals(sn.name(), link.network)}"
                           th:text="${sn.name()}">
                   </option>
                 </select>
+
+                <div class="invalid-feedback"
+                     th:if="${#fields.hasErrors('links[__${stat.index}__].network')}"
+                     th:errors="*{links[__${stat.index}__].network}">
+                </div>
               </td>
               <td>
                 <input type="text"
                        required
+                       th:class="'form-control ' + (${#fields.hasErrors('links[__${stat.index}__].url')} ? 'is-invalid' : '')"
                        th:value="${link.url}"
-                       th:name="currentBlock.blockProps.links[__${stat.index}__].url"
-                       class="form-control"/>
+                       th:name="blockProps.links[__${stat.index}__].url" />
+
+                <div class="invalid-feedback"
+                     th:if="${#fields.hasErrors('links[__${stat.index}__].url')}"
+                     th:errors="*{links[__${stat.index}__].url}">
+                </div>
               </td>
               <td>
                 <button class="btn btn-danger"
                         name="action"
-                        th:hx-post="@{/private/dashboard/{pId}/blocks/{bId}(pId=${model.currentPage.pageId},bId=${model.currentBlock.blockId})}"
+                        th:hx-post="@{/private/dashboard/{pId}/blocks/{bId}(pId=${currentBlock.pageId},bId=${currentBlock.blockId})}"
                         hx-target="#socialNetworksBlockForm"
                         th:value="'remove-network__' + ${stat.index}"
                         type="submit">
@@ -69,15 +79,15 @@
 </div>
 
 <div th:fragment="BUTTON_BLOCK">
-  <form th:object="${model.currentBlock.blockProps}"
-        th:with="props=${model.currentBlock.blockProps}"
-        th:action="@{/private/dashboard/{pId}/blocks/{bId}(pId=${model.currentPage.pageId},bId=${model.currentBlock.blockId})}"
+  <form th:object="${currentBlock.blockProps}"
+        th:with="props=${currentBlock.blockProps}"
+        th:action="@{/private/dashboard/{pId}/blocks/{bId}(pId=${currentBlock.pageId},bId=${currentBlock.blockId})}"
         method="post">
 
-    <input type="hidden" name="type" th:value="${model.currentBlock.blockType.type}"/>
+    <input type="hidden" name="type" th:value="${currentBlock.blockType.type}"/>
 
     <div class="container">
-      <th:block th:replace="~{private/components-dashboard/dashboard-block-props :: toolbar(${model.currentBlock})}"/>
+      <th:block th:replace="~{private/components-dashboard/dashboard-block-props :: toolbar(${currentBlock})}"/>
 
       <div class="row">
         <div class="col">
@@ -122,23 +132,23 @@
 </div>
 
 <div th:fragment="AVATAR_BLOCK">
-  <form th:object="${model.currentBlock.blockProps}"
-        th:with="props=${model.currentBlock.blockProps}"
-        th:action="@{/private/dashboard/{pId}/blocks/{bId}(pId=${model.currentPage.pageId},bId=${model.currentBlock.blockId})}"
+  <form th:object="${currentBlock.blockProps}"
+        th:with="props=${currentBlock.blockProps}"
+        th:action="@{/private/dashboard/{pId}/blocks/{bId}(pId=${currentBlock.pageId},bId=${currentBlock.blockId})}"
         enctype="multipart/form-data"
         method="post">
 
-    <input type="hidden" name="type" th:value="${model.currentBlock.blockType.type}"/>
+    <input type="hidden" name="type" th:value="${currentBlock.blockType.type}"/>
 
     <div class="container">
-      <th:block th:replace="~{private/components-dashboard/dashboard-block-props :: toolbar(${model.currentBlock})}"/>
+      <th:block th:replace="~{private/components-dashboard/dashboard-block-props :: toolbar(${currentBlock})}"/>
 
       <div class="row">
         <div class="col text-center">
-          <img th:src="${props.imageUrl}"
-               class="rounded-circle"
-               height="200"
-               width="200" />
+<!--          <img th:src="${props.imageUrl}"-->
+<!--               class="rounded-circle"-->
+<!--               height="200"-->
+<!--               width="200" />-->
         </div>
       </div>
 
@@ -182,14 +192,14 @@
 </div>
 
 <div th:fragment="HEADER_BLOCK">
-  <form th:object="${model.currentBlock.blockProps}"
-        th:action="@{/private/dashboard/{pId}/blocks/{bId}(pId=${model.currentPage.pageId},bId=${model.currentBlock.blockId})}"
+  <form th:object="${currentBlock.blockProps}"
+        th:action="@{/private/dashboard/{pId}/blocks/{bId}(pId=${currentBlock.pageId},bId=${currentBlock.blockId})}"
         method="post">
 
-    <input type="hidden" name="type" th:value="${model.currentBlock.blockType.type}"/>
+    <input type="hidden" name="type" th:value="${currentBlock.blockType.type}"/>
 
     <div class="container">
-      <th:block th:replace="~{private/components-dashboard/dashboard-block-props :: toolbar(${model.currentBlock})}"/>
+      <th:block th:replace="~{private/components-dashboard/dashboard-block-props :: toolbar(${currentBlock})}"/>
 
       <div class="row">
         <div class="col">
@@ -268,7 +278,6 @@
           </label>
           <input class="form-control"
                  id="headerText"
-                 required
                  th:class="'form-control ' + (${#fields.hasErrors('text')} ? 'is-invalid' : '')"
                  th:field="*{text}"
                  type="text"/>

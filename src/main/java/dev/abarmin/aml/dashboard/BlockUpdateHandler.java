@@ -1,68 +1,79 @@
 package dev.abarmin.aml.dashboard;
 
-import dev.abarmin.aml.dashboard.block.BlockPropsSupport;
 import dev.abarmin.aml.dashboard.block.avatar.AvatarBlockProps;
-import dev.abarmin.aml.dashboard.block.header.HeaderBlockPropsForm;
-import dev.abarmin.aml.dashboard.block.link.LinkButtonBlockPropsForm;
-import dev.abarmin.aml.dashboard.block.social.SocialNetworksBlockPropsForm;
+import dev.abarmin.aml.dashboard.block.social.SocialNetworkLink;
+import dev.abarmin.aml.dashboard.block.social.SocialNetworksBlockProps;
+import dev.abarmin.aml.dashboard.converter.BlockConverter;
+import dev.abarmin.aml.dashboard.converter.DashboardModelConverter;
 import dev.abarmin.aml.dashboard.domain.Block;
+import dev.abarmin.aml.dashboard.domain.Page;
+import dev.abarmin.aml.dashboard.model.BlockModel;
+import dev.abarmin.aml.dashboard.model.DashboardModel;
 import dev.abarmin.aml.dashboard.repository.BlockRepository;
+import dev.abarmin.aml.dashboard.repository.PageRepository;
 import dev.abarmin.aml.file.FileSaveRequest;
 import dev.abarmin.aml.file.FileSaveResponse;
 import dev.abarmin.aml.file.FileService;
 import dev.abarmin.aml.image.ImagePresets;
 import dev.abarmin.aml.image.ImageService;
+import dev.abarmin.aml.registration.domain.Profile;
 import dev.abarmin.aml.registration.domain.User;
+import dev.abarmin.aml.registration.repository.ProfileRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
+@RequestMapping(BlockUpdateHandler.UPDATE_BLOCK_ENDPOINT)
 public class BlockUpdateHandler {
   public static final String UPDATE_BLOCK_ENDPOINT = "/private/dashboard/{pageId}/blocks/{blockId}";
 
+  private final BlockConverter blockConverter;
   private final BlockRepository blockRepository;
+  private final ProfileRepository profileRepository;
+  private final PageRepository pageRepository;
+  private final DashboardModelConverter dashboardConverter;
   private final FileService fileService;
   private final SessionService sessionService;
   private final ImageService imageService;
   private final ImagePresets imagePresets;
 
-  @PostMapping(
-    value = UPDATE_BLOCK_ENDPOINT,
-    params = "type=HEADER_BLOCK")
-  public String updateHeaderBlock(@PathVariable("pageId") long pageId,
-                                  @PathVariable("blockId") long blockId,
-                                  @Valid @ModelAttribute("currentBlock") HeaderBlockPropsForm headerBlock,
-                                  BindingResult bindingResult) {
+  @PostMapping
+  public String updateGenericBlock(Model model,
+                                   @Valid @ModelAttribute("currentBlock") BlockModel blockModel,
+                                   BindingResult bindingResult) {
 
     if (!bindingResult.hasErrors()) {
-      updateBlock(blockId, headerBlock);
+      updateBlock(blockModel);
+      rebuildViewModel(model, blockModel);
     }
-
-    return String.format("redirect:/private/dashboard/%s/blocks/%s", pageId, blockId);
+    return "private/dashboard";
   }
 
-  @PostMapping(
-    value = UPDATE_BLOCK_ENDPOINT,
-    params = "type=AVATAR_BLOCK"
-  )
-  public String updateAvatarBlock(@PathVariable("pageId") long pageId,
-                                  @PathVariable("blockId") long blockId,
+
+
+  @PostMapping(params = "type=AVATAR_BLOCK")
+  public String updateAvatarBlock(Model model,
+                                  @ModelAttribute("currentBlock") BlockModel blockModel,
                                   @RequestParam(value = "resetAvatar", required = false, defaultValue = "false") boolean resetAvatar,
                                   @RequestParam(value = "newAvatar", required = false) MultipartFile newAvatar,
                                   Authentication authentication) throws Exception {
 
-    final Block block = blockRepository.findById(blockId).orElseThrow();
+    final Block block = blockRepository.findById(blockModel.getBlockId()).orElseThrow();
     if (block.props() instanceof AvatarBlockProps avatarProps) {
       if (resetAvatar) {
         avatarProps.setFileId(AvatarBlockProps.DEFAULT_AVATAR);
@@ -77,47 +88,61 @@ public class BlockUpdateHandler {
       blockRepository.save(block.withProps(avatarProps));
     }
 
-    return String.format("redirect:/private/dashboard/%s/blocks/%s", pageId, blockId);
+    rebuildViewModel(model, blockModel);
+    return "private/dashboard";
   }
 
-  @PostMapping(
-    value = UPDATE_BLOCK_ENDPOINT,
-    params = "type=BUTTON_BLOCK"
-  )
-  public String updateButtonBlock(@PathVariable("pageId") long pageId,
-                                  @PathVariable("blockId") long blockId,
-                                  @Valid @ModelAttribute("currentBlock") LinkButtonBlockPropsForm buttonBlock,
-                                  BindingResult bindingResult) {
+  @PostMapping(params = {"type=SOCIAL_NETWORKS_BLOCK", "action"})
+  public String updateSocialNetworks(@RequestParam("action") String action,
+                                     @ModelAttribute("currentBlock") BlockModel blockModel,
+                                     Model model) {
 
-    if (!bindingResult.hasErrors()) {
-      updateBlock(blockId, buttonBlock);
+
+    final SocialNetworksBlockProps networksBlock = (SocialNetworksBlockProps) blockModel.getBlockProps();
+    if (isAddAction(action)) {
+      networksBlock.getLinks().add(new SocialNetworkLink());
+    } else if (isRemoveAction(action)) {
+      final int toRemoveIndex = getNetworkToRemove(action);
+      networksBlock.getLinks().remove(toRemoveIndex);
     }
 
-    return String.format("redirect:/private/dashboard/%s/blocks/%s", pageId, blockId);
+    final Block block = blockRepository.findById(blockModel.getBlockId()).orElseThrow();
+    final Block updatedBlock = block.withProps(networksBlock);
+
+    model.addAttribute(
+      "currentBlock",
+      blockConverter.convert(updatedBlock)
+    );
+
+    return "private/components-dashboard/dashboard-block-props :: SOCIAL_NETWORKS_BLOCK";
   }
 
-  @PostMapping(
-    value = UPDATE_BLOCK_ENDPOINT,
-    params = "type=SOCIAL_NETWORKS_BLOCK"
-  )
-  public String saveSocialNetworksBlock(@PathVariable("pageId") long pageId,
-                                        @PathVariable("blockId") long blockId,
-                                        @Valid @ModelAttribute("currentBlock") SocialNetworksBlockPropsForm networks,
-                                        BindingResult bindingResult) {
+  private boolean isAddAction(String action) {
+    return StringUtils.equalsIgnoreCase(action, "add-network");
+  }
 
-    if (!bindingResult.hasErrors()) {
-      updateBlock(blockId, networks);
+  private boolean isRemoveAction(String action) {
+    return StringUtils.startsWithIgnoreCase(action, "remove-network");
+  }
+
+  private int getNetworkToRemove(String action) {
+    if (!isRemoveAction(action)) {
+      throw new IllegalArgumentException("Action is not remove-network");
     }
-
-    return String.format("redirect:/private/dashboard/%s/blocks/%s", pageId, blockId);
+    return Integer.parseInt(StringUtils.substringAfterLast(action, "__"));
   }
 
-  private void updateBlock(long blockId, BlockPropsSupport<?> props) {
-    blockRepository.findById(blockId)
-      .map(block -> {
-        final Block withNewProps = block.withProps(props.toProps());
-        return blockRepository.save(withNewProps);
-      });
+  private void updateBlock(BlockModel blockModel) {
+    final Block updated = blockConverter.convert(blockModel);
+    blockRepository.save(updated);
+  }
+
+  private void rebuildViewModel(Model model, BlockModel blockModel) {
+    final Page page = pageRepository.findById(blockModel.getPageId()).orElseThrow();
+    final Profile profile = profileRepository.findById(page.profileId()).orElseThrow();
+
+    final DashboardModel dashboardModel = dashboardConverter.convert(profile, page);
+    model.addAttribute("model", dashboardModel);
   }
 }
 
