@@ -43,6 +43,19 @@ jobs:
       - name: Build with Gradle Wrapper
         run: ./gradlew build
 
+      - name: "Collect test reports"
+        if: always()
+        run: |
+          tar -zcvf all-test-reports.tar.gz **/build/reports
+
+      - name: "Store test results"
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: all-test-reports
+          path: all-test-reports.tar.gz
+          retention-days: 7
+
   dependency-submission:
 
     runs-on: ubuntu-latest
