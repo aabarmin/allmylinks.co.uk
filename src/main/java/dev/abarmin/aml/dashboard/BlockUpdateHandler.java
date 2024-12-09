@@ -64,8 +64,6 @@ public class BlockUpdateHandler {
     return "private/dashboard";
   }
 
-
-
   @PostMapping(params = "type=AVATAR_BLOCK")
   public String updateAvatarBlock(Model model,
                                   @ModelAttribute("currentBlock") BlockModel blockModel,
@@ -143,6 +141,7 @@ public class BlockUpdateHandler {
 
     final DashboardModel dashboardModel = dashboardConverter.convert(profile, page);
     model.addAttribute("model", dashboardModel);
+    model.addAttribute("currentBlock", blockModel);
   }
 }
 
