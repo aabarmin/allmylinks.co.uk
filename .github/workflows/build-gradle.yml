@@ -22,7 +22,7 @@ jobs:
           MARIADB_PASSWORD: mariadb
           MARIADB_DATABASE: aml
         ports:
-          - 3306:3306
+          - 13306:3306
       mail:
         image: rnwood/smtp4dev
         ports:
