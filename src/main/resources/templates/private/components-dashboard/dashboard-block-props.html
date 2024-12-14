@@ -179,10 +179,14 @@
             <label for="newAvatar" class="form-label">
               Upload new avatar
             </label>
-            <input class="form-control"
+            <input th:class="'form-control ' + (${#strings.isEmpty(avatarError)} ? '' : 'is-invalid')"
                    name="newAvatar"
+                   th:accept="${allowedImageTypes}"
                    type="file"
-                   id="newAvatar">
+                   id="newAvatar" />
+            <div class="invalid-feedback"
+                 th:if="${#strings.isEmpty(avatarError) == false}"
+                 th:text="${avatarError}" />
           </div>
         </div>
       </div>

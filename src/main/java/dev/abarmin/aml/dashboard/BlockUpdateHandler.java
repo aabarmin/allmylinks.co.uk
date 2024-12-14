@@ -51,6 +51,7 @@ public class BlockUpdateHandler {
   private final SessionService sessionService;
   private final ImageService imageService;
   private final ImagePresets imagePresets;
+  private final AvatarValidator avatarValidator;
 
   @PostMapping
   public String updateGenericBlock(Model model,
@@ -70,6 +71,13 @@ public class BlockUpdateHandler {
                                   @RequestParam(value = "resetAvatar", required = false, defaultValue = "false") boolean resetAvatar,
                                   @RequestParam(value = "newAvatar", required = false) MultipartFile newAvatar,
                                   Authentication authentication) throws Exception {
+
+    final AvatarValidator.ValidationResult validationResult = avatarValidator.validate(newAvatar);
+    if (!validationResult.isOk()) {
+      log.info("Avatar validation failed: {}", validationResult.message());
+      model.addAttribute("avatarError", validationResult.message());
+      return "private/dashboard";
+    }
 
     final Block block = blockRepository.findById(blockModel.getBlockId()).orElseThrow();
     if (block.props() instanceof AvatarBlockProps avatarProps) {

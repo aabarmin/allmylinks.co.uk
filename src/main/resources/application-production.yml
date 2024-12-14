@@ -1,4 +1,6 @@
 spring:
+  datasource:
+    url: jdbc:mariadb://localhost:3306/aml
   mail:
     properties:
       mail:
