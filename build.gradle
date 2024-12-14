@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'dev.abarmin'
-version = '0.0.1-SNAPSHOT'
+version = getProjectVersion()
 
 java {
 	toolchain {
@@ -65,4 +65,36 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+def getCurrentGitBranch() {
+    def gitBranch = "Unknown branch"
+    try {
+        def workingDir = new File("${project.projectDir}")
+        def result = 'git rev-parse --abbrev-ref HEAD'.execute(null, workingDir)
+        result.waitFor()
+        if (result.exitValue() == 0) {
+            gitBranch = result.text.trim()
+        }
+    } catch (e) {
+    }
+    return gitBranch
+}
+
+def getProjectVersion() {
+    return getCurrentGitBranch() == 'main' ?
+            project.version :
+            project.version + '-SNAPSHOT';
+}
+
+tasks.register('addProjectVersion'){
+    doLast {
+        new File(projectDir, 'src/main/resources/version.properties').withWriter { writer ->
+            writer.write("version=${project.version}")
+        }
+    }
+}
+
+tasks.named('processResources') {
+    dependsOn 'addProjectVersion'
 }
