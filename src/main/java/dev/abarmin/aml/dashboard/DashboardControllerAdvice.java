@@ -1,5 +1,6 @@
 package dev.abarmin.aml.dashboard;
 
+import dev.abarmin.aml.config.AppConfiguration;
 import dev.abarmin.aml.dashboard.converter.BlockConverter;
 import dev.abarmin.aml.dashboard.converter.DashboardModelConverter;
 import dev.abarmin.aml.dashboard.domain.Block;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @ControllerAdvice(assignableTypes = {
   DashboardController.class,
@@ -28,6 +30,7 @@ public class DashboardControllerAdvice {
   private final PageRepository pageRepository;
   private final BlockRepository blockRepository;
   private final BlockConverter blockConverter;
+  private final AppConfiguration configuration;
 
   @ModelAttribute("model")
   public DashboardModel model(Authentication authentication,
@@ -45,6 +48,11 @@ public class DashboardControllerAdvice {
     final Block currentBlock = blockRepository.findById(blockId)
       .orElseThrow(() -> new IllegalArgumentException("Block not found"));
     return blockConverter.convert(currentBlock);
+  }
+
+  @ModelAttribute("allowedImageTypes")
+  public String allowedImageTypes() {
+    return String.join(",", configuration.getImageService().getAllowedTypes());
   }
 
   private Page getCurrentPage(Profile profile, Long pageId) {

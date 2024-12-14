@@ -5,9 +5,14 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Validated
@@ -23,6 +28,10 @@ public class AppConfiguration {
   @Valid
   @NotNull
   private FileService fileService = new FileService();
+
+  @Valid
+  @NotNull
+  private ImageService imageService = new ImageService();
 
   @Valid
   @NotNull
@@ -48,5 +57,15 @@ public class AppConfiguration {
     @Email
     @NotEmpty
     private String adminEmail;
+  }
+
+  @Data
+  public static class ImageService {
+    @NotNull
+    @Size(min = 1, max = 100)
+    private List<String> allowedTypes = new ArrayList<>();
+
+    @Positive
+    private long maxFileSizeBytes;
   }
 }
