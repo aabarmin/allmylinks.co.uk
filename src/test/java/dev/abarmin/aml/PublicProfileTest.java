@@ -36,4 +36,11 @@ public class PublicProfileTest {
       .andExpect(status().is2xxSuccessful())
       .andExpect(view().name("l/l"));
   }
+
+  @Test
+  void publicProfile_whenUnknownProfileAccessed_thenShowCorrectErrorPage() throws Exception {
+    mockMvc.perform(get("/l/unknown"))
+      .andExpect(status().isNotFound())
+      .andExpect(view().name("l/error-404"));
+  }
 }

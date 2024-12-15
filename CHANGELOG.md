@@ -1,3 +1,7 @@
+# 0.0.14
+
+* When unknown `l` page is requested, the user is asked to register. 
+
 # 0.0.13
 
 * Added limit to the file types and sizes that can be uploaded.

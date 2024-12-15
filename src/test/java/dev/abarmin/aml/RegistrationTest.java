@@ -11,6 +11,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasProperty;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
@@ -83,5 +85,13 @@ class RegistrationTest {
       .andExpect(model().hasNoErrors())
       .andExpect(view().name("private/dashboard"))
       .andExpect(status().is2xxSuccessful());
+  }
+
+  @Test
+  void registration_whenShortLinkProvided_thenFormHasShortLinkFilledIn() throws Exception {
+    mockMvc.perform(get("/register?link=someLink"))
+      .andExpect(model().attribute("form", hasProperty("link", equalTo("someLink"))))
+      .andExpect(status().is2xxSuccessful())
+      .andExpect(view().name("public/registration"));
   }
 }
