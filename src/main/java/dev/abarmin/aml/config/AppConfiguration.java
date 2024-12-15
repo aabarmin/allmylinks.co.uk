@@ -57,6 +57,16 @@ public class AppConfiguration {
     @Email
     @NotEmpty
     private String adminEmail;
+
+    @Valid
+    @NotNull
+    private BackofficeDefaults defaults = new BackofficeDefaults();
+  }
+
+  @Data
+  public static class BackofficeDefaults {
+    @NotEmpty
+    private String adminProfile;
   }
 
   @Data

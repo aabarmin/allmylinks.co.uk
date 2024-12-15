@@ -29,6 +29,8 @@ aml:
     max-file-size-bytes: 10485760
   backoffice:
     adminEmail: robot@allmylinks.co.uk
+    defaults:
+      admin-profile: abarmin
 
 logging:
   file:

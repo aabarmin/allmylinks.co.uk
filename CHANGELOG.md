@@ -1,3 +1,7 @@
+# 0.0.15
+
+* Add basic backoffice. 
+
 # 0.0.14
 
 * When unknown `l` page is requested, the user is asked to register. 
