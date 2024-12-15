@@ -49,6 +49,27 @@
           </div>
         </div>
       </div>
+
+      <div class="row">
+        <div class="col">
+          <label class="form-label"
+                 for="buttonSize">
+            Size:
+          </label>
+          <select id="buttonSize"
+                  th:field="*{size}"
+                  th:class="'form-select ' + (${#fields.hasErrors('size')} ? 'is-invalid' : '')">
+            <option th:each="s : ${T(dev.abarmin.aml.dashboard.block.link.LinkButtonSize).values()}"
+                    th:value="${s.name()}"
+                    th:text="${s.getName()}"/>
+          </select>
+
+          <div class="invalid-feedback"
+               th:if="${#fields.hasErrors('size')}"
+               th:errors="*{size}">
+          </div>
+        </div>
+      </div>
     </div>
 
   </form>

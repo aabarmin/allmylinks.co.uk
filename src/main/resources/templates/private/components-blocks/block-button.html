@@ -8,7 +8,8 @@
       <a th:href="${props.link}"
          th:text="${props.text}"
          target="_blank"
-         class="btn btn-primary btn-lg"/>
+         th:classappend="${props.size.htmlClass}"
+         class="btn btn-primary"/>
     </div>
   </div>
 </div>

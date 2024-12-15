@@ -3,6 +3,7 @@ package dev.abarmin.aml.dashboard.block.link;
 import dev.abarmin.aml.dashboard.domain.BlockProps;
 import dev.abarmin.aml.dashboard.domain.BlockType;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,6 +23,10 @@ public class LinkButtonBlockProps implements BlockProps {
   @URL
   @NotEmpty
   private String link;
+
+  @NotNull
+  @Builder.Default
+  private LinkButtonSize size = LinkButtonSize.LARGE;
 
   @Override
   public BlockType type() {
