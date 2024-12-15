@@ -20,8 +20,10 @@ public class RegistrationController {
   private final RegistrationService registrationService;
 
   @ModelAttribute("form")
-  public RegistrationForm registrationForm() {
-    return new RegistrationForm();
+  public RegistrationForm registrationForm(@RequestParam(value = "link", required = false) String link) {
+    final RegistrationForm form = new RegistrationForm();
+    form.setLink(link);
+    return form;
   }
 
   @InitBinder
