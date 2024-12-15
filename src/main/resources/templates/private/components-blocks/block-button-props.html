@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <body>
-<div th:fragment="content(block)">
-  <form th:object="${block.blockProps}"
-        th:with="props=${block.blockProps}"
-        th:action="@{/private/dashboard/{pId}/blocks/{bId}(pId=${block.pageId},bId=${block.blockId})}"
+<div th:fragment="content(currentBlock)">
+  <form th:object="${currentBlock.blockProps}"
+        th:with="props=${currentBlock.blockProps}"
+        th:action="@{/private/dashboard/{pId}/blocks/{bId}(pId=${currentBlock.pageId},bId=${currentBlock.blockId})}"
         method="post">
 
-    <input type="hidden" name="type" th:value="${block.blockType.type}"/>
+    <input type="hidden" name="type" th:value="${currentBlock.blockType.type}"/>
 
     <div class="container">
-      <th:block th:replace="~{private/components-reusable/block-toolbar :: content(${block})}"/>
+      <th:block th:replace="~{private/components-reusable/block-toolbar :: content(${currentBlock})}"/>
 
       <div class="row">
         <div class="col">
