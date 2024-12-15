@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import dev.abarmin.aml.dashboard.block.avatar.AvatarBlockProps;
 import dev.abarmin.aml.dashboard.block.header.HeaderBlockProps;
-import dev.abarmin.aml.dashboard.block.link.LinkButtonBlockProps;
+import dev.abarmin.aml.dashboard.block.button.LinkButtonBlockProps;
 import dev.abarmin.aml.dashboard.block.social.SocialNetworksBlockProps;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")

@@ -1,4 +1,4 @@
-package dev.abarmin.aml.dashboard.block.link;
+package dev.abarmin.aml.dashboard.block.button;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

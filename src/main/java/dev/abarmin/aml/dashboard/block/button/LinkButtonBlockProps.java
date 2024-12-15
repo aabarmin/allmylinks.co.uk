@@ -1,4 +1,4 @@
-package dev.abarmin.aml.dashboard.block.link;
+package dev.abarmin.aml.dashboard.block.button;
 
 import dev.abarmin.aml.dashboard.domain.BlockProps;
 import dev.abarmin.aml.dashboard.domain.BlockType;
