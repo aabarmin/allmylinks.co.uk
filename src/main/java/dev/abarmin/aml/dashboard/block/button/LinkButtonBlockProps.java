@@ -28,6 +28,10 @@ public class LinkButtonBlockProps implements BlockProps {
   @Builder.Default
   private LinkButtonSize size = LinkButtonSize.LARGE;
 
+  @NotNull
+  @Builder.Default
+  private LinkButtonColor color = LinkButtonColor.BLUE;
+
   @Override
   public BlockType type() {
     return BlockType.BUTTON_BLOCK;

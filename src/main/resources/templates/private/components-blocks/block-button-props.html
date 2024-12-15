@@ -66,6 +66,25 @@
                  th:errors="*{size}">
             </div>
           </div>
+
+          <div class="mb-3">
+            <label class="form-label"
+                   for="buttonColor">
+              Color:
+            </label>
+            <select id="buttonColor"
+                    th:field="*{color}"
+                    th:class="'form-select ' + (${#fields.hasErrors('color')} ? 'is-invalid' : '')">
+              <option th:each="s : ${T(dev.abarmin.aml.dashboard.block.button.LinkButtonColor).values()}"
+                      th:value="${s.name()}"
+                      th:text="${s.getName()}"/>
+            </select>
+
+            <div class="invalid-feedback"
+                 th:if="${#fields.hasErrors('color')}"
+                 th:errors="*{color}">
+            </div>
+          </div>
         </div>
       </div>
     </div>
