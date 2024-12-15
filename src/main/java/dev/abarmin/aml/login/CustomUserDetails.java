@@ -5,16 +5,18 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
 
 public record CustomUserDetails(
   String username,
-  String password
+  String password,
+  Collection<String> roles
 ) implements UserDetails {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+    return roles.stream()
+      .map(SimpleGrantedAuthority::new)
+      .toList();
   }
 
   @Override

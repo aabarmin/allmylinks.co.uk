@@ -42,6 +42,7 @@ public class SecurityConfiguration {
         .requestMatchers("/cookies/accept").permitAll()
 
         .requestMatchers("/private/**").hasRole("USER")
+        .requestMatchers("/backoffice/**").hasRole("BACKOFFICE")
 
         .anyRequest().authenticated())
       .build();

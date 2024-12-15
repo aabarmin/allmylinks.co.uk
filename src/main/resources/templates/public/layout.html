@@ -47,6 +47,12 @@
       </ul>
       <div class="d-flex">
         <a class="btn btn-outline-light me-2"
+           sec:authorize="hasRole('ROLE_BACKOFFICE')"
+           th:href="@{/backoffice}">
+          <i class="bi bi-radioactive"></i>
+          BACKOFFICE
+        </a>
+        <a class="btn btn-outline-light me-2"
            sec:authorize="hasRole('ROLE_USER')"
            th:href="@{/private/dashboard}">
           <i class="bi bi-box-arrow-in-right"></i>
