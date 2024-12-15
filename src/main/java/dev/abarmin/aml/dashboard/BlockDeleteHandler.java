@@ -31,6 +31,6 @@ public class BlockDeleteHandler {
       }
     });
 
-    return String.format("redirect:/private/dashboard/%s/blocks/%s", pageId, blockId);
+    return "redirect:/private/dashboard";
   }
 }

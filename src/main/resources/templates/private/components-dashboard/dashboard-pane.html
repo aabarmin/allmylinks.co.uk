@@ -17,7 +17,7 @@
         </th:block>
         <th:block th:case="*">
           <th:block
-            th:replace="~{private/components-dashboard/dashboard-block-props :: __${currentBlock.blockType.type}__}"/>
+            th:replace="~{private/components-blocks/__${currentBlock.blockType.configComponent}__ :: content(${currentBlock})}"/>
         </th:block>
       </th:block>
     </div>
@@ -26,7 +26,7 @@
 
 <th:block th:fragment="content-sidebar-left">
   <th:block th:replace="~{private/components-dashboard/dashboard-pane :: user-link-preview}"/>
-  <th:block th:replace="~{private/components-reusable/page-divider :: content}"></th:block>
+  <th:block th:replace="~{private/components-reusable/page-divider :: content}" />
   <th:block th:replace="~{private/components-dashboard/dashboard-pane :: blocks-accordion}"/>
 </th:block>
 

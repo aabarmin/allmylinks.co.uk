@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+<div th:fragment="content(block)">
+  <form th:object="${block.blockProps}"
+        th:with="props=${block.blockProps}"
+        th:action="@{/private/dashboard/{pId}/blocks/{bId}(pId=${block.pageId},bId=${block.blockId})}"
+        method="post">
+
+    <input type="hidden" name="type" th:value="${block.blockType.type}"/>
+
+    <div class="container">
+      <th:block th:replace="~{private/components-reusable/block-toolbar :: content(${block})}"/>
+
+      <div class="row">
+        <div class="col">
+          <label class="form-label"
+                 for="buttonText">
+            Text:
+          </label>
+          <input id="buttonText"
+                 required
+                 th:field="*{text}"
+                 th:class="'form-control ' + (${#fields.hasErrors('text')} ? 'is-invalid' : '')"
+                 type="text"/>
+
+          <div class="invalid-feedback"
+               th:if="${#fields.hasErrors('text')}"
+               th:errors="*{text}">
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <label class="form-label"
+                 for="buttonLink">
+            Link:
+          </label>
+          <input id="buttonLink"
+                 required
+                 th:field="*{link}"
+                 th:class="'form-control ' + (${#fields.hasErrors('link')} ? 'is-invalid' : '')"
+                 type="text"/>
+
+          <div class="invalid-feedback"
+               th:if="${#fields.hasErrors('link')}"
+               th:errors="*{link}">
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+</body>
+</html>

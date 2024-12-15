@@ -9,4 +9,6 @@ public class BlockTypeModel {
   private String name;
   private String icon;
   private String type;
+  private String previewComponent;
+  private String configComponent;
 }

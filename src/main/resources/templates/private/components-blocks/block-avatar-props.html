@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+<div th:fragment="content(currentBlock)">
+  <form th:object="${currentBlock.blockProps}"
+        th:with="props=${currentBlock.blockProps}"
+        th:action="@{/private/dashboard/{pId}/blocks/{bId}(pId=${currentBlock.pageId},bId=${currentBlock.blockId})}"
+        enctype="multipart/form-data"
+        method="post">
+
+    <input type="hidden" name="type" th:value="${currentBlock.blockType.type}"/>
+
+    <div class="container">
+      <th:block th:replace="~{private/components-reusable/block-toolbar :: content(${currentBlock})}"/>
+
+      <div class="row">
+        <div class="col text-center">
+          <img th:src="${#conversions.convert(props.fileId, 'java.lang.String')}"
+               class="rounded-circle"
+               height="200"
+               width="200" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          &nbsp;
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="form-check form-switch">
+            <input class="form-check-input"
+                   type="checkbox"
+                   name="resetAvatar"
+                   id="resetAvatar">
+            <label class="form-check-label"
+                   for="resetAvatar">
+              Reset avatar
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="mb-3">
+            <label for="newAvatar" class="form-label">
+              Upload new avatar
+            </label>
+            <input th:class="'form-control ' + (${#strings.isEmpty(avatarError)} ? '' : 'is-invalid')"
+                   name="newAvatar"
+                   th:accept="${allowedImageTypes}"
+                   type="file"
+                   id="newAvatar" />
+            <div class="invalid-feedback"
+                 th:if="${#strings.isEmpty(avatarError) == false}"
+                 th:text="${avatarError}" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+</body>
+</html>

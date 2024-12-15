@@ -1,3 +1,8 @@
+# 0.0.16
+
+* Split components and their props into separate files. 
+* Fixed a bug when the user is not redirected after deleting a block. 
+
 # 0.0.15
 
 * Add basic backoffice. 

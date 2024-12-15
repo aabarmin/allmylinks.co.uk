@@ -120,7 +120,7 @@ public class BlockUpdateHandler {
       blockConverter.convert(updatedBlock)
     );
 
-    return "private/components-dashboard/dashboard-block-props :: SOCIAL_NETWORKS_BLOCK";
+    return "private/components-blocks/block-social-networks-props :: content";
   }
 
   private boolean isAddAction(String action) {

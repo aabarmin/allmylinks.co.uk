@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+<div th:fragment="content(block)"
+     th:with="props=${block.blockProps}"
+     class="container">
+  <div class="row">
+    <div class="col text-center">
+      <img th:src="${#conversions.convert(props.fileId, 'java.lang.String')}"
+           class="rounded-circle"
+           height="200"
+           width="200"/>
+    </div>
+  </div>
+</div>
+</body>
+</html>
