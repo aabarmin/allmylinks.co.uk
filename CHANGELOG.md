@@ -1,7 +1,8 @@
 # 0.0.16
 
 * Split components and their props into separate files. 
-* Fixed a bug when the user is not redirected after deleting a block. 
+* Fixed a bug when the user is not redirected after deleting a block.
+* Fixed padding between fields in the registration form. 
 
 # 0.0.15
 

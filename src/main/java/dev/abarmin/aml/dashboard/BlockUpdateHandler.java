@@ -70,6 +70,7 @@ public class BlockUpdateHandler {
                                   @ModelAttribute("currentBlock") BlockModel blockModel,
                                   @RequestParam(value = "resetAvatar", required = false, defaultValue = "false") boolean resetAvatar,
                                   @RequestParam(value = "newAvatar", required = false) MultipartFile newAvatar,
+                                  @RequestParam(value = "newBackground", required = false) MultipartFile newBackground,
                                   Authentication authentication) throws Exception {
 
     final AvatarValidator.ValidationResult validationResult = avatarValidator.validate(newAvatar);
@@ -80,12 +81,18 @@ public class BlockUpdateHandler {
     }
 
     final Block block = blockRepository.findById(blockModel.getBlockId()).orElseThrow();
+    final User user = sessionService.getUser(authentication);
     if (block.props() instanceof AvatarBlockProps avatarProps) {
       if (resetAvatar) {
         avatarProps.setAvatarId(AvatarBlockProps.DEFAULT_AVATAR);
       }
+      if (!newBackground.isEmpty()) {
+        final byte[] processedImage = imageService.process(newBackground.getInputStream(), imagePresets.avatarBackground());
+        final FileSaveRequest request = new FileSaveRequest(user, "background.jpg", new ByteArrayInputStream(processedImage));
+        final FileSaveResponse savedBackground = fileService.save(request);
+        avatarProps.setBackgroundId(savedBackground.fileId());
+      }
       if (!newAvatar.isEmpty()) {
-        final User user = sessionService.getUser(authentication);
         final byte[] processedImage = imageService.process(newAvatar.getInputStream(), imagePresets.avatar());
         final FileSaveRequest request = new FileSaveRequest(user, "avatar.jpg", new ByteArrayInputStream(processedImage));
         final FileSaveResponse savedAvatar = fileService.save(request);

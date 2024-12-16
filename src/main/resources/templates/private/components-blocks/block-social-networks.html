@@ -3,7 +3,7 @@
 <body>
 <div th:fragment="content(block)"
      th:with="props=${block.blockProps}"
-     class="container">
+     class="container preview-pane-block">
   <div class="row">
     <div class="col text-center">
       <a th:each="link : ${props.links}"

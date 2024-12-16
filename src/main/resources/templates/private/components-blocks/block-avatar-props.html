@@ -44,6 +44,20 @@
           </div>
 
           <div class="mb-3">
+            <label for="newBackground" class="form-label">
+              Upload new background
+            </label>
+            <input th:class="'form-control ' + (${#strings.isEmpty(backgroundError)} ? '' : 'is-invalid')"
+                   name="newBackground"
+                   th:accept="${allowedImageTypes}"
+                   type="file"
+                   id="newBackground" />
+            <div class="invalid-feedback"
+                 th:if="${#strings.isEmpty(backgroundError) == false}"
+                 th:text="${backgroundError}" />
+          </div>
+
+          <div class="mb-3">
             <label for="newAvatar" class="form-label">
               Upload new avatar
             </label>
