@@ -1,8 +1,8 @@
-package dev.abarmin.aml.dashboard.block.link;
+package dev.abarmin.aml.dashboard.block.button;
 
 import dev.abarmin.aml.dashboard.domain.BlockProps;
-import dev.abarmin.aml.dashboard.domain.BlockType;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,8 +23,11 @@ public class LinkButtonBlockProps implements BlockProps {
   @NotEmpty
   private String link;
 
-  @Override
-  public BlockType type() {
-    return BlockType.BUTTON_BLOCK;
-  }
+  @NotNull
+  @Builder.Default
+  private LinkButtonSize size = LinkButtonSize.LARGE;
+
+  @NotNull
+  @Builder.Default
+  private LinkButtonColor color = LinkButtonColor.BLUE;
 }

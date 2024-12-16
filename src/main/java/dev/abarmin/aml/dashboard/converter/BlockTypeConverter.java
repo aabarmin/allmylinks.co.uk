@@ -18,7 +18,9 @@ public class BlockTypeConverter {
     return new BlockTypeModel(
       type.getName(),
       type.getIcon(),
-      type.name()
+      type.name(),
+      type.getPreviewComponent(),
+      type.getConfigComponent()
     );
   }
 }

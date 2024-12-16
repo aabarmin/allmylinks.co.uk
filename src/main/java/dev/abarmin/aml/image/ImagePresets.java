@@ -27,4 +27,21 @@ public class ImagePresets {
       }
     };
   }
+
+  public ImagePreset avatarBackground() {
+    return new ImagePreset() {
+      @Override
+      @SneakyThrows
+      public byte[] apply(InputStream inputStream) {
+        final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        Thumbnails.of(inputStream)
+          .outputFormat("JPEG")
+          .outputQuality(0.9)
+          .size(520, 200)
+          .crop(Positions.CENTER)
+          .toOutputStream(outputStream);
+        return outputStream.toByteArray();
+      }
+    };
+  }
 }

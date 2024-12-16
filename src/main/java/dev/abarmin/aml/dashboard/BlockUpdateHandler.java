@@ -60,7 +60,7 @@ public class BlockUpdateHandler {
 
     if (!bindingResult.hasErrors()) {
       updateBlock(blockModel);
-      rebuildViewModel(model, blockModel);
+      rebuildViewModel(model, blockModel.getBlockId());
     }
     return "private/dashboard";
   }
@@ -68,8 +68,9 @@ public class BlockUpdateHandler {
   @PostMapping(params = "type=AVATAR_BLOCK")
   public String updateAvatarBlock(Model model,
                                   @ModelAttribute("currentBlock") BlockModel blockModel,
-                                  @RequestParam(value = "resetAvatar", required = false, defaultValue = "false") boolean resetAvatar,
                                   @RequestParam(value = "newAvatar", required = false) MultipartFile newAvatar,
+                                  @RequestParam(value = "hasBackground", required = false, defaultValue = "false") boolean hasBackground,
+                                  @RequestParam(value = "newBackground", required = false) MultipartFile newBackground,
                                   Authentication authentication) throws Exception {
 
     final AvatarValidator.ValidationResult validationResult = avatarValidator.validate(newAvatar);
@@ -80,21 +81,26 @@ public class BlockUpdateHandler {
     }
 
     final Block block = blockRepository.findById(blockModel.getBlockId()).orElseThrow();
+    final User user = sessionService.getUser(authentication);
     if (block.props() instanceof AvatarBlockProps avatarProps) {
-      if (resetAvatar) {
-        avatarProps.setFileId(AvatarBlockProps.DEFAULT_AVATAR);
+      if (!hasBackground) {
+        avatarProps.setBackgroundId(null);
+      } else if (!newBackground.isEmpty()) {
+        final byte[] processedImage = imageService.process(newBackground.getInputStream(), imagePresets.avatarBackground());
+        final FileSaveRequest request = new FileSaveRequest(user, "background.jpg", new ByteArrayInputStream(processedImage));
+        final FileSaveResponse savedBackground = fileService.save(request);
+        avatarProps.setBackgroundId(savedBackground.fileId());
       }
       if (!newAvatar.isEmpty()) {
-        final User user = sessionService.getUser(authentication);
         final byte[] processedImage = imageService.process(newAvatar.getInputStream(), imagePresets.avatar());
         final FileSaveRequest request = new FileSaveRequest(user, "avatar.jpg", new ByteArrayInputStream(processedImage));
         final FileSaveResponse savedAvatar = fileService.save(request);
-        avatarProps.setFileId(savedAvatar.fileId());
+        avatarProps.setAvatarId(savedAvatar.fileId());
       }
       blockRepository.save(block.withProps(avatarProps));
     }
 
-    rebuildViewModel(model, blockModel);
+    rebuildViewModel(model, blockModel.getBlockId());
     return "private/dashboard";
   }
 
@@ -120,7 +126,7 @@ public class BlockUpdateHandler {
       blockConverter.convert(updatedBlock)
     );
 
-    return "private/components-dashboard/dashboard-block-props :: SOCIAL_NETWORKS_BLOCK";
+    return "private/components-blocks/block-social-networks-props :: content";
   }
 
   private boolean isAddAction(String action) {
@@ -143,10 +149,12 @@ public class BlockUpdateHandler {
     blockRepository.save(updated);
   }
 
-  private void rebuildViewModel(Model model, BlockModel blockModel) {
-    final Page page = pageRepository.findById(blockModel.getPageId()).orElseThrow();
+  private void rebuildViewModel(Model model, long blockId) {
+    final Block block = blockRepository.findById(blockId).orElseThrow();
+    final Page page = pageRepository.findById(block.pageId()).orElseThrow();
     final Profile profile = profileRepository.findById(page.profileId()).orElseThrow();
 
+    final BlockModel blockModel = blockConverter.convert(block);
     final DashboardModel dashboardModel = dashboardConverter.convert(profile, page);
     model.addAttribute("model", dashboardModel);
     model.addAttribute("currentBlock", blockModel);

@@ -45,6 +45,12 @@
           <i class="bi bi-radioactive"></i>
           BACKOFFICE
         </a>
+        <a class="btn btn-outline-light me-2"
+           sec:authorize="hasRole('ROLE_USER')"
+           th:href="@{/private/dashboard}">
+          <i class="bi bi-box-arrow-in-right"></i>
+          DASHBOARD
+        </a>
         <a class="btn btn-outline-light"
            th:href="@{/private/logout}">
           <i class="bi bi-box-arrow-left"></i>

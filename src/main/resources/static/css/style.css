@@ -1,10 +1,24 @@
 div.preview-pane {
-  padding: 8px;
   border: 5px solid #333;
   border-radius: 3em;
   max-width: 530px;
   min-width: 530px;
   min-height: 954px;
+}
+
+div.preview-pane-block-no-padding {
+  padding-bottom: 8px;
+}
+
+div.preview-pane-block {
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 8px;
+}
+
+.avatar-background-rounded-up {
+  border-top-left-radius: 43px;
+  border-top-right-radius: 43px;
 }
 
 div.preview-pane-container {

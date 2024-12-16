@@ -2,10 +2,10 @@ package dev.abarmin.aml.registration;
 
 import com.google.common.collect.Lists;
 import dev.abarmin.aml.dashboard.block.avatar.AvatarBlockProps;
+import dev.abarmin.aml.dashboard.block.button.LinkButtonBlockProps;
 import dev.abarmin.aml.dashboard.block.header.HeaderBlockProps;
 import dev.abarmin.aml.dashboard.block.header.HeaderLevel;
 import dev.abarmin.aml.dashboard.block.header.TextAlignment;
-import dev.abarmin.aml.dashboard.block.link.LinkButtonBlockProps;
 import dev.abarmin.aml.dashboard.domain.Block;
 import dev.abarmin.aml.dashboard.domain.BlockType;
 import dev.abarmin.aml.dashboard.domain.Page;
@@ -97,7 +97,7 @@ public class RegistrationService {
       BlockType.AVATAR_BLOCK,
       0,
       AvatarBlockProps.builder()
-        .fileId(AvatarBlockProps.DEFAULT_AVATAR)
+        .avatarId(AvatarBlockProps.DEFAULT_AVATAR)
         .build()
     )));
     blocks.add(blockRepository.save(new Block(

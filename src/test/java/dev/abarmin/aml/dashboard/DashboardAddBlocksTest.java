@@ -65,7 +65,7 @@ class DashboardAddBlocksTest extends BaseIntegrationTest {
     final TestCredentials user = registrationService.getRegisteredUser();
     final long pageId = pageService.getHomePageId(user);
 
-    addBlock(user, pageId, blockType);
+    final long blockId = addBlock(user, pageId, blockType);
 
     final Collection<Block> blocks = pageService.getHomePageBlocks(user);
 
@@ -82,9 +82,11 @@ class DashboardAddBlocksTest extends BaseIntegrationTest {
         ))
       )))
     );
+
+    editBlock(user, blockId, r -> {
+      // additional block checks
+    });
   }
-
-
 
   @SneakyThrows
   private void openDashboard(TestCredentials user, ConsumerWithException check) {
