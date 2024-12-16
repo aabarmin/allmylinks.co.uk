@@ -13,6 +13,7 @@ public record Page(
   @Column("page_title") String title,
   @Column("page_home") boolean isHome,
   @Column("page_deleted") boolean isDeleted,
+  @Column("page_props") PageProps pageProps,
   @Column("created_at")Instant createdAt,
   @Column("updated_at")Instant updatedAt
   ) {

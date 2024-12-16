@@ -6,6 +6,7 @@ import dev.abarmin.aml.dashboard.block.button.LinkButtonBlockProps;
 import dev.abarmin.aml.dashboard.block.header.HeaderBlockProps;
 import dev.abarmin.aml.dashboard.block.header.HeaderLevel;
 import dev.abarmin.aml.dashboard.block.header.TextAlignment;
+import dev.abarmin.aml.dashboard.domain.BasicPageProps;
 import dev.abarmin.aml.dashboard.domain.Block;
 import dev.abarmin.aml.dashboard.domain.BlockType;
 import dev.abarmin.aml.dashboard.domain.Page;
@@ -129,6 +130,7 @@ public class RegistrationService {
       "Home",
       true,
       false,
+      new BasicPageProps(),
       Instant.now(),
       null
     ));

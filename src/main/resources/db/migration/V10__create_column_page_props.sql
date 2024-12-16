@@ -1,0 +1,3 @@
+ALTER TABLE pages
+ADD COLUMN IF NOT EXISTS page_props JSON NOT NULL DEFAULT '{"type": "BASIC_PAGE"}'
+AFTER page_deleted;
