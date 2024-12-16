@@ -1,3 +1,7 @@
+# 0.0.17
+
+* Fixed padding between fields in the header block props. 
+
 # 0.0.16
 
 * Split components and their props into separate files. 

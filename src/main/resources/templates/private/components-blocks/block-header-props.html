@@ -13,88 +13,84 @@
 
       <div class="row">
         <div class="col">
-          <label class="form-label"
-                 for="headerLevel">
-            Level:
-          </label>
-          <select th:field="*{level}"
-                  th:class="'form-select ' + (${#fields.hasErrors('level')} ? 'is-invalid' : '')"
-                  id="headerLevel">
-            <option value="H1">Level 1</option>
-            <option value="H2">Level 2</option>
-            <option value="H3">Level 3</option>
-          </select>
-          <div class="invalid-feedback"
-               th:if="${#fields.hasErrors('level')}"
-               th:errors="*{level}">
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col">
-          <label class="form-label">
-            Alignment:
-          </label>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col">
-          <div class="btn-group">
-            <input type="radio"
-                   th:field="*{alignment}"
-                   th:class="'btn-check ' + (${#fields.hasErrors('alignment')} ? 'is-invalid' : '')"
-                   value="LEFT"
-                   id="alignmentLeft">
-            <label class="btn btn-outline-primary"
-                   for="alignmentLeft">
-              Left
+          <div class="mb-3">
+            <label class="form-label"
+                   for="headerLevel">
+              Level:
             </label>
-
-            <input type="radio"
-                   th:field="*{alignment}"
-                   th:class="'btn-check ' + (${#fields.hasErrors('alignment')} ? 'is-invalid' : '')"
-                   value="CENTER"
-                   id="alignmentCenter">
-            <label class="btn btn-outline-primary"
-                   for="alignmentCenter">
-              Center
-            </label>
-
-            <input type="radio"
-                   th:field="*{alignment}"
-                   th:class="'btn-check ' + (${#fields.hasErrors('alignment')} ? 'is-invalid' : '')"
-                   value="RIGHT"
-                   id="alignmentRight">
-            <label class="btn btn-outline-primary"
-                   for="alignmentRight">
-              Right
-            </label>
-
+            <select th:field="*{level}"
+                    th:class="'form-select ' + (${#fields.hasErrors('level')} ? 'is-invalid' : '')"
+                    id="headerLevel">
+              <option value="H1">Level 1</option>
+              <option value="H2">Level 2</option>
+              <option value="H3">Level 3</option>
+            </select>
             <div class="invalid-feedback"
-                 th:if="${#fields.hasErrors('alignment')}"
-                 th:errors="*{alignment}">
+                 th:if="${#fields.hasErrors('level')}"
+                 th:errors="*{level}">
             </div>
           </div>
-        </div>
-      </div>
 
-      <div class="row">
-        <div class="col">
-          <label class="form-label"
-                 for="headerText">
-            Text:
-          </label>
-          <input class="form-control"
-                 id="headerText"
-                 th:class="'form-control ' + (${#fields.hasErrors('text')} ? 'is-invalid' : '')"
-                 th:field="*{text}"
-                 type="text"/>
+          <div class="mb-3">
+            <label class="form-label">
+              Alignment:
+            </label>
+          </div>
 
-          <div class="invalid-feedback"
-               th:if="${#fields.hasErrors('text')}"
-               th:errors="*{text}">
+          <div class="mb-3">
+            <div class="btn-group">
+              <input type="radio"
+                     th:field="*{alignment}"
+                     th:class="'btn-check ' + (${#fields.hasErrors('alignment')} ? 'is-invalid' : '')"
+                     value="LEFT"
+                     id="alignmentLeft">
+              <label class="btn btn-outline-primary"
+                     for="alignmentLeft">
+                Left
+              </label>
+
+              <input type="radio"
+                     th:field="*{alignment}"
+                     th:class="'btn-check ' + (${#fields.hasErrors('alignment')} ? 'is-invalid' : '')"
+                     value="CENTER"
+                     id="alignmentCenter">
+              <label class="btn btn-outline-primary"
+                     for="alignmentCenter">
+                Center
+              </label>
+
+              <input type="radio"
+                     th:field="*{alignment}"
+                     th:class="'btn-check ' + (${#fields.hasErrors('alignment')} ? 'is-invalid' : '')"
+                     value="RIGHT"
+                     id="alignmentRight">
+              <label class="btn btn-outline-primary"
+                     for="alignmentRight">
+                Right
+              </label>
+
+              <div class="invalid-feedback"
+                   th:if="${#fields.hasErrors('alignment')}"
+                   th:errors="*{alignment}">
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label"
+                   for="headerText">
+              Text:
+            </label>
+            <input class="form-control"
+                   id="headerText"
+                   th:class="'form-control ' + (${#fields.hasErrors('text')} ? 'is-invalid' : '')"
+                   th:field="*{text}"
+                   type="text"/>
+
+            <div class="invalid-feedback"
+                 th:if="${#fields.hasErrors('text')}"
+                 th:errors="*{text}">
+            </div>
           </div>
         </div>
       </div>
