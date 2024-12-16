@@ -14,7 +14,7 @@
 
       <img th:src="${#conversions.convert(props.avatarId, 'java.lang.String')}"
            class="rounded-circle"
-           style="margin-top: -100px; border: 5px solid #ffffff;"
+           th:style="${@cssHelper.toStyle(props.getAvatarStyle())}"
            height="200"
            width="200"/>
     </div>

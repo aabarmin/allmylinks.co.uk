@@ -3,6 +3,7 @@
 * Split components and their props into separate files. 
 * Fixed a bug when the user is not redirected after deleting a block.
 * Fixed padding between fields in the registration form. 
+* Avatar block now has background image. 
 
 # 0.0.15
 
