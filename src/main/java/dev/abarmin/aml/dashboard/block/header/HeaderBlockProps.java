@@ -1,7 +1,6 @@
 package dev.abarmin.aml.dashboard.block.header;
 
 import dev.abarmin.aml.dashboard.domain.BlockProps;
-import dev.abarmin.aml.dashboard.domain.BlockType;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -22,9 +21,4 @@ public class HeaderBlockProps implements BlockProps {
 
   @NotNull
   private TextAlignment alignment;
-
-  @Override
-  public BlockType type() {
-    return BlockType.HEADER_BLOCK;
-  }
 }

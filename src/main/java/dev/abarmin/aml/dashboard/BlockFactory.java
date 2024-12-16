@@ -2,10 +2,10 @@ package dev.abarmin.aml.dashboard;
 
 import dev.abarmin.aml.config.AppConfiguration;
 import dev.abarmin.aml.dashboard.block.avatar.AvatarBlockProps;
+import dev.abarmin.aml.dashboard.block.button.LinkButtonBlockProps;
 import dev.abarmin.aml.dashboard.block.header.HeaderBlockProps;
 import dev.abarmin.aml.dashboard.block.header.HeaderLevel;
 import dev.abarmin.aml.dashboard.block.header.TextAlignment;
-import dev.abarmin.aml.dashboard.block.button.LinkButtonBlockProps;
 import dev.abarmin.aml.dashboard.block.social.SocialNetworksBlockProps;
 import dev.abarmin.aml.dashboard.domain.Block;
 import dev.abarmin.aml.dashboard.domain.BlockProps;
@@ -69,7 +69,7 @@ public class BlockFactory {
   private Block createAvatarBlock(Page page) {
     final AvatarBlockProps blockProps = AvatarBlockProps
       .builder()
-      .fileId(AvatarBlockProps.DEFAULT_AVATAR)
+      .avatarId(AvatarBlockProps.DEFAULT_AVATAR)
       .build();
 
     return createBlock(page, BlockType.AVATAR_BLOCK, blockProps);
