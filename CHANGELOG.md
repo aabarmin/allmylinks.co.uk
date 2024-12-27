@@ -3,6 +3,7 @@
 * Fixed padding between fields in the header block props. 
 * Pages now have background color. 
 * `l`-page has its own style now. 
+* Added a banner block to the end of the page. 
 
 # 0.0.16
 
