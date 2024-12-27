@@ -16,6 +16,7 @@ public class BasicPageProps implements PageProps {
   @JsonIgnore
   public Map<String, String> getPageStyle() {
     return Map.of(
+      "min-height", "954px",
       "background-color", backgroundColor
     );
   }
