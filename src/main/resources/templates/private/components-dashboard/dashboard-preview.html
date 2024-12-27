@@ -11,6 +11,7 @@
 </div>
 
 <div th:fragment="preview-pane"
+     th:style="${@cssHelper.toStyle(model.currentPage.pageProps.getPageStyle())}"
      class="preview-pane">
 
   <th:block th:each="block : ${model.currentPage.pageBlocks}">

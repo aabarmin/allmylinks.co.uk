@@ -1,6 +1,7 @@
 # 0.0.17
 
 * Fixed padding between fields in the header block props. 
+* Pages now have background color. 
 
 # 0.0.16
 

@@ -33,6 +33,7 @@ public class PageConverter {
     return new PageModel(
       page.id(),
       page.title(),
+      page.pageProps(),
       models
     );
   }
