@@ -16,7 +16,7 @@ div.preview-pane-block {
   padding-bottom: 8px;
 }
 
-.avatar-background-rounded-up {
+.preview-pane .avatar-background-rounded-up {
   border-top-left-radius: 43px;
   border-top-right-radius: 43px;
 }

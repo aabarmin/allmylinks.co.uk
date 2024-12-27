@@ -6,11 +6,9 @@
      class="preview-pane-block-no-padding">
   <div class="row">
     <div class="col text-center">
-      <img th:src="${#conversions.convert(props.backgroundId, 'java.lang.String')}"
-           th:if="${props.backgroundId != null}"
+      <div th:if="${props.backgroundId != null}"
            th:classappend="${block.canMoveUp == false ? 'avatar-background-rounded-up' : ''}"
-           width="520"
-           height="200"/>
+           th:style="${@cssHelper.toStyle(props.getCoverStyle(@fileService))}"></div>
 
       <img th:src="${#conversions.convert(props.avatarId, 'java.lang.String')}"
            class="rounded-circle"

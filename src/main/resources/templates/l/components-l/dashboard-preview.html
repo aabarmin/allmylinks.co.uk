@@ -2,17 +2,16 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <body>
 <div th:fragment="content"
-     class="container">
+     th:style="${@cssHelper.toStyle(model.currentPage.pageProps.getPageStyle())}"
+     class="container-fluid p-0">
   <div class="row">
-    <div class="col preview-pane-container">
-      <th:block th:replace="~{private/components-dashboard/dashboard-preview :: preview-pane}"/>
+    <div class="col">
+      <th:block th:replace="~{l/components-l/dashboard-preview :: preview-pane}"/>
     </div>
   </div>
 </div>
 
-<div th:fragment="preview-pane"
-     th:style="${@cssHelper.toStyle(model.currentPage.pageProps.getPageStyle())}"
-     class="preview-pane">
+<div th:fragment="preview-pane">
 
   <th:block th:each="block : ${model.currentPage.pageBlocks}">
     <th:block th:replace="~{private/components-blocks/__${block.blockType.previewComponent}__ :: content(${block})}" />
