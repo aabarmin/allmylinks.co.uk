@@ -17,6 +17,7 @@ public class BasicPageProps implements PageProps {
   public Map<String, String> getPageStyle() {
     return Map.of(
       "min-height", "954px",
+      "max-width", "540px",
       "background-color", backgroundColor
     );
   }
