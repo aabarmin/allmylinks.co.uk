@@ -1,6 +1,7 @@
 package dev.abarmin.aml.registration;
 
 import com.google.common.collect.Lists;
+import dev.abarmin.aml.config.AppConfiguration;
 import dev.abarmin.aml.dashboard.block.avatar.AvatarBlockProps;
 import dev.abarmin.aml.dashboard.block.button.LinkButtonBlockProps;
 import dev.abarmin.aml.dashboard.block.header.HeaderBlockProps;
@@ -12,10 +13,15 @@ import dev.abarmin.aml.dashboard.domain.BlockType;
 import dev.abarmin.aml.dashboard.domain.Page;
 import dev.abarmin.aml.dashboard.repository.BlockRepository;
 import dev.abarmin.aml.dashboard.repository.PageRepository;
+import dev.abarmin.aml.file.FileId;
+import dev.abarmin.aml.file.FileSaveRequest;
+import dev.abarmin.aml.file.FileSaveResponse;
+import dev.abarmin.aml.file.FileService;
 import dev.abarmin.aml.mail.MailSendResult;
 import dev.abarmin.aml.mail.MailService;
 import dev.abarmin.aml.mail.template.MailTemplate;
 import dev.abarmin.aml.mail.template.MailTemplateService;
+import dev.abarmin.aml.profile.QrCodeService;
 import dev.abarmin.aml.registration.domain.Account;
 import dev.abarmin.aml.registration.domain.AccountType;
 import dev.abarmin.aml.registration.domain.Profile;
@@ -24,10 +30,13 @@ import dev.abarmin.aml.registration.repository.AccountRepository;
 import dev.abarmin.aml.registration.repository.ProfileRepository;
 import dev.abarmin.aml.registration.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import net.glxn.qrgen.core.image.ImageType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.time.Instant;
 import java.util.List;
 
@@ -45,6 +54,9 @@ public class RegistrationService {
   private final PasswordEncoder passwordEncoder;
   private final MailService mailService;
   private final MailTemplateService templateService;
+  private final AppConfiguration configuration;
+  private final QrCodeService qrCodeService;
+  private final FileService fileService;
 
   public User register(RegistrationForm form, AccountType type) {
     return transactionTemplate.execute(status -> registerInTx(form, type));
@@ -137,12 +149,33 @@ public class RegistrationService {
   }
 
   private Profile createProfile(RegistrationForm form, User user) {
+    final FileId savedQrCode = createQrCode(form, user);
+
     return profileRepository.save(new Profile(
       null,
       user.id(),
       form.getLink(),
+      savedQrCode,
       Instant.now()
     ));
+  }
+
+  private FileId createQrCode(RegistrationForm registrationForm, User user) {
+    final String publicLink = configuration.getBaseUrl() + "/l/" + registrationForm.getLink();
+    final QrCodeService.Request request = new QrCodeService.Request(
+      publicLink,
+      250,
+      250,
+      ImageType.PNG
+    );
+    final ByteArrayOutputStream qrCodeContent = qrCodeService.generate(request);
+    final FileSaveRequest saveRequest = new FileSaveRequest(
+      user,
+      "qr-code-" + user.id() + ".png",
+      new ByteArrayInputStream(qrCodeContent.toByteArray())
+    );
+    final FileSaveResponse saveResponse = fileService.save(saveRequest);
+    return saveResponse.fileId();
   }
 
   private Account createAccount(RegistrationForm form, AccountType type, User user) {
