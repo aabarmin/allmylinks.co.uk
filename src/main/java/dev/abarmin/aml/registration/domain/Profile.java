@@ -13,6 +13,11 @@ public record Profile(
   @Column("user_id") long userId,
   @Column("profile_link") String link,
   @Column("profile_qr") FileId qrCode,
-  @Column("created_at") Instant createdAt
+  @Column("created_at") Instant createdAt,
+  @Column("updated_at") Instant updatedAt
 ) {
+
+  public Profile withQrCode(FileId qrCode) {
+    return new Profile(id, userId, link, qrCode, createdAt, Instant.now());
+  }
 }

@@ -156,7 +156,8 @@ public class RegistrationService {
       user.id(),
       form.getLink(),
       savedQrCode,
-      Instant.now()
+      Instant.now(),
+      null
     ));
   }
 
