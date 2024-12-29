@@ -22,6 +22,9 @@ public class AvatarBlockProps implements BlockProps {
   private FileId avatarId;
   private FileId backgroundId;
 
+  @Builder.Default
+  private boolean showShareButton = false;
+
   @JsonIgnore
   public Map<String, String> getCoverStyle(FileService fileService) {
     final String backgroundPublicUrl = fileService.getPublicUrl(backgroundId);
@@ -29,8 +32,7 @@ public class AvatarBlockProps implements BlockProps {
     return Map.of(
       "background-image", "url(" + backgroundPublicUrl + ")",
       "background-position", "center",
-      "background-repeat", "no-repeat",
-      "height", "200px"
+      "background-repeat", "no-repeat"
     );
   }
 
@@ -38,7 +40,6 @@ public class AvatarBlockProps implements BlockProps {
   public Map<String, String> getAvatarStyle() {
     if (Objects.nonNull(backgroundId)) {
       return Map.of(
-        "margin-top", "-100px",
         "border", "5px solid #ffffff"
       );
     }

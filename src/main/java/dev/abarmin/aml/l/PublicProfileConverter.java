@@ -1,5 +1,6 @@
 package dev.abarmin.aml.l;
 
+import dev.abarmin.aml.dashboard.converter.DashboardProfileConverter;
 import dev.abarmin.aml.dashboard.converter.PageConverter;
 import dev.abarmin.aml.dashboard.domain.Page;
 import dev.abarmin.aml.dashboard.model.PageModel;
@@ -16,6 +17,7 @@ import static java.util.function.Predicate.not;
 public class PublicProfileConverter {
   private final PageConverter pageConverter;
   private final PageRepository pageRepository;
+  private final DashboardProfileConverter profileConverter;
 
   public PublicProfileModel convert(@NonNull Profile profile) {
     final PageModel pageModel = pageRepository.findAllByProfileId(profile.id())
@@ -26,6 +28,6 @@ public class PublicProfileConverter {
       .map(pageConverter::convert)
       .orElseThrow();
 
-    return new PublicProfileModel(pageModel);
+    return new PublicProfileModel(pageModel, profileConverter.convert(profile));
   }
 }

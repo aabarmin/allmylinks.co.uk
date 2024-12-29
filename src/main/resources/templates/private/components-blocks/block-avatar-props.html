@@ -13,6 +13,24 @@
     <div class="container">
       <th:block th:replace="~{private/components-reusable/block-toolbar :: content(${currentBlock})}"/>
 
+      <div class="col">
+        <div class="row">
+          <div class="mb-3">
+            <div class="form-check form-switch form-check-reverse">
+              <label class="form-check-label float-start"
+                     for="showShareButton">
+                Show share button
+              </label>
+              <input class="form-check-input"
+                     type="checkbox"
+                     name="showShareButton"
+                     th:checked="${props.showShareButton}"
+                     id="showShareButton" />
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="row">
         <div class="col">
           <div class="mb-3 text-center">

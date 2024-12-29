@@ -3,6 +3,7 @@ package dev.abarmin.aml.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.abarmin.aml.dashboard.converter.BlockPropsConverter;
 import dev.abarmin.aml.dashboard.converter.PagePropsConverter;
+import dev.abarmin.aml.profile.converter.FileIdJdbcConverter;
 import dev.abarmin.aml.profile.converter.ProfileChangePayloadConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +26,10 @@ public class JdbcConfiguration extends AbstractJdbcConfiguration {
       new PagePropsConverter.Writer(objectMapper),
 
       new ProfileChangePayloadConverter.Reader(objectMapper),
-      new ProfileChangePayloadConverter.Writer(objectMapper)
+      new ProfileChangePayloadConverter.Writer(objectMapper),
+
+      new FileIdJdbcConverter.Reader(),
+      new FileIdJdbcConverter.Writer()
     );
   }
 }
