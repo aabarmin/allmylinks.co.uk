@@ -26,6 +26,7 @@ public class SecurityConfiguration {
         .logoutSuccessUrl("/")
         .permitAll())
       .authorizeHttpRequests(authorize -> authorize
+        .requestMatchers("/robots.txt").permitAll()
         .requestMatchers("/", "/error").permitAll()
         .requestMatchers("/webjars/**").permitAll()
         .requestMatchers("/img/**").permitAll()
