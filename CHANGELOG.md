@@ -1,3 +1,11 @@
+# 0.0.20
+
+* Added handler for `robots.txt` file.
+
+# 0.0.19
+
+* Fixed bug in the build pipeline - the version wasn't propagated from `get-version` to deployment. 
+
 # 0.0.18
 
 * Updated GHA workflow to automatically deploy on push to main branch.
