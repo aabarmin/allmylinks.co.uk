@@ -1,3 +1,7 @@
+# 0.0.18
+
+* Updated GHA workflow to automatically deploy on push to main branch.
+
 # 0.0.17
 
 * Fixed padding between fields in the header block props. 
