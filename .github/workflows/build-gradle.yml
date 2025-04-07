@@ -55,9 +55,7 @@ jobs:
     name: "Get version"
     runs-on: ubuntu-latest
     outputs:
-      version:
-        description: "Version to deploy"
-        value: ${{ steps.get_version.outputs.version }}
+      version: ${{ steps.get_version.outputs.version }}
 
     steps:
       - uses: actions/checkout@v4
