@@ -51,6 +51,20 @@ jobs:
           path: build/reports
           retention-days: 7
 
+  check-version-exists:
+    name: "Check version exists"
+    runs-on: ubuntu-latest
+    environment: Production
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Get the current version
+        id: get_version
+        run: |
+          version=$(grep -E '^version=' gradle.properties | cut -d'=' -f2)
+          echo "version=$version" >> $GITHUB_OUTPUT
+
   dependency-submission:
 
     name: "Generate and submit dependency graph"
