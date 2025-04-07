@@ -51,11 +51,10 @@ jobs:
           path: build/reports
           retention-days: 7
 
-  check-version-exists:
-    name: "Check version exists"
+  get-version:
+    name: "Get version"
     runs-on: ubuntu-latest
     environment: Production
-    needs: build
 
     steps:
       - uses: actions/checkout@v4
