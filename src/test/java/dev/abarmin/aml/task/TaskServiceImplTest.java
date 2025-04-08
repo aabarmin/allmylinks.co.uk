@@ -27,9 +27,10 @@ class TaskServiceImplTest extends BaseIntegrationTest {
 
   @Test
   void addTask_whenSubmitted_thenSavedToDatabase() throws Exception {
-    final AddTaskRequest request = new AddTaskRequest()
-      .setTaskType("TEST")
-      .setTaskData(objectMapper.writeValueAsBytes(Instant.now()));
+    final AddTaskRequest request = AddTaskRequest.builder()
+      .taskType("TEST")
+      .taskData(objectMapper.writeValueAsBytes(Instant.now()))
+      .build();
 
     final AddTaskResponse response = taskService.addTask(request);
 
