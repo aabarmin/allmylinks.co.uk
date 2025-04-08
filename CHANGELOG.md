@@ -1,3 +1,8 @@
+# 0.0.22
+
+* Added task execution framework. 
+* Emails are now sent asynchronously.
+
 # 0.0.21
 
 * Migrated to PostgreSQL from MariaDB.
