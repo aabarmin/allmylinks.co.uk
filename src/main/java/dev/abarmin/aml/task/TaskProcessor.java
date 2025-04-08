@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -19,21 +20,24 @@ public class TaskProcessor {
   private final TaskExecutorRegistry executorRegistry;
   private final TaskProcessingQueue processingQueue;
   private final ObjectMapper objectMapper;
+  private final TransactionTemplate transactionTemplate;
 
   public TaskProcessor(TaskProcessingQueue processingQueue,
                        TaskExecutorRegistry executorRegistry,
                        TaskRepository taskRepository,
-                       ObjectMapper objectMapper) {
+                       ObjectMapper objectMapper,
+                       TransactionTemplate transactionTemplate) {
 
     this.processingQueue = processingQueue;
     this.taskRepository = taskRepository;
     this.executorRegistry = executorRegistry;
     this.objectMapper = objectMapper;
+    this.transactionTemplate = transactionTemplate;
 
     final Runnable taskConsumer = () -> {
       while (true) {
-        final TaskService.TaskId taskId = processingQueue.takeOrBlock();
-        process(taskId);
+        final TaskProcessingQueue.TaskProcessingRequest request = processingQueue.takeOrBlock();
+        process(request);
       }
     };
 
@@ -63,19 +67,27 @@ public class TaskProcessor {
     log.info("Restarting {} new tasks", toRestartNew.size());
     toRestartNew.stream()
       .map(TaskEntity::getTaskId)
+      .map(TaskProcessingQueue.TaskProcessingRequest::new)
       .forEach(processingQueue::add);
 
     final var toRestartFailed = taskRepository.findAllByTaskStatus(TaskService.TaskStatus.FAILED);
     log.info("Restarting {} failed tasks", toRestartFailed.size());
     toRestartFailed.stream()
       .map(TaskEntity::getTaskId)
+      .map(TaskProcessingQueue.TaskProcessingRequest::new)
       .forEach(processingQueue::add);
   }
 
-  private void process(final @NonNull TaskService.TaskId taskId) {
-    taskRepository
-      .findById(taskId.getValue())
-      .ifPresent(this::process);
+  private void process(final @NonNull TaskProcessingQueue.TaskProcessingRequest request) {
+    transactionTemplate
+      .execute(status -> taskRepository.findById(request.getTaskId().getValue()))
+      .ifPresentOrElse(this::process, () -> {
+        if (request.getAttempt() > 5) {
+          log.error("Task processing failed, attempt {} of task {}", request.getAttempt(), request.getTaskId());
+          return;
+        }
+        processingQueue.add(request.nextAttempt());
+      });
   }
 
   private <T> void process(final @NonNull Task task) {

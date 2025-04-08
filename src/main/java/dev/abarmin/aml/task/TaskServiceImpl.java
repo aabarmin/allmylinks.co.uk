@@ -30,18 +30,16 @@ public class TaskServiceImpl implements TaskService {
 
   @Override
   public AddTaskResponse addTask(final @NonNull AddTaskRequest request) {
-    return transactionTemplate.execute(s -> addTaskInternal(request));
+    final AddTaskResponse response = transactionTemplate.execute(s -> addTaskInternal(request));
+    log.info("Submitted task [type: {}, id: {}]", request.getTaskType(), response.getTaskId());
+    processingQueue.add(new TaskProcessingQueue.TaskProcessingRequest(response.getTaskId()));
+    return response;
   }
 
   private AddTaskResponse addTaskInternal(final @NonNull AddTaskRequest request) {
     final TaskEntity entity = toEntity(request);
     final TaskEntity saved = taskRepository.save(entity);
-
-    log.info("Submitted task of type [{}]", saved.getTaskType());
-    final AddTaskResponse response = toResponse(saved);
-
-    processingQueue.add(response.getTaskId());
-    return response;
+    return toResponse(saved);
   }
 
   @SneakyThrows
