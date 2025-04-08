@@ -28,9 +28,12 @@ aml:
       - image/png
     max-file-size-bytes: 10485760
   backoffice:
-    adminEmail: robot@allmylinks.co.uk
     defaults:
       admin-profile: abarmin
+    channel: telegram
+    telegram-configuration:
+      bot-token: ${BACKOFFICE_BOT_TOKEN}
+      admin-chat-id: ${BACKOFFICE_ADMIN_CHAT_ID}
 
 logging:
   file:

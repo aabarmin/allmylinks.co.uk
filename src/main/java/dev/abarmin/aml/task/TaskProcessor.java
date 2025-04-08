@@ -1,5 +1,6 @@
 package dev.abarmin.aml.task;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -17,14 +18,17 @@ public class TaskProcessor {
   private final TaskRepository taskRepository;
   private final TaskExecutorRegistry executorRegistry;
   private final TaskProcessingQueue processingQueue;
+  private final ObjectMapper objectMapper;
 
   public TaskProcessor(TaskProcessingQueue processingQueue,
                        TaskExecutorRegistry executorRegistry,
-                       TaskRepository taskRepository) {
+                       TaskRepository taskRepository,
+                       ObjectMapper objectMapper) {
 
     this.processingQueue = processingQueue;
     this.taskRepository = taskRepository;
     this.executorRegistry = executorRegistry;
+    this.objectMapper = objectMapper;
 
     final Runnable taskConsumer = () -> {
       while (true) {
@@ -74,7 +78,7 @@ public class TaskProcessor {
       .ifPresent(this::process);
   }
 
-  private void process(final @NonNull Task task) {
+  private <T> void process(final @NonNull Task task) {
     log.info("[TaskId: {}] Start processing task", task.getTaskId());
 
     if (task.isProcessed()) {
@@ -88,9 +92,9 @@ public class TaskProcessor {
       task.setLastRunAt(Instant.now());
       task.setExecutionAttempts(task.getExecutionAttempts() + 1);
 
-      executorRegistry
-        .getHandler(task)
-        .handle(task);
+      final TaskHandler<T> handler = executorRegistry.getHandler(task);
+      final T payload = objectMapper.readValue(task.getTaskData(), handler.getPayloadType());
+      handler.handle(payload);
 
       task.setTaskStatus(TaskService.TaskStatus.COMPLETED);
       log.info("[TaskId: {}] Task completed", task.getTaskId());

@@ -41,6 +41,9 @@ jobs:
 
       - name: Build with Gradle Wrapper
         run: ./gradlew build
+        env:
+          BACKOFFICE_BOT_TOKEN: ${{ secrets.BACKOFFICE_BOT_TOKEN }}
+          BACKOFFICE_ADMIN_CHAT_ID: ${{ secrets.BACKOFFICE_ADMIN_CHAT_ID }}
 
       - name: "Store test results"
         uses: actions/upload-artifact@v4

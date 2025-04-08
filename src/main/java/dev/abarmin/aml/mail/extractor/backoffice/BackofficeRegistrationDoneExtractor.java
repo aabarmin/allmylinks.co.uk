@@ -9,8 +9,6 @@ import dev.abarmin.aml.registration.repository.ProfileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
-
 @Component
 @RequiredArgsConstructor
 public class BackofficeRegistrationDoneExtractor implements MailParamsExtractor<User> {
@@ -21,17 +19,18 @@ public class BackofficeRegistrationDoneExtractor implements MailParamsExtractor<
   public MailParams apply(User user) {
     final Profile profile = profileRepository.findByUserId(user.id()).orElseThrow();
 
-    return MailParams.of(
-      configuration.getBackoffice().getAdminEmail(),
-      Map.of(
-        "baseUrl", configuration.getBaseUrl(), // todo, extract to some basic class
-        "loginLink", configuration.getBaseUrl() + "/login",
-        "emailTo", configuration.getBackoffice().getAdminEmail(),
-
-        "name", user.userName(),
-        "email", user.email(),
-        "profileLink", configuration.getBaseUrl() + "/l/" + profile.link()
-      )
-    );
+    throw new UnsupportedOperationException();
+//    return MailParams.of(
+//      configuration.getBackoffice().getAdminEmail(),
+//      Map.of(
+//        "baseUrl", configuration.getBaseUrl(), // todo, extract to some basic class
+//        "loginLink", configuration.getBaseUrl() + "/login",
+//        "emailTo", configuration.getBackoffice().getAdminEmail(),
+//
+//        "name", user.userName(),
+//        "email", user.email(),
+//        "profileLink", configuration.getBaseUrl() + "/l/" + profile.link()
+//      )
+//    );
   }
 }

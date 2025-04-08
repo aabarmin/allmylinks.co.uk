@@ -1,6 +1,5 @@
 package dev.abarmin.aml.registration;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import dev.abarmin.aml.dashboard.block.avatar.AvatarBlockProps;
 import dev.abarmin.aml.dashboard.block.button.LinkButtonBlockProps;
@@ -14,7 +13,6 @@ import dev.abarmin.aml.dashboard.domain.Page;
 import dev.abarmin.aml.dashboard.repository.BlockRepository;
 import dev.abarmin.aml.dashboard.repository.PageRepository;
 import dev.abarmin.aml.mail.task.SendEmailRequest;
-import dev.abarmin.aml.mail.template.MailTemplateService;
 import dev.abarmin.aml.registration.domain.Account;
 import dev.abarmin.aml.registration.domain.AccountType;
 import dev.abarmin.aml.registration.domain.Profile;
@@ -23,8 +21,8 @@ import dev.abarmin.aml.registration.repository.AccountRepository;
 import dev.abarmin.aml.registration.repository.ProfileRepository;
 import dev.abarmin.aml.registration.repository.UserRepository;
 import dev.abarmin.aml.task.TaskService;
+import dev.abarmin.aml.telegram.task.SendTelegramMessageRequest;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -45,7 +43,6 @@ public class RegistrationService {
   private final TransactionTemplate transactionTemplate;
   private final PasswordEncoder passwordEncoder;
   private final TaskService taskService;
-  private final ObjectMapper objectMapper;
 
   public User register(RegistrationForm form, AccountType type) {
     return transactionTemplate.execute(status -> registerInTx(form, type));
@@ -82,32 +79,24 @@ public class RegistrationService {
     return user;
   }
 
-  @SneakyThrows
   private boolean sendWelcomeEmail(User user) {
     final SendEmailRequest request = SendEmailRequest.builder()
       .template("registrationDone")
       .userId(user.id())
       .build();
 
-    final TaskService.AddTaskResponse response = taskService
-      .addTask(new TaskService.AddTaskRequest()
-        .setTaskType(SendEmailRequest.TASK_TYPE)
-        .setTaskData(objectMapper.writeValueAsBytes(request)));
+    final TaskService.AddTaskResponse response = taskService.addTask(SendEmailRequest.TASK_TYPE, request);
 
     return response.getResult() == TaskService.AddTaskResponse.Result.SUCCESS;
   }
 
-  @SneakyThrows
   private boolean sendWelcomeEmailToAdmin(User user) {
-    final SendEmailRequest request = SendEmailRequest.builder()
+    final SendTelegramMessageRequest request = SendTelegramMessageRequest.builder()
       .template("registrationDoneAdmin")
       .userId(user.id())
       .build();
 
-    final TaskService.AddTaskResponse response = taskService
-      .addTask(new TaskService.AddTaskRequest()
-        .setTaskType(SendEmailRequest.TASK_TYPE)
-        .setTaskData(objectMapper.writeValueAsBytes(request)));
+    final TaskService.AddTaskResponse response = taskService.addTask(SendTelegramMessageRequest.TASK_TYPE, request);
 
     return response.getResult() == TaskService.AddTaskResponse.Result.SUCCESS;
   }

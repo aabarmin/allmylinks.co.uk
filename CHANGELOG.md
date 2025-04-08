@@ -1,3 +1,7 @@
+# 0.0.24
+
+* Added support of Telegram for admin notifications.
+
 # 0.0.23
 
 * Pre-registration no longer uses HTMX, it just doesn't work and I don't want to spend time on it.

@@ -47,6 +47,8 @@ public interface TaskService {
     FAILED
   }
 
+  AddTaskResponse addTask(String type, Object payload);
+
   AddTaskResponse addTask(AddTaskRequest request);
 
 }

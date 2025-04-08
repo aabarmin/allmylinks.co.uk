@@ -1,8 +1,10 @@
 package dev.abarmin.aml.task;
 
-public interface TaskHandler {
+public interface TaskHandler<T> {
+
+  Class<T> getPayloadType();
 
   boolean supports(Task task);
 
-  void handle(Task task);
+  void handle(T payload);
 }

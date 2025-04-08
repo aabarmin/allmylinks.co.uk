@@ -1,5 +1,6 @@
 package dev.abarmin.aml.task;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -15,6 +16,17 @@ public class TaskServiceImpl implements TaskService {
   private final TaskRepository taskRepository;
   private final TransactionTemplate transactionTemplate;
   private final TaskProcessingQueue processingQueue;
+  private final ObjectMapper objectMapper;
+
+  @Override
+  @SneakyThrows
+  public AddTaskResponse addTask(String type, Object payload) {
+    final AddTaskRequest request = new AddTaskRequest()
+      .setTaskType(type)
+      .setTaskData(objectMapper.writeValueAsBytes(payload));
+
+    return addTask(request);
+  }
 
   @Override
   public AddTaskResponse addTask(final @NonNull AddTaskRequest request) {

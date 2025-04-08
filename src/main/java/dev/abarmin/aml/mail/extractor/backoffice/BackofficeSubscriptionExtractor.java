@@ -7,8 +7,6 @@ import dev.abarmin.aml.subscribe.Subscription;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
-
 @Component
 @RequiredArgsConstructor
 public class BackofficeSubscriptionExtractor implements MailParamsExtractor<Subscription> {
@@ -16,17 +14,18 @@ public class BackofficeSubscriptionExtractor implements MailParamsExtractor<Subs
 
   @Override
   public MailParams apply(Subscription subscription) {
-    final String adminEmail = configuration.getBackoffice().getAdminEmail();
-
-    return MailParams.of(
-      configuration.getBackoffice().getAdminEmail(),
-      Map.of(
-        "baseUrl", configuration.getBaseUrl(), // todo, extract to some basic class
-        "loginLink", configuration.getBaseUrl() + "/login",
-        "emailTo", configuration.getBackoffice().getAdminEmail(),
-
-        "userEmail", subscription.email()
-      )
-    );
+    throw new UnsupportedOperationException();
+//    final String adminEmail = configuration.getBackoffice().getAdminEmail();
+//
+//    return MailParams.of(
+//      configuration.getBackoffice().getAdminEmail(),
+//      Map.of(
+//        "baseUrl", configuration.getBaseUrl(), // todo, extract to some basic class
+//        "loginLink", configuration.getBaseUrl() + "/login",
+//        "emailTo", configuration.getBackoffice().getAdminEmail(),
+//
+//        "userEmail", subscription.email()
+//      )
+//    );
   }
 }
