@@ -36,9 +36,9 @@ public class RegistrationController {
     return "public/registration";
   }
 
-  @GetMapping(value = "/register", params = "email")
-  public String afterPreRegistration(@RequestParam("email") String email,
-                                     Model model) {
+  @PostMapping(value = "/register", params = {"preRegistration", "email"})
+  public String preRegistration(@RequestParam("email") String email,
+                                Model model) {
 
     final RegistrationForm form = RegistrationForm.builder()
       .email(email)
@@ -46,7 +46,7 @@ public class RegistrationController {
 
     model.addAttribute("form", form);
 
-    return "public/components-registration/registration-pane :: registration-form";
+    return "public/registration";
   }
 
   @PostMapping("/register")
