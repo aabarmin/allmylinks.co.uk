@@ -20,7 +20,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     select
       u.user_email,
       ua.account_password,
-      group_concat(ur.role separator ', ') as roles
+      string_agg(ur.role, ', ') as roles
     from users u
     inner join user_accounts ua on
       ua.user_id = u.id

@@ -22,6 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 class RegistrationTest extends BaseIntegrationTest {
+
   @Autowired
   MockMvc mockMvc;
 
