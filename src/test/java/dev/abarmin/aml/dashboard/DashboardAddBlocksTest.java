@@ -32,6 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 class DashboardAddBlocksTest extends BaseIntegrationTest {
+
   @Autowired
   MockMvc mockMvc;
 
@@ -47,7 +48,8 @@ class DashboardAddBlocksTest extends BaseIntegrationTest {
   @Test
   void dashboard_whenOpened_thenShowsListOfAvailableBlocks() {
     final TestCredentials user = registrationService.getRegisteredUser();
-    final Collection<Block> pageBlocks = pageService.getPageBlocks(user.currentProfileId());
+    final long pageId = pageService.getHomePageId(user);
+    final Collection<Block> pageBlocks = pageService.getPageBlocks(pageId);
 
     openDashboard(user, r -> r
       .andExpect(model().attribute("model", allOf(

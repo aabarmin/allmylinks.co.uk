@@ -1,3 +1,7 @@
+# 0.0.21
+
+* Migrated to PostgreSQL from MariaDB.
+
 # 0.0.20
 
 * Added handler for `robots.txt` file.
