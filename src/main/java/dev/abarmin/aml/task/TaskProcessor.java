@@ -54,11 +54,16 @@ public class TaskProcessor {
   @Scheduled(fixedRate = 5, timeUnit = TimeUnit.MINUTES)
   void restart() {
     log.info("Starting restart");
-    final var toRestart = taskRepository.findAllByTaskStatus(TaskService.TaskStatus.NEW);
+    final var toRestartNew = taskRepository.findAllByTaskStatus(TaskService.TaskStatus.NEW);
 
-    log.info("Restarting {} tasks", toRestart.size());
+    log.info("Restarting {} new tasks", toRestartNew.size());
+    toRestartNew.stream()
+      .map(TaskEntity::getTaskId)
+      .forEach(processingQueue::add);
 
-    toRestart.stream()
+    final var toRestartFailed = taskRepository.findAllByTaskStatus(TaskService.TaskStatus.FAILED);
+    log.info("Restarting {} failed tasks", toRestartFailed.size());
+    toRestartFailed.stream()
       .map(TaskEntity::getTaskId)
       .forEach(processingQueue::add);
   }
