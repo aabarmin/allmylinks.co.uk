@@ -36,7 +36,7 @@ public class TaskProcessor {
 
     final Runnable taskConsumer = () -> {
       while (true) {
-        final TaskProcessingQueue.TaskProcessingRequest request = processingQueue.takeOrBlock();
+        final TaskProcessingRequest request = processingQueue.takeOrBlock();
         process(request);
       }
     };
@@ -53,7 +53,7 @@ public class TaskProcessor {
     log.info("Starting cleanup of tasks");
 
     final Instant periodStart = Instant.now().minus(Duration.ofDays(5));
-    final var toDelete = taskRepository.findAllByTaskStatusAndLastRunAtBefore(TaskService.TaskStatus.COMPLETED, periodStart);
+    final var toDelete = taskRepository.findAllByTaskStatusAndLastRunAtBefore(TaskStatus.COMPLETED, periodStart);
 
     log.info("Deleting completed tasks older than {}, to delete {}", periodStart, toDelete.size());
     taskRepository.deleteAll(toDelete);
@@ -62,23 +62,23 @@ public class TaskProcessor {
   @Scheduled(fixedRate = 5, timeUnit = TimeUnit.MINUTES)
   void restart() {
     log.info("Starting restart");
-    final var toRestartNew = taskRepository.findAllByTaskStatus(TaskService.TaskStatus.NEW);
+    final var toRestartNew = taskRepository.findAllByTaskStatus(TaskStatus.NEW);
 
     log.info("Restarting {} new tasks", toRestartNew.size());
     toRestartNew.stream()
       .map(TaskEntity::getTaskId)
-      .map(TaskProcessingQueue.TaskProcessingRequest::new)
+      .map(TaskProcessingRequest::new)
       .forEach(processingQueue::add);
 
-    final var toRestartFailed = taskRepository.findAllByTaskStatus(TaskService.TaskStatus.FAILED);
+    final var toRestartFailed = taskRepository.findAllByTaskStatus(TaskStatus.FAILED);
     log.info("Restarting {} failed tasks", toRestartFailed.size());
     toRestartFailed.stream()
       .map(TaskEntity::getTaskId)
-      .map(TaskProcessingQueue.TaskProcessingRequest::new)
+      .map(TaskProcessingRequest::new)
       .forEach(processingQueue::add);
   }
 
-  private void process(final @NonNull TaskProcessingQueue.TaskProcessingRequest request) {
+  private void process(final @NonNull TaskProcessingRequest request) {
     transactionTemplate
       .execute(status -> taskRepository.findById(request.getTaskId().getValue()))
       .ifPresentOrElse(this::process, () -> {
@@ -99,7 +99,7 @@ public class TaskProcessor {
     }
 
     try {
-      task.setTaskStatus(TaskService.TaskStatus.IN_PROGRESS);
+      task.setTaskStatus(TaskStatus.IN_PROGRESS);
       task.setException("");
       task.setLastRunAt(Instant.now());
       task.setExecutionAttempts(task.getExecutionAttempts() + 1);
@@ -108,12 +108,12 @@ public class TaskProcessor {
       final T payload = objectMapper.readValue(task.getTaskData(), handler.getPayloadType());
       handler.handle(payload);
 
-      task.setTaskStatus(TaskService.TaskStatus.COMPLETED);
+      task.setTaskStatus(TaskStatus.COMPLETED);
       log.info("[TaskId: {}] Task completed", task.getTaskId());
 
     } catch (Exception e) {
 
-      task.setTaskStatus(TaskService.TaskStatus.FAILED);
+      task.setTaskStatus(TaskStatus.FAILED);
       task.setException(ExceptionUtils.getStackTrace(e));
 
       log.warn("[TaskId: {}] Task failed", task.getTaskId(), e);

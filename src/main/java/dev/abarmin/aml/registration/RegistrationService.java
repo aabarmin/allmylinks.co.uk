@@ -20,6 +20,7 @@ import dev.abarmin.aml.registration.domain.User;
 import dev.abarmin.aml.registration.repository.AccountRepository;
 import dev.abarmin.aml.registration.repository.ProfileRepository;
 import dev.abarmin.aml.registration.repository.UserRepository;
+import dev.abarmin.aml.task.AddTaskResponse;
 import dev.abarmin.aml.task.TaskService;
 import dev.abarmin.aml.telegram.task.SendTelegramMessageRequest;
 import lombok.RequiredArgsConstructor;
@@ -85,9 +86,9 @@ public class RegistrationService {
       .userId(user.id())
       .build();
 
-    final TaskService.AddTaskResponse response = taskService.addTask(SendEmailRequest.TASK_TYPE, request);
+    final AddTaskResponse response = taskService.addTask(SendEmailRequest.TASK_TYPE, request);
 
-    return response.getResult() == TaskService.AddTaskResponse.Result.SUCCESS;
+    return response.getResult() == AddTaskResponse.Result.SUCCESS;
   }
 
   private boolean sendWelcomeEmailToAdmin(User user) {
@@ -96,9 +97,9 @@ public class RegistrationService {
       .userId(user.id())
       .build();
 
-    final TaskService.AddTaskResponse response = taskService.addTask(SendTelegramMessageRequest.TASK_TYPE, request);
+    final AddTaskResponse response = taskService.addTask(SendTelegramMessageRequest.TASK_TYPE, request);
 
-    return response.getResult() == TaskService.AddTaskResponse.Result.SUCCESS;
+    return response.getResult() == AddTaskResponse.Result.SUCCESS;
   }
 
   private List<Block> createHomePageBlocks(User user, Page page) {

@@ -21,9 +21,10 @@ public class TaskServiceImpl implements TaskService {
   @Override
   @SneakyThrows
   public AddTaskResponse addTask(String type, Object payload) {
-    final AddTaskRequest request = new AddTaskRequest()
-      .setTaskType(type)
-      .setTaskData(objectMapper.writeValueAsBytes(payload));
+    final AddTaskRequest request = AddTaskRequest.builder()
+      .taskType(type)
+      .taskData(objectMapper.writeValueAsBytes(payload))
+      .build();
 
     return addTask(request);
   }
@@ -32,7 +33,7 @@ public class TaskServiceImpl implements TaskService {
   public AddTaskResponse addTask(final @NonNull AddTaskRequest request) {
     final AddTaskResponse response = transactionTemplate.execute(s -> addTaskInternal(request));
     log.info("Submitted task [type: {}, id: {}]", request.getTaskType(), response.getTaskId());
-    processingQueue.add(new TaskProcessingQueue.TaskProcessingRequest(response.getTaskId()));
+    processingQueue.add(new TaskProcessingRequest(response.getTaskId()));
     return response;
   }
 

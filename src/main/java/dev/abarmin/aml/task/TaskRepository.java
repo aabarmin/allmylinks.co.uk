@@ -7,8 +7,8 @@ import java.util.Collection;
 
 public interface TaskRepository extends CrudRepository<TaskEntity, Long> {
 
-  Collection<TaskEntity> findAllByTaskStatusAndLastRunAtBefore(TaskService.TaskStatus status, Instant lastRunAt);
+  Collection<TaskEntity> findAllByTaskStatusAndLastRunAtBefore(TaskStatus status, Instant lastRunAt);
 
-  Collection<TaskEntity> findAllByTaskStatus(TaskService.TaskStatus status);
+  Collection<TaskEntity> findAllByTaskStatus(TaskStatus status);
 
 }

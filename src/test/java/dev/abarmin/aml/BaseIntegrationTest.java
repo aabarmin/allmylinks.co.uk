@@ -1,7 +1,7 @@
 package dev.abarmin.aml;
 
 import dev.abarmin.aml.task.TaskRepository;
-import dev.abarmin.aml.task.TaskService;
+import dev.abarmin.aml.task.TaskStatus;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +29,6 @@ public abstract class BaseIntegrationTest {
     await()
       .atMost(Duration.ofSeconds(5))
       .pollInterval(Duration.ofMillis(500))
-      .until(() -> taskRepository.findAllByTaskStatus(TaskService.TaskStatus.NEW).size() == 0);
+      .until(() -> taskRepository.findAllByTaskStatus(TaskStatus.NEW).size() == 0);
   }
 }
