@@ -49,7 +49,7 @@ public class SecurityConfiguration {
         .requestMatchers("/backoffice/**").hasRole("BACKOFFICE")
 
         .anyRequest().authenticated())
-      .oauth2Login(Customizer.withDefaults())
+      .oauth2Login(oauth2 -> oauth2.loginPage("/login"))
       .build();
   }
 
