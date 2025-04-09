@@ -1,3 +1,7 @@
+# 0.0.26
+
+* Add Google Analytics.
+
 # 0.0.25
 
 * Added sitemap generator. 
