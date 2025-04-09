@@ -2,6 +2,23 @@
 
 * Added sitemap generator. 
 
+# 0.0.24
+
+* Added support of Telegram for admin notifications.
+
+# 0.0.23
+
+* Pre-registration no longer uses HTMX, it just doesn't work and I don't want to spend time on it.
+
+# 0.0.22
+
+* Added task execution framework. 
+* Emails are now sent asynchronously.
+
+# 0.0.21
+
+* Migrated to PostgreSQL from MariaDB.
+
 # 0.0.20
 
 * Added handler for `robots.txt` file.

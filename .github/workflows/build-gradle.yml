@@ -15,14 +15,13 @@ jobs:
 
     services:
       database:
-        image: mariadb:11.6
+        image: postgres:17
         env:
-          MARIADB_ROOT_PASSWORD: root
-          MARIADB_USER: mariadb
-          MARIADB_PASSWORD: mariadb
-          MARIADB_DATABASE: aml
+          POSTGRES_PASSWORD: postgresql
+          POSTGRES_USER: postgresql
+          POSTGRES_DB: aml
         ports:
-          - 13306:3306
+          - 15432:5432
       mail:
         image: rnwood/smtp4dev
         ports:
@@ -42,6 +41,9 @@ jobs:
 
       - name: Build with Gradle Wrapper
         run: ./gradlew build
+        env:
+          BACKOFFICE_BOT_TOKEN: ${{ secrets.BACKOFFICE_BOT_TOKEN }}
+          BACKOFFICE_ADMIN_CHAT_ID: ${{ secrets.BACKOFFICE_ADMIN_CHAT_ID }}
 
       - name: "Store test results"
         uses: actions/upload-artifact@v4
