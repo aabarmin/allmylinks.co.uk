@@ -1,3 +1,7 @@
+# 0.0.25
+
+* Added sitemap generator. 
+
 # 0.0.20
 
 * Added handler for `robots.txt` file.
