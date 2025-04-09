@@ -1,5 +1,6 @@
 package dev.abarmin.aml.task;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -15,21 +16,31 @@ public class TaskServiceImpl implements TaskService {
   private final TaskRepository taskRepository;
   private final TransactionTemplate transactionTemplate;
   private final TaskProcessingQueue processingQueue;
+  private final ObjectMapper objectMapper;
+
+  @Override
+  @SneakyThrows
+  public AddTaskResponse addTask(String type, Object payload) {
+    final AddTaskRequest request = AddTaskRequest.builder()
+      .taskType(type)
+      .taskData(objectMapper.writeValueAsBytes(payload))
+      .build();
+
+    return addTask(request);
+  }
 
   @Override
   public AddTaskResponse addTask(final @NonNull AddTaskRequest request) {
-    return transactionTemplate.execute(s -> addTaskInternal(request));
+    final AddTaskResponse response = transactionTemplate.execute(s -> addTaskInternal(request));
+    log.info("Submitted task [type: {}, id: {}]", request.getTaskType(), response.getTaskId());
+    processingQueue.add(new TaskProcessingRequest(response.getTaskId()));
+    return response;
   }
 
   private AddTaskResponse addTaskInternal(final @NonNull AddTaskRequest request) {
     final TaskEntity entity = toEntity(request);
     final TaskEntity saved = taskRepository.save(entity);
-
-    log.info("Submitted task of type [{}]", saved.getTaskType());
-    final AddTaskResponse response = toResponse(saved);
-
-    processingQueue.add(response.getTaskId());
-    return response;
+    return toResponse(saved);
   }
 
   @SneakyThrows

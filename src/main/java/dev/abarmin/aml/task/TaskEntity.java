@@ -24,7 +24,7 @@ public class TaskEntity implements Task {
   private byte[] taskData;
 
   @Column("task_status")
-  private TaskService.TaskStatus taskStatus;
+  private TaskStatus taskStatus;
 
   @Builder.Default
   @Column("execution_attempts")
@@ -45,11 +45,11 @@ public class TaskEntity implements Task {
 
   @Override
   public boolean isProcessed() {
-    return taskStatus == TaskService.TaskStatus.COMPLETED;
+    return taskStatus == TaskStatus.COMPLETED;
   }
 
   @Override
-  public TaskService.TaskId getTaskId() {
-    return new TaskService.TaskId(id);
+  public TaskId getTaskId() {
+    return new TaskId(id);
   }
 }

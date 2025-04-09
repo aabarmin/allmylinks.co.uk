@@ -10,9 +10,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 @Component
 public class TaskProcessingQueue {
 
-  private final BlockingQueue<TaskService.TaskId> queue = new LinkedBlockingQueue<>();
+  private final BlockingQueue<TaskProcessingRequest> queue = new LinkedBlockingQueue<>();
 
-  public void add(final @NonNull TaskService.TaskId request) {
+  public void add(final @NonNull TaskProcessingRequest request) {
     queue.add(request);
   }
 
@@ -21,7 +21,7 @@ public class TaskProcessingQueue {
   }
 
   @SneakyThrows
-  public TaskService.TaskId takeOrBlock() {
+  public TaskProcessingRequest takeOrBlock() {
     return queue.take();
   }
 }

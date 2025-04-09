@@ -10,6 +10,6 @@ public class SendEmailRequest {
   public static final String TASK_TYPE = "SEND_EMAIL_TASK";
 
   String template;
-  long userId;
+  long objectId;
 
 }
