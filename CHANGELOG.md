@@ -1,3 +1,7 @@
+# 0.0.25
+
+* Added sitemap generator. 
+
 # 0.0.24
 
 * Added support of Telegram for admin notifications.
