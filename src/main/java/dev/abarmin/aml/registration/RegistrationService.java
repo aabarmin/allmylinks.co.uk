@@ -83,7 +83,7 @@ public class RegistrationService {
   private boolean sendWelcomeEmail(User user) {
     final SendEmailRequest request = SendEmailRequest.builder()
       .template("registrationDone")
-      .userId(user.id())
+      .objectId(user.id())
       .build();
 
     final AddTaskResponse response = taskService.addTask(SendEmailRequest.TASK_TYPE, request);
@@ -94,7 +94,7 @@ public class RegistrationService {
   private boolean sendWelcomeEmailToAdmin(User user) {
     final SendTelegramMessageRequest request = SendTelegramMessageRequest.builder()
       .template("registrationDoneAdmin")
-      .userId(user.id())
+      .objectId(user.id())
       .build();
 
     final AddTaskResponse response = taskService.addTask(SendTelegramMessageRequest.TASK_TYPE, request);

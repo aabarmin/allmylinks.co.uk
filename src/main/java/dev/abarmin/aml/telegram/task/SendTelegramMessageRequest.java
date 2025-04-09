@@ -10,6 +10,6 @@ public class SendTelegramMessageRequest {
   public static final String TASK_TYPE = "SEND_TELEGRAM_MESSAGE_TASK";
 
   String template;
-  long userId;
+  long objectId;
 
 }

@@ -1,9 +1,8 @@
 package dev.abarmin.aml.mail.template;
 
 import dev.abarmin.aml.config.AppConfiguration;
-import dev.abarmin.aml.mail.extractor.backoffice.BackofficeProfileChangeRequestExtractor;
 import dev.abarmin.aml.mail.extractor.RegistrationDoneExtractor;
-import dev.abarmin.aml.mail.extractor.backoffice.BackofficeRegistrationDoneExtractor;
+import dev.abarmin.aml.mail.extractor.backoffice.BackofficeProfileChangeRequestExtractor;
 import dev.abarmin.aml.mail.extractor.backoffice.BackofficeSubscriptionExtractor;
 import dev.abarmin.aml.profile.domain.ProfileChangeRequest;
 import dev.abarmin.aml.registration.domain.User;
@@ -27,18 +26,6 @@ public class MailTemplateService {
       "\uD83D\uDE4C Welcome to AllMyLinks!",
       "mail/registration-done",
       context.getBean(RegistrationDoneExtractor.class)
-    );
-  }
-
-  public MailTemplate<User> registrationDoneAdmin() {
-    final AppConfiguration.MailService mailService = appConfiguration.getMailService();
-
-    return new MailTemplate<>(
-      mailService.getFromEmail(),
-      mailService.getFromName(),
-      "[AML] New user registered",
-      "mail/registration-done-admin",
-      context.getBean(BackofficeRegistrationDoneExtractor.class)
     );
   }
 

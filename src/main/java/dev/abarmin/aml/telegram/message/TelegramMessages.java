@@ -10,4 +10,11 @@ public class TelegramMessages {
     New user registered, name: ${name}, email: ${email}
     """;
 
+  public static final String NEW_SUBSCRIPTION_ADDED = """
+    New subscription added, email: ${email}
+    """;
+
+  public static final String NEW_CHANGE_REQUEST_ADDED = """
+    New change request created, email: ${email}, type: ${requestType}, payload: ${payload}
+    """;
 }

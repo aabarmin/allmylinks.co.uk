@@ -21,15 +21,17 @@ public class SendEmailTaskHandler implements TaskHandler<SendEmailRequest> {
 
   @Override
   public void handle(SendEmailRequest mailRequest) {
-    final MailTemplate<User> template = switch (mailRequest.getTemplate()) {
-      case "registrationDone": yield templateService.registrationDone();
-      default: throw new RuntimeException("Unknown mail template: " + mailRequest.getTemplate());
-    };
+    switch (mailRequest.getTemplate()) {
+      case "registrationDone":
+        final MailTemplate<User> registrationDone = templateService.registrationDone();
+        final User user = userRepository.findById(mailRequest.getObjectId())
+          .orElseThrow(() -> new RuntimeException("Unknown user: " + mailRequest.getObjectId()));
 
-    final User user = userRepository.findById(mailRequest.getUserId())
-      .orElseThrow(() -> new RuntimeException("Unknown user: " + mailRequest.getUserId()));
+        mailService.send(registrationDone, user);
+        break;
 
-    mailService.send(template, user);
+      default: throw new RuntimeException("Unknown template: " + mailRequest.getTemplate());
+    }
   }
 
   @Override
