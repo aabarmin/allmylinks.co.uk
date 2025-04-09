@@ -27,6 +27,7 @@ public class SecurityConfiguration {
         .permitAll())
       .authorizeHttpRequests(authorize -> authorize
         .requestMatchers("/robots.txt").permitAll()
+        .requestMatchers("/sitemap.xml").permitAll()
         .requestMatchers("/", "/error").permitAll()
         .requestMatchers("/webjars/**").permitAll()
         .requestMatchers("/img/**").permitAll()
