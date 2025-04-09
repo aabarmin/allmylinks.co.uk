@@ -4,6 +4,7 @@ import dev.abarmin.aml.login.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.simple.JdbcClient;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -33,6 +34,7 @@ public class SecurityConfiguration {
         .requestMatchers("/img/**").permitAll()
         .requestMatchers("/css/**").permitAll()
         .requestMatchers("/js/**").permitAll()
+        .requestMatchers("/oauth2/**").permitAll()
 
         .requestMatchers("/pricing").permitAll()
         .requestMatchers("/legal/**").permitAll()
@@ -47,6 +49,7 @@ public class SecurityConfiguration {
         .requestMatchers("/backoffice/**").hasRole("BACKOFFICE")
 
         .anyRequest().authenticated())
+      .oauth2Login(Customizer.withDefaults())
       .build();
   }
 
