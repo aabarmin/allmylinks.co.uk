@@ -8,6 +8,7 @@ import dev.abarmin.aml.registration.repository.UserRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.stereotype.Service;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -28,6 +29,8 @@ public class SessionService {
       email = details.username();
     } else if (principalCandidate instanceof org.springframework.security.core.userdetails.User securityUser) {
       email = securityUser.getUsername();
+    } else if (principalCandidate instanceof DefaultOidcUser oidcUser) {
+      email = oidcUser.getEmail();
     } else {
       throw new IllegalArgumentException("Unsupported principal type " + principalCandidate.getClass());
     }

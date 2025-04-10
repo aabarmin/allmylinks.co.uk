@@ -2,6 +2,7 @@ package dev.abarmin.aml.registration;
 
 import dev.abarmin.aml.registration.domain.AccountType;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -45,6 +46,19 @@ public class RegistrationController {
       .build();
 
     model.addAttribute("form", form);
+
+    return "public/registration";
+  }
+
+  @GetMapping("/register/oidc")
+  public String completeOidcRegistration(Authentication authentication) {
+    // todo, prepopulate the form with details from the authentication
+
+//    final RegistrationForm form = RegistrationForm.builder()
+//      .email(email)
+//      .build();
+//
+//    model.addAttribute("form", form);
 
     return "public/registration";
   }
