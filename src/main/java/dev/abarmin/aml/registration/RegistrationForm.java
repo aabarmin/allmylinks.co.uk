@@ -17,12 +17,16 @@ public class RegistrationForm {
   @NotEmpty
   private String name;
 
+  @Builder.Default
+  private boolean emailEditable = true;
+
   @Email
   @NotEmpty
   private String email;
 
-  @NotEmpty
-  @Size(min = 3, max = 10)
+  @Builder.Default
+  private boolean passwordRequired = true;
+
   private String password;
 
   @NotEmpty

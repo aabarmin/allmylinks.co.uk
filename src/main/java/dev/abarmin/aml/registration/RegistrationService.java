@@ -23,6 +23,7 @@ import dev.abarmin.aml.registration.repository.UserRepository;
 import dev.abarmin.aml.task.AddTaskResponse;
 import dev.abarmin.aml.task.TaskService;
 import dev.abarmin.aml.telegram.task.SendTelegramMessageRequest;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -157,15 +158,36 @@ public class RegistrationService {
   }
 
   private Account createAccount(RegistrationForm form, AccountType type, User user) {
+    final Account account = switch (type) {
+      case USERNAME_PASSWORD: yield createUsernameAndPasswordAccount(form, user);
+      case OIDC: yield createOidcAccount(form, user);
+    };
+
+    return accountRepository.save(account);
+  }
+
+  private Account createUsernameAndPasswordAccount(RegistrationForm form, User user) {
     final Account account = new Account(
       null,
       user.id(),
-      type,
+      AccountType.USERNAME_PASSWORD,
       passwordEncoder.encode(form.getPassword()),
       true,
       Instant.now()
     );
-    return accountRepository.save(account);
+    return account;
+  }
+
+  private Account createOidcAccount(RegistrationForm form, User user) {
+    final Account account = new Account(
+      null,
+      user.id(),
+      AccountType.OIDC,
+      "",
+      true,
+      Instant.now()
+    );
+    return account;
   }
 
   private User createUser(RegistrationForm form) {
