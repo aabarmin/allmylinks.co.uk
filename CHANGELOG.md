@@ -1,3 +1,7 @@
+# 0.0.28
+
+* Fix the Google redirect URL, idk why it's hot `https`.
+
 # 0.0.27
 
 * Now it's possible to login with Google account.
