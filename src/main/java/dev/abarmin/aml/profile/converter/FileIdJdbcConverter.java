@@ -1,12 +1,15 @@
 package dev.abarmin.aml.profile.converter;
 
 import dev.abarmin.aml.file.FileId;
-import lombok.RequiredArgsConstructor;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.convert.ReadingConverter;
 import org.springframework.data.convert.WritingConverter;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FileIdJdbcConverter {
+
   @WritingConverter
   public static class Writer implements Converter<FileId, String> {
 
@@ -17,7 +20,6 @@ public class FileIdJdbcConverter {
   }
 
   @ReadingConverter
-  @RequiredArgsConstructor
   public static class Reader implements Converter<String, FileId> {
     @Override
     public FileId convert(String source) {
