@@ -1,6 +1,8 @@
 package dev.abarmin.aml.dashboard;
 
+import dev.abarmin.aml.exception.OidcRegistrationNotCompletedException;
 import dev.abarmin.aml.login.CustomUserDetails;
+import dev.abarmin.aml.registration.RegistrationHelper;
 import dev.abarmin.aml.registration.domain.Profile;
 import dev.abarmin.aml.registration.domain.User;
 import dev.abarmin.aml.registration.repository.ProfileRepository;
@@ -22,6 +24,31 @@ public class SessionService {
   public User getUser(@NonNull Authentication authentication) {
     checkArgument(authentication.isAuthenticated(), "Not authenticated");
 
+    final String email = getEmail(authentication);
+    return userRepository.findByEmail(email)
+      .orElseThrow(() ->
+        RegistrationHelper.isOAuth2User(authentication) ?
+          new OidcRegistrationNotCompletedException(String.format(
+            "Registration of user with email %s is not yet completed",
+            email)) :
+          new IllegalStateException(String.format(
+            "User with email %s not found",
+            email))
+      );
+  }
+
+  public Profile getProfile(@NonNull Authentication authentication) {
+    final User user = getUser(authentication);
+
+    final Profile profile = profileRepository.findByUserId(user.id())
+      .orElseThrow(() -> new IllegalStateException("Profile not found"));
+
+    checkArgument(profile != null, "Profile is required");
+
+    return profile;
+  }
+
+  public String getEmail(final @NonNull Authentication authentication) {
     final Object principalCandidate = authentication.getPrincipal();
     final String email;
 
@@ -34,18 +61,6 @@ public class SessionService {
     } else {
       throw new IllegalArgumentException("Unsupported principal type " + principalCandidate.getClass());
     }
-    return userRepository.findByEmail(email)
-      .orElseThrow(() -> new IllegalStateException("User not found"));
-  }
-
-  public Profile getProfile(@NonNull Authentication authentication) {
-    final User user = getUser(authentication);
-
-    final Profile profile = profileRepository.findByUserId(user.id())
-      .orElseThrow(() -> new IllegalStateException("Profile not found"));
-
-    checkArgument(profile != null, "Profile is required");
-
-    return profile;
+    return email;
   }
 }

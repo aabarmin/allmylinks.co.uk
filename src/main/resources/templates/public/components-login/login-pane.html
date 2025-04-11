@@ -35,9 +35,12 @@
     </a>
   </div>
 
+  <th:block th:insert="~{public/components-reusable/page-divider :: content}"></th:block>
+
   <div class="d-grid">
     <a th:href="@{/oauth2/authorization/google}"
        class="btn btn-outline-primary">
+      <i class="bi bi-google"></i>
       Login with Google
     </a>
   </div>

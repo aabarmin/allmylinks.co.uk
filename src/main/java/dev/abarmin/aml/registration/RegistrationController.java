@@ -29,7 +29,7 @@ public class RegistrationController {
     final RegistrationForm form = new RegistrationForm();
     form.setLink(link);
 
-    if (authentication != null && authentication.getPrincipal() instanceof DefaultOidcUser) {
+    if (RegistrationHelper.isOAuth2User(authentication)) {
       form.setEmailEditable(false);
       form.setPasswordRequired(false);
     }
