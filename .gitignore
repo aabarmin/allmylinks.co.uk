@@ -41,3 +41,6 @@ storage/
 
 ### Logs ###
 logs/
+
+### Configs ###
+.env
