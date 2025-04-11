@@ -70,6 +70,7 @@ public class BlockUpdateHandler {
                                   @ModelAttribute("currentBlock") BlockModel blockModel,
                                   @RequestParam(value = "newAvatar", required = false) MultipartFile newAvatar,
                                   @RequestParam(value = "hasBackground", required = false, defaultValue = "false") boolean hasBackground,
+                                  @RequestParam(value = "showShareButton", required = false, defaultValue = "false") boolean showShareButton,
                                   @RequestParam(value = "newBackground", required = false) MultipartFile newBackground,
                                   Authentication authentication) throws Exception {
 
@@ -97,6 +98,7 @@ public class BlockUpdateHandler {
         final FileSaveResponse savedAvatar = fileService.save(request);
         avatarProps.setAvatarId(savedAvatar.fileId());
       }
+      avatarProps.setShowShareButton(showShareButton);
       blockRepository.save(block.withProps(avatarProps));
     }
 

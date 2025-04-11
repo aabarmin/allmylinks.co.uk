@@ -1,3 +1,7 @@
+# 0.0.29
+
+* Added the share button to the profile.
+
 # 0.0.28
 
 * Fix the Google redirect URL, idk why it's hot `https`.

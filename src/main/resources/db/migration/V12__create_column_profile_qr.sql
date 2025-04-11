@@ -1,0 +1,2 @@
+ALTER TABLE user_profiles
+ADD COLUMN IF NOT EXISTS profile_qr VARCHAR(255) NULL;
