@@ -1,10 +1,7 @@
 package dev.abarmin.aml.profile;
 
 import dev.abarmin.aml.dashboard.SessionService;
-import dev.abarmin.aml.mail.MailSendResult;
-import dev.abarmin.aml.mail.MailService;
-import dev.abarmin.aml.mail.template.MailTemplate;
-import dev.abarmin.aml.mail.template.MailTemplateService;
+import dev.abarmin.aml.mail.task.SendEmailRequest;
 import dev.abarmin.aml.profile.converter.ProfileConverter;
 import dev.abarmin.aml.profile.domain.ChangeEmailRequest;
 import dev.abarmin.aml.profile.domain.ChangeLinkRequest;
@@ -14,6 +11,8 @@ import dev.abarmin.aml.profile.domain.ProfileChangeStatus;
 import dev.abarmin.aml.profile.domain.ProfileChangeType;
 import dev.abarmin.aml.profile.model.ProfileModel;
 import dev.abarmin.aml.registration.domain.Profile;
+import dev.abarmin.aml.task.TaskService;
+import dev.abarmin.aml.telegram.task.SendTelegramMessageRequest;
 import jakarta.validation.Valid;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +24,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 @Slf4j
 @Controller
 @RequiredArgsConstructor
@@ -34,8 +31,7 @@ public class PrivateProfileController {
   private final SessionService sessionService;
   private final ProfileConverter profileConverter;
   private final ProfileChangeRepository changeRepository;
-  private final MailService mailService;
-  private final MailTemplateService templateService;
+  private final TaskService taskService;
 
   @ModelAttribute("profile")
   public ProfileModel profile(Authentication authentication) {
@@ -140,9 +136,9 @@ public class PrivateProfileController {
   }
 
   private void notifyAdminAboutNewChangeRequest(@NonNull ProfileChangeRequest request) {
-    final MailTemplate<ProfileChangeRequest> template = templateService.profileChangeRequestCreated();
-    final MailSendResult result = mailService.send(template, request);
-
-    checkArgument(result.isOk(), "Failed to send email to admin about new change request");
+    taskService.addTask(SendTelegramMessageRequest.TASK_TYPE, SendTelegramMessageRequest.builder()
+      .template("profileChangeRequestCreated")
+      .objectId(request.id())
+      .build());
   }
 }

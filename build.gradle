@@ -32,6 +32,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
@@ -43,13 +44,15 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.flywaydb:flyway-core'
-    implementation 'org.flywaydb:flyway-mysql'
-    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+    implementation 'org.flywaydb:flyway-database-postgresql'
+    implementation 'org.postgresql:postgresql'
 
     implementation 'com.google.guava:guava:33.3.1-jre'
     implementation 'org.apache.commons:commons-lang3:3.17.0'
     implementation 'net.coobird:thumbnailator:0.4.20'
     implementation 'commons-io:commons-io:2.18.0'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.18.3'
+    implementation 'org.telegram:telegrambots-client:8.3.0'
     implementation 'com.github.kenglxn.QRGen:javase:3.0.1'
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -64,6 +67,7 @@ dependencies {
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'org.awaitility:awaitility:4.3.0'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 

@@ -1,22 +1,19 @@
 package dev.abarmin.aml.subscribe;
 
-import dev.abarmin.aml.mail.MailSendResult;
-import dev.abarmin.aml.mail.MailService;
-import dev.abarmin.aml.mail.template.MailTemplate;
-import dev.abarmin.aml.mail.template.MailTemplateService;
+import dev.abarmin.aml.mail.task.SendEmailRequest;
+import dev.abarmin.aml.task.TaskService;
+import dev.abarmin.aml.telegram.task.SendTelegramMessageRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 @Service
 @RequiredArgsConstructor
 public class SubscriptionService {
+
   private final SubscriptionRepository repository;
-  private final MailTemplateService templateService;
-  private final MailService mailService;
+  private final TaskService taskService;
 
   public boolean subscribe(String email, SubscriptionSource source) {
     final Optional<Subscription> existing = repository.findByEmailAndSource(email, source);
@@ -25,10 +22,10 @@ public class SubscriptionService {
     }
     final Subscription subscription = repository.save(new Subscription(email, source));
 
-    final MailTemplate<Subscription> template = templateService.subscriptionCreated();
-    final MailSendResult sendResult = mailService.send(template, subscription);
-
-    checkArgument(sendResult.isOk(), "Can't send notification about subscription");
+    taskService.addTask(SendTelegramMessageRequest.TASK_TYPE, SendTelegramMessageRequest.builder()
+      .template("subscriptionCreated")
+      .objectId(subscription.id())
+      .build());
 
     return true;
   }

@@ -2,9 +2,9 @@ spring:
   application:
     name: all-my-links
   datasource:
-    url: jdbc:mariadb://localhost:13306/aml
-    username: mariadb
-    password: mariadb
+    url: jdbc:postgresql://localhost:15432/aml
+    username: postgresql
+    password: postgresql
   mail:
     host: localhost
     port: 2525
@@ -12,6 +12,14 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${AUTH_GOOGLE_CLIENT_ID}
+            client-secret: ${AUTH_GOOGLE_CLIENT_SECRET}
+            redirect-uri: ${aml.base-url}/login/oauth2/code/google
 
 aml:
   base-url: http://localhost:8080
@@ -28,9 +36,12 @@ aml:
       - image/png
     max-file-size-bytes: 10485760
   backoffice:
-    adminEmail: robot@allmylinks.co.uk
     defaults:
       admin-profile: abarmin
+    channel: telegram
+    telegram-configuration:
+      bot-token: ${BACKOFFICE_BOT_TOKEN}
+      admin-chat-id: ${BACKOFFICE_ADMIN_CHAT_ID}
 
 logging:
   file:

@@ -1,7 +1,6 @@
-package dev.abarmin.aml;
+package dev.abarmin.aml.registration;
 
-import dev.abarmin.aml.registration.TestCredentials;
-import dev.abarmin.aml.registration.TestRegistrationService;
+import dev.abarmin.aml.BaseIntegrationTest;
 import dev.abarmin.aml.registration.repository.UserRepository;
 import dev.abarmin.aml.utils.RandomUtils;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -21,7 +20,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-class RegistrationTest extends BaseIntegrationTest {
+class RegistrationControllerTest extends BaseIntegrationTest {
+
   @Autowired
   MockMvc mockMvc;
 

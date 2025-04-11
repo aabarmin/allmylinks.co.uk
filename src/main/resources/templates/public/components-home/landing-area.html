@@ -17,17 +17,14 @@
      id="landing-area-left"
      style="display: flex; flex-direction: column;">
 
-  <form th:object="${form}"
-        th:hx-post="@{/register/pre}"
-        hx-target="#landing-area-left"
-        hx-swap="outerHTML"
-        method="post">
+  <form th:object="${form}" th:action="@{/register}" method="post">
+    <input type="hidden" th:field="*{preRegistration}" />
     <h1>
       Centralize your online presence
     </h1>
 
     <p>
-      Bring together your socials, music, videos, and more on a stunning, interactive link-in-bio page.
+      Bring together your socials, music, videos, and more on a stunning, interactive page.
       Claim your name now and make your bio stand out!
     </p>
 

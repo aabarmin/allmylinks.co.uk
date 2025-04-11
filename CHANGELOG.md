@@ -1,3 +1,48 @@
+# 0.0.28
+
+* Fix the Google redirect URL, idk why it's hot `https`.
+
+# 0.0.27
+
+* Now it's possible to login with Google account.
+
+# 0.0.26
+
+* Add Google Analytics.
+
+# 0.0.25
+
+* Added sitemap generator. 
+
+# 0.0.24
+
+* Added support of Telegram for admin notifications.
+
+# 0.0.23
+
+* Pre-registration no longer uses HTMX, it just doesn't work and I don't want to spend time on it.
+
+# 0.0.22
+
+* Added task execution framework. 
+* Emails are now sent asynchronously.
+
+# 0.0.21
+
+* Migrated to PostgreSQL from MariaDB.
+
+# 0.0.20
+
+* Added handler for `robots.txt` file.
+
+# 0.0.19
+
+* Fixed bug in the build pipeline - the version wasn't propagated from `get-version` to deployment. 
+
+# 0.0.18
+
+* Updated GHA workflow to automatically deploy on push to main branch.
+
 # 0.0.17
 
 * Fixed padding between fields in the header block props. 

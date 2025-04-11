@@ -17,10 +17,7 @@ import dev.abarmin.aml.file.FileId;
 import dev.abarmin.aml.file.FileSaveRequest;
 import dev.abarmin.aml.file.FileSaveResponse;
 import dev.abarmin.aml.file.FileService;
-import dev.abarmin.aml.mail.MailSendResult;
-import dev.abarmin.aml.mail.MailService;
-import dev.abarmin.aml.mail.template.MailTemplate;
-import dev.abarmin.aml.mail.template.MailTemplateService;
+import dev.abarmin.aml.mail.task.SendEmailRequest;
 import dev.abarmin.aml.profile.QrCodeService;
 import dev.abarmin.aml.registration.domain.Account;
 import dev.abarmin.aml.registration.domain.AccountType;
@@ -29,6 +26,9 @@ import dev.abarmin.aml.registration.domain.User;
 import dev.abarmin.aml.registration.repository.AccountRepository;
 import dev.abarmin.aml.registration.repository.ProfileRepository;
 import dev.abarmin.aml.registration.repository.UserRepository;
+import dev.abarmin.aml.task.AddTaskResponse;
+import dev.abarmin.aml.task.TaskService;
+import dev.abarmin.aml.telegram.task.SendTelegramMessageRequest;
 import lombok.RequiredArgsConstructor;
 import net.glxn.qrgen.core.image.ImageType;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -52,11 +52,10 @@ public class RegistrationService {
   private final BlockRepository blockRepository;
   private final TransactionTemplate transactionTemplate;
   private final PasswordEncoder passwordEncoder;
-  private final MailService mailService;
-  private final MailTemplateService templateService;
-  private final AppConfiguration configuration;
+  private final TaskService taskService;
   private final QrCodeService qrCodeService;
   private final FileService fileService;
+  private final AppConfiguration configuration;
 
   public User register(RegistrationForm form, AccountType type) {
     return transactionTemplate.execute(status -> registerInTx(form, type));
@@ -84,23 +83,35 @@ public class RegistrationService {
 
     checkArgument(!pageBlocks.isEmpty(), "Page blocks should have been added");
 
-    final MailSendResult sendResult = sendWelcomeEmail(user);
-    checkArgument(sendResult.isOk(), "Welcome email wasn't sent");
+    final boolean sendResult = sendWelcomeEmail(user);
+    checkArgument(sendResult, "Welcome email wasn't sent");
 
-    final MailSendResult adminNotification = sendWelcomeEmailToAdmin(user);
-    checkArgument(adminNotification.isOk(), "Admin notification wasn't sent");
+    final boolean adminNotification = sendWelcomeEmailToAdmin(user);
+    checkArgument(adminNotification, "Admin notification wasn't sent");
 
     return user;
   }
 
-  private MailSendResult sendWelcomeEmail(User user) {
-    final MailTemplate<User> template = templateService.registrationDone();
-    return mailService.send(template, user);
+  private boolean sendWelcomeEmail(User user) {
+    final SendEmailRequest request = SendEmailRequest.builder()
+      .template("registrationDone")
+      .objectId(user.id())
+      .build();
+
+    final AddTaskResponse response = taskService.addTask(SendEmailRequest.TASK_TYPE, request);
+
+    return response.getResult() == AddTaskResponse.Result.SUCCESS;
   }
 
-  private MailSendResult sendWelcomeEmailToAdmin(User user) {
-    final MailTemplate<User> template = templateService.registrationDoneAdmin();
-    return mailService.send(template, user);
+  private boolean sendWelcomeEmailToAdmin(User user) {
+    final SendTelegramMessageRequest request = SendTelegramMessageRequest.builder()
+      .template("registrationDoneAdmin")
+      .objectId(user.id())
+      .build();
+
+    final AddTaskResponse response = taskService.addTask(SendTelegramMessageRequest.TASK_TYPE, request);
+
+    return response.getResult() == AddTaskResponse.Result.SUCCESS;
   }
 
   private List<Block> createHomePageBlocks(User user, Page page) {
@@ -180,15 +191,36 @@ public class RegistrationService {
   }
 
   private Account createAccount(RegistrationForm form, AccountType type, User user) {
+    final Account account = switch (type) {
+      case USERNAME_PASSWORD: yield createUsernameAndPasswordAccount(form, user);
+      case OIDC: yield createOidcAccount(form, user);
+    };
+
+    return accountRepository.save(account);
+  }
+
+  private Account createUsernameAndPasswordAccount(RegistrationForm form, User user) {
     final Account account = new Account(
       null,
       user.id(),
-      type,
+      AccountType.USERNAME_PASSWORD,
       passwordEncoder.encode(form.getPassword()),
       true,
       Instant.now()
     );
-    return accountRepository.save(account);
+    return account;
+  }
+
+  private Account createOidcAccount(RegistrationForm form, User user) {
+    final Account account = new Account(
+      null,
+      user.id(),
+      AccountType.OIDC,
+      "",
+      true,
+      Instant.now()
+    );
+    return account;
   }
 
   private User createUser(RegistrationForm form) {

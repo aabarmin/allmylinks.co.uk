@@ -1,1 +1,1 @@
-- [ ] Make sure `gradle.properties` is updated. 
+- [x] Make sure `gradle.properties` is updated. 

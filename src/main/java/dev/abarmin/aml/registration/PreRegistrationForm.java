@@ -6,6 +6,8 @@ import lombok.Data;
 
 @Data
 public class PreRegistrationForm {
+  private boolean preRegistration = true;
+
   @Email
   @NotEmpty
   private String email;
