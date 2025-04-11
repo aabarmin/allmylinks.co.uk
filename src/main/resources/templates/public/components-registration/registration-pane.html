@@ -49,6 +49,7 @@
       <input type="email"
              th:class="'form-control ' + (${#fields.hasErrors('email')} ? 'is-invalid' : '')"
              id="email"
+             th:readonly="*{!emailEditable}"
              th:field="*{email}"
              required="required"/>
       <div class="invalid-feedback"
@@ -57,7 +58,9 @@
       </div>
     </div>
 
-    <div class="mb-3">
+    <div class="mb-3"
+         th:if="*{passwordRequired}">
+
       <label for="password" class="form-label">
         Password
       </label>

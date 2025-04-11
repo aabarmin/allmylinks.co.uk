@@ -1,3 +1,7 @@
+# 0.0.27
+
+* Now it's possible to login with Google account.
+
 # 0.0.26
 
 * Add Google Analytics.
