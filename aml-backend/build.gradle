@@ -104,6 +104,18 @@ tasks.register('addProjectVersion'){
     }
 }
 
+tasks.register("buildPrivateDashboard") {
+    dependsOn(":aml-frontend-private:build")
+
+    doLast {
+        delete("src/main/resources/static/private/dashboard2")
+        copy {
+            from "${projectDir}/../aml-frontend-private/dist"
+            into "${projectDir}/src/main/resources/static/private/dashboard2"
+        }
+    }
+}
+
 tasks.named('processResources') {
-    dependsOn 'addProjectVersion'
+    dependsOn('addProjectVersion', "buildPrivateDashboard")
 }

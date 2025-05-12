@@ -1,0 +1,19 @@
+plugins {
+  id "com.github.node-gradle.node" version "7.1.0"
+}
+
+node {
+    download = true
+    version = "23.4.0"
+    npmVersion = "10.9.2"
+}
+
+tasks.register("build", NpmTask)  {
+    dependsOn("npmInstall", "clean")
+
+    args = ["run", "build"]
+}
+
+task clean(type: Delete) {
+    delete "dist"
+}

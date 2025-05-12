@@ -1,11 +1,7 @@
-import { useState } from 'react'
-
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      1234
+      This is the main page of a new app
     </>
   )
 }
