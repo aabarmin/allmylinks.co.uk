@@ -1,2 +1,5 @@
 ### Private Dashboard ###
 src/main/resources/static/private/
+
+### Version file ###
+src/main/resources/version.properties

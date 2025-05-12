@@ -110,7 +110,15 @@ tasks.register("buildPrivateDashboard") {
     doLast {
         delete("src/main/resources/static/private/dashboard2")
         copy {
-            from "${projectDir}/../aml-frontend-private/dist"
+            from("${projectDir}/../aml-frontend-private/dist") {
+                eachFile { fcd ->
+                    if (fcd.name.endsWith('.html')) {
+                        filter { line ->
+                            line.replace("/assets/", "./assets/")
+                        }
+                    }
+                }
+            }
             into "${projectDir}/src/main/resources/static/private/dashboard2"
         }
     }
