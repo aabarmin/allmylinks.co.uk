@@ -85,6 +85,7 @@ def getCurrentGitBranch() {
             gitBranch = result.text.trim()
         }
     } catch (e) {
+        logger.error("Failed to determine the current Git branch", e)
     }
     return gitBranch
 }
