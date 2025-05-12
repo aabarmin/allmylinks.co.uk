@@ -1,3 +1,7 @@
+# 0.0.30
+
+* Added Gradle modules so the frontend can be written in JS. 
+
 # 0.0.29
 
 * Added the share button to the profile.
