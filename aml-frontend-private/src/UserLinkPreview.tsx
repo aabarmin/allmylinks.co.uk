@@ -1,6 +1,6 @@
-import { Container, Row, Col } from 'react-bootstrap';
-import type { DashboardProfile } from './model/DashboardProfile';
+import { Col, Container, Row } from 'react-bootstrap';
 import { BoxArrowUpRight } from 'react-bootstrap-icons';
+import type { DashboardProfile } from './model/DashboardProfile';
 
 interface Props {
     profile: DashboardProfile
@@ -13,13 +13,10 @@ export default function UserLinkPreview({ profile }: Props) {
         <Container>
             <Row>
                 <Col>
-                    <a
-                        className="icon-link"
-                        href={profileLink}
-                        target="_blank">
-
+                    <a href={profileLink} target="_blank">
                         <BoxArrowUpRight />
                     </a>
+                    &nbsp;
                     <a href={profileLink} target="_blank">
                         {profileLink}
                     </a>

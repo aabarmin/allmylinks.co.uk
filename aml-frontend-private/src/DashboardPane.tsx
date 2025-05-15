@@ -1,23 +1,23 @@
-import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
-import UserLinkPreview from "./UserLinkPreview";
-import BlocksAccordion from "./BlocksAccordion";
-import DashboardPreview from "./DashboardPreview";
-import DashboardPaneProps from "./DashboardPaneProps";
-import type { DashboardModel } from "./model/DashboardModel";
+import { Col, Container, Row } from "react-bootstrap";
 import { useLoaderData } from "react-router";
+import BlocksAccordion from "./BlocksAccordion";
+import Divider from "./Divider";
+import UserLinkPreview from "./UserLinkPreview";
+import type { DashboardModel } from "./model/DashboardModel";
 
 export default function DashboardPane() {
   const model: DashboardModel = useLoaderData();
 
-  const currentBlock = null; // Replace this with the actual logic to get the current block
-
   return (
     <Container fluid>
       <Row>
+        <Col>&nbsp;</Col>
+      </Row>
+      <Row>
         <Col md={4}>
           <UserLinkPreview profile={model.profile} />
-          {/* <BlocksAccordion availableBlocks={[]} pageBlocks={[]} currentPageId={""} /> */}
+          <Divider />
+          <BlocksAccordion availableBlocks={model.availableBlocks} />
         </Col>
         <Col md={5}>
           {/* <DashboardPreview

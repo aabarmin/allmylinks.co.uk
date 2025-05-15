@@ -1,31 +1,33 @@
-interface BlockType {
-    name: string;
-    icon: string;
-    type: string;
-    previewComponent: string;
-    configComponent: string;
+import type { ReactNode } from "react";
+import { ListGroup } from "react-bootstrap";
+import { ExclamationDiamondFill, Fonts, HandThumbsUp, Link, PersonCircle } from "react-bootstrap-icons";
+import type { BlockTypeModel } from "./model/BlockTypeModel";
+
+interface Props {
+    availableBlocks: BlockTypeModel[];
 }
 
-interface BlocksListProps {
-    availableBlocks: BlockType[];
-    currentPageId: string;
+function getIconByType(type: string): ReactNode {
+    switch (type) {
+        case 'AVATAR_BLOCK': return <PersonCircle />
+        case 'BUTTON_BLOCK': return <Link />
+        case 'HEADER_BLOCK': return <Fonts />
+        case 'SOCIAL_NETWORKS_BLOCK': return <HandThumbsUp />
+        default: return <ExclamationDiamondFill />
+    }
 }
 
-export default function BlocksList({ availableBlocks, currentPageId }: BlocksListProps) {
-    // todo, abarmin: fix link
+export default function BlocksList({ availableBlocks }: Props) {
     return (
-        <ul className="list-group list-group-flush">
-            {availableBlocks.map((type) => (
-                <li key={type.type} className="list-group-item">
-                    <i className={`bi ${type.icon}`}></i>
-                    <a
-                        href={`/private/dashboard/${currentPageId}/blocks-add/${type.type}`}
-                        target="_self"
-                    >
-                        {type.name}
-                    </a>
-                </li>
-            ))}
-        </ul>
+        <ListGroup variant="flush">
+            {availableBlocks.map((block) =>
+                <ListGroup.Item key={block.type}>
+                    {getIconByType(block.type)}
+                    &nbsp;
+                    {block.name}
+                </ListGroup.Item>
+            )}
+        </ListGroup>
     );
 }
+
