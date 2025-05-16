@@ -1,14 +1,21 @@
+import { useCallback } from 'react';
 import { Accordion, Col, Container, Row } from 'react-bootstrap';
 import BlocksList from './BlocksList';
 import type { BlockTypeModel } from './model/BlockTypeModel';
+import type { PageModel } from './model/PageModel';
 
 interface Props {
     availableBlocks: BlockTypeModel[];
+    currentPage: PageModel
     // pageBlocks: any[];
     // currentPageId: string;
 }
 
-export default function BlocksAccordion({ availableBlocks }: Props) {
+export default function BlocksAccordion({ availableBlocks, currentPage }: Props) {
+    const onBlockAdded = useCallback(() => {
+        console.log("Block added")
+    }, []);
+
     return (
         <Container>
             <Row>
@@ -17,7 +24,11 @@ export default function BlocksAccordion({ availableBlocks }: Props) {
                         <Accordion.Item eventKey="0">
                             <Accordion.Header>Blocks</Accordion.Header>
                             <Accordion.Body>
-                                <BlocksList availableBlocks={availableBlocks} />
+                                <BlocksList
+                                    availableBlocks={availableBlocks}
+                                    currentPage={currentPage}
+                                    onBlockAdded={onBlockAdded}
+                                />
                             </Accordion.Body>
                         </Accordion.Item>
                         <Accordion.Item eventKey="1">

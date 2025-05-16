@@ -17,7 +17,9 @@ export default function DashboardPane() {
         <Col md={4}>
           <UserLinkPreview profile={model.profile} />
           <Divider />
-          <BlocksAccordion availableBlocks={model.availableBlocks} />
+          <BlocksAccordion
+            availableBlocks={model.availableBlocks}
+            currentPage={model.currentPage} />
         </Col>
         <Col md={5}>
           {/* <DashboardPreview
