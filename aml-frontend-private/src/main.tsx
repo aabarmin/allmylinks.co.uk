@@ -1,25 +1,34 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 import {
   createHashRouter,
   RouterProvider,
 } from "react-router";
 import DashboardLayout from './DashboardLayout';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import DashboardPane from './DashboardPane';
-import { getDashboard } from './service/DashboardService';
+
+function Placeholder() {
+  return (
+    <div>Just placeholder</div>
+  );
+}
 
 const router = createHashRouter([
   {
     path: "/",
     Component: DashboardLayout,
     children: [
+      { index: true, Component: DashboardPane },
       {
-        index: true,
+        path: "pages/:pageId",
         Component: DashboardPane,
-        loader: async () => {
-          return getDashboard();
-        }
+        children: [
+          {
+            path: "blocks/:blockId",
+            Component: Placeholder
+          }
+        ]
       }
     ]
   },

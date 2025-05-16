@@ -1,12 +1,38 @@
-import { Col, Container, Row } from "react-bootstrap";
-import { useLoaderData } from "react-router";
+import { useCallback, useEffect, useState } from "react";
+import { Col, Container, ProgressBar, Row } from "react-bootstrap";
+import { Outlet } from "react-router";
 import BlocksAccordion from "./BlocksAccordion";
 import Divider from "./Divider";
 import UserLinkPreview from "./UserLinkPreview";
-import type { DashboardModel } from "./model/DashboardModel";
+import { DashboardModel } from "./model/DashboardModel";
+import { getDashboard } from "./service/DashboardService";
 
 export default function DashboardPane() {
-  const model: DashboardModel = useLoaderData();
+  const [loading, setLoading] = useState<boolean>(true);
+  const [dashboard, setDashboard] = useState<DashboardModel | undefined>(undefined);
+
+  const reloadDashboard = useCallback(() => {
+    setLoading(true);
+    getDashboard().then(data => {
+      setDashboard(data);
+      setLoading(false);
+    });
+  }, [setLoading, setDashboard]);
+  const onModelChanged = useCallback(() => {
+    reloadDashboard();
+  }, []);
+
+  useEffect(() => {
+    reloadDashboard();
+  }, [reloadDashboard]);
+
+  if (loading) {
+    return (
+      <ProgressBar animated now={100} />
+    );
+  }
+
+  const model: DashboardModel = dashboard!;
 
   return (
     <Container fluid>
@@ -19,7 +45,9 @@ export default function DashboardPane() {
           <Divider />
           <BlocksAccordion
             availableBlocks={model.availableBlocks}
-            currentPage={model.currentPage} />
+            currentPage={model.currentPage}
+            onModelChanged={onModelChanged}
+          />
         </Col>
         <Col md={5}>
           {/* <DashboardPreview
@@ -30,28 +58,7 @@ export default function DashboardPane() {
           /> */}
         </Col>
         <Col md={3}>
-          {/* {currentBlock === null ? (
-            <DashboardPaneProps
-              currentPage={{
-                pageId: "",
-                pageProps: { backgroundColor: "#ffffff" }, // Replace with actual data
-              }}
-              onSave={() => {
-                console.log("Save action triggered");
-              }}
-            />
-          ) : (
-            (() => {
-              const ConfigComponent = React.lazy(() =>
-                import(`./blocks/${currentBlock.blockType.configComponent}`)
-              );
-              return (
-                <React.Suspense fallback={<div>Loading...</div>}>
-                  <ConfigComponent block={currentBlock} />
-                </React.Suspense>
-              );
-            })()
-          )} */}
+          <Outlet />
         </Col>
       </Row>
     </Container>

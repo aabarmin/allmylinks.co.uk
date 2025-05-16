@@ -1,31 +1,25 @@
-import { useCallback } from "react";
 import { ListGroup } from "react-bootstrap";
+import { NavLink } from "react-router";
 import { getIconByType } from "./BlocksList";
-import type { BlockModel } from "./model/BlockModel";
 import type { PageModel } from "./model/PageModel";
 
 interface Props {
   currentPage: PageModel;
-  onBlockSelected: (block: BlockModel) => void
 }
 
-export default function BlocksOnPage({ currentPage, onBlockSelected }: Props) {
-  const onBlockSelectedClick = useCallback((block: BlockModel) => {
-    onBlockSelected(block);
-  }, []);
-
+export default function BlocksOnPage({ currentPage }: Props) {
   return (
     <ListGroup variant="flush">
       {currentPage.pageBlocks.map((block) => (
-        <ListGroup.Item
+        <NavLink
           key={block.blockId}
-          action
-          onClick={() => onBlockSelectedClick(block)}
+          to={`/pages/${block.pageId}/blocks/${block.blockId}`}
+          className="list-group-item"
         >
           {getIconByType(block.blockType.type)}
           &nbsp;
           {block.blockType.name}
-        </ListGroup.Item>
+        </NavLink>
       ))}
     </ListGroup>
   );
