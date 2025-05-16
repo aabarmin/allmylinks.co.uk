@@ -1,31 +1,32 @@
-interface Block {
-    blockId: string;
-    blockType: {
-        icon: string;
-        name: string;
-    };
+import { useCallback } from "react";
+import { ListGroup } from "react-bootstrap";
+import { getIconByType } from "./BlocksList";
+import type { BlockModel } from "./model/BlockModel";
+import type { PageModel } from "./model/PageModel";
+
+interface Props {
+  currentPage: PageModel;
+  onBlockSelected: (block: BlockModel) => void
 }
 
-interface BlocksOnPageProps {
-    pageBlocks: Block[];
-    currentPageId: string;
-}
+export default function BlocksOnPage({ currentPage, onBlockSelected }: Props) {
+  const onBlockSelectedClick = useCallback((block: BlockModel) => {
+    onBlockSelected(block);
+  }, []);
 
-export default function BlocksOnPage({ pageBlocks, currentPageId }: BlocksOnPageProps) {
-    // todo, abarmin: fix links
-    return (
-        <ul className="list-group list-group-flush">
-            {pageBlocks.map((block) => (
-                <li key={block.blockId} className="list-group-item">
-                    <i className={`bi ${block.blockType.icon}`}></i>
-                    <a
-                        href={`/private/dashboard/${currentPageId}/blocks/${block.blockId}`}
-                        target="_self"
-                    >
-                        {block.blockType.name}
-                    </a>
-                </li>
-            ))}
-        </ul>
-    );
+  return (
+    <ListGroup variant="flush">
+      {currentPage.pageBlocks.map((block) => (
+        <ListGroup.Item
+          key={block.blockId}
+          action
+          onClick={() => onBlockSelectedClick(block)}
+        >
+          {getIconByType(block.blockType.type)}
+          &nbsp;
+          {block.blockType.name}
+        </ListGroup.Item>
+      ))}
+    </ListGroup>
+  );
 }

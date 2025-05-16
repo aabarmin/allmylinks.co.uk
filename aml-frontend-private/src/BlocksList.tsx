@@ -12,7 +12,7 @@ interface Props {
   onBlockAdded: (added: BlockModel) => void;
 }
 
-function getIconByType(type: string): ReactNode {
+export function getIconByType(type: string): ReactNode {
   switch (type) {
     case 'AVATAR_BLOCK': return <PersonCircle />
     case 'BUTTON_BLOCK': return <Link />

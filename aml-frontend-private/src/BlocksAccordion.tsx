@@ -1,19 +1,23 @@
 import { useCallback } from 'react';
 import { Accordion, Col, Container, Row } from 'react-bootstrap';
 import BlocksList from './BlocksList';
+import BlocksOnPage from './BlocksOnPage';
+import type { BlockModel } from './model/BlockModel';
 import type { BlockTypeModel } from './model/BlockTypeModel';
 import type { PageModel } from './model/PageModel';
 
 interface Props {
     availableBlocks: BlockTypeModel[];
-    currentPage: PageModel
-    // pageBlocks: any[];
-    // currentPageId: string;
+    currentPage: PageModel;
 }
 
 export default function BlocksAccordion({ availableBlocks, currentPage }: Props) {
     const onBlockAdded = useCallback(() => {
         console.log("Block added")
+    }, []);
+
+    const onBlockSelected = useCallback((block: BlockModel) => {
+        console.log(`Block selected ${block}`)
     }, []);
 
     return (
@@ -34,7 +38,10 @@ export default function BlocksAccordion({ availableBlocks, currentPage }: Props)
                         <Accordion.Item eventKey="1">
                             <Accordion.Header>Page Blocks</Accordion.Header>
                             <Accordion.Body>
-                                {/* <BlocksOnPage pageBlocks={pageBlocks} currentPageId={currentPageId} /> */}
+                                <BlocksOnPage
+                                    currentPage={currentPage}
+                                    onBlockSelected={onBlockSelected}
+                                />
                             </Accordion.Body>
                         </Accordion.Item>
                     </Accordion>
