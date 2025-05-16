@@ -1,4 +1,6 @@
 import axios from "axios";
+import { plainToInstance } from "class-transformer";
+import { BlockModel } from "../model/BlockModel";
 import type { BlockTypeModel } from "../model/BlockTypeModel";
 import type { PageModel } from "../model/PageModel";
 
@@ -10,17 +12,18 @@ class BlockAddRequest {
     }
 }
 
-export function addBlock(block: BlockTypeModel, page: PageModel): Promise<void> {
+export function addBlock(block: BlockTypeModel, page: PageModel): Promise<BlockModel> {
     const request = new BlockAddRequest(
         block.type
     );
 
     return new Promise(resolve => {
         axios
-            .post(`/private/api/dashboard/pages/${page.pageId}`, request)
+            .post(`/private/api/dashboard/pages/${page.pageId}/blocks`, request)
             .then(response => {
-                debugger
-                resolve();
+                const data = response.data as Record<string, unknown>
+                const model = plainToInstance(BlockModel, data)
+                resolve(model);
             })
     });
 }

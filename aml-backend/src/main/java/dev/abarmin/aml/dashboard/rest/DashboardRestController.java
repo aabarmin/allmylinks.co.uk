@@ -1,5 +1,6 @@
-package dev.abarmin.aml.dashboard;
+package dev.abarmin.aml.dashboard.rest;
 
+import dev.abarmin.aml.dashboard.SessionService;
 import dev.abarmin.aml.dashboard.converter.DashboardModelConverter;
 import dev.abarmin.aml.dashboard.domain.Page;
 import dev.abarmin.aml.dashboard.model.DashboardModel;
