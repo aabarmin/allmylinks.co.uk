@@ -4,13 +4,23 @@ import { createRoot } from 'react-dom/client';
 import {
   createHashRouter,
   RouterProvider,
+  useLoaderData,
 } from "react-router";
 import DashboardLayout from './DashboardLayout';
 import DashboardPane from './DashboardPane';
+import type { BlockModel } from './model/BlockModel';
+import { getBlock } from './service/BlockService';
 
 function Placeholder() {
+  const data: BlockModel = useLoaderData();
+
   return (
-    <div>Just placeholder</div>
+    <div>
+      Just placeholder:
+      <pre>
+        {JSON.stringify(data)}
+      </pre>
+    </div>
   );
 }
 
@@ -26,7 +36,11 @@ const router = createHashRouter([
         children: [
           {
             path: "blocks/:blockId",
-            Component: Placeholder
+            Component: Placeholder,
+            loader: async ({ params }) => {
+              const blockId = Number(params.blockId) || 0;
+              return await getBlock(blockId);
+            }
           }
         ]
       }

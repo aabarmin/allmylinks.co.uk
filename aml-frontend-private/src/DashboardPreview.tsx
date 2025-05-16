@@ -1,34 +1,19 @@
-import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import PreviewPane from './PreviewPane';
+import { Col, Container, Row } from 'react-bootstrap';
+import type { PageModel } from './model/PageModel';
 
-interface PageProps {
-    getPageStyle: () => React.CSSProperties;
+interface Props {
+  currentPage: PageModel
 }
 
-interface Block {
-    blockType: {
-        previewComponent: string;
-    };
-}
-
-interface DashboardPreviewProps {
-    currentPage: {
-        pageProps: PageProps;
-        pageBlocks: Block[];
-    };
-}
-
-export default function DashboardPreview({ currentPage }: DashboardPreviewProps) {
-    const { pageProps, pageBlocks } = currentPage;
-
-    return (
-        <Container>
-            <Row>
-                <Col className="preview-pane-container">
-                    <PreviewPane pageProps={pageProps} pageBlocks={pageBlocks} />
-                </Col>
-            </Row>
-        </Container>
-    );
+export default function DashboardPreview({ currentPage }: Props) {
+  return (
+    <Container>
+      <Row>
+        <Col className="preview-pane-container">
+          Goes here
+          {/* <PreviewPane pageProps={pageProps} pageBlocks={pageBlocks} /> */}
+        </Col>
+      </Row>
+    </Container>
+  );
 }

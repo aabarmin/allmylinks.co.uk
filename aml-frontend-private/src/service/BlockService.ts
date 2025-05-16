@@ -27,3 +27,15 @@ export function addBlock(block: BlockTypeModel, page: PageModel): Promise<BlockM
             })
     });
 }
+
+export function getBlock(blockId: number): Promise<BlockModel> {
+    return new Promise(resolve => {
+        axios
+            .get(`/private/api/dashboard/blocks/${blockId}`)
+            .then(response => {
+                const data = response.data as Record<string, unknown>
+                const model = plainToInstance(BlockModel, data)
+                resolve(model);
+            })
+    });
+}

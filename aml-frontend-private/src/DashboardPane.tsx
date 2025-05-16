@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Col, Container, ProgressBar, Row } from "react-bootstrap";
 import { Outlet } from "react-router";
 import BlocksAccordion from "./BlocksAccordion";
+import DashboardPreview from "./DashboardPreview";
 import Divider from "./Divider";
 import UserLinkPreview from "./UserLinkPreview";
 import { DashboardModel } from "./model/DashboardModel";
@@ -50,12 +51,9 @@ export default function DashboardPane() {
           />
         </Col>
         <Col md={5}>
-          {/* <DashboardPreview
-            currentPage={{
-              pageProps: null,
-              pageBlocks: [],
-            }}
-          /> */}
+          <DashboardPreview
+            currentPage={model.currentPage}
+          />
         </Col>
         <Col md={3}>
           <Outlet />
