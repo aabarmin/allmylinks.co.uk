@@ -18,7 +18,7 @@ function ShareButton() {
 }
 
 function Background({ block, props }: { block: BlockResponse, props: AvatarBlockProps }) {
-  const className = 'avatar-background' + (block.canMoveUp == false ? 'avatar-background-rounded-up' : '');
+  const className = 'avatar-background ' + (block.canMoveUp == false ? 'avatar-background-rounded-up' : '');
   const customStyle: React.CSSProperties = {};
   if (props.background) {
     customStyle.backgroundRepeat = 'no-repeat';

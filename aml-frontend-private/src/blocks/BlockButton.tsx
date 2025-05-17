@@ -1,38 +1,28 @@
-import React from 'react';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
+import type { BlockResponse } from '../model/BlockModel';
+import type { LinkButtonBlockProps } from '../model/LinkButtonBlockProps';
 
-interface BlockButtonProps {
-    block: {
-        blockProps: {
-            link: string;
-            text: string;
-            size: {
-                htmlClass: string;
-            };
-            color: {
-                htmlClass: string;
-            };
-        };
-    };
+interface Props {
+  block: BlockResponse;
 }
 
-export default function BlockButton({ block }: BlockButtonProps) {
-    const { link, text, size, color } = block.blockProps;
+export default function BlockButton({ block }: Props) {
+  const props = block.blockProps as LinkButtonBlockProps;
 
-    return (
-        <Container className="preview-pane-block">
-            <Row>
-                <Col className="d-grid">
-                    <Button
-                        href={link}
-                        target="_blank"
-                        className={`${size.htmlClass} ${color.htmlClass}`}
-                        variant="primary"
-                    >
-                        {text}
-                    </Button>
-                </Col>
-            </Row>
-        </Container>
-    );
+  return (
+    <Container className="preview-pane-block">
+      <Row>
+        {/* <Col className="d-grid">
+          <Button
+            href={link}
+            target="_blank"
+            className={`${size.htmlClass} ${color.htmlClass}`}
+            variant="primary"
+          >
+            {text}
+          </Button>
+        </Col> */}
+      </Row>
+    </Container>
+  );
 }

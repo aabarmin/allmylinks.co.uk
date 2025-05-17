@@ -28,7 +28,7 @@ public class BlockPropsConverter {
     return switch(props) {
       case HeaderBlockProps headerBlockProps -> convert(headerBlockProps);
       case AvatarBlockProps avatarBlockProps -> convert(avatarBlockProps);
-      case LinkButtonBlockProps l -> new LinkButtonBlockPropsResponse();
+      case LinkButtonBlockProps linkButtonProps -> convert(linkButtonProps);
       case SocialNetworksBlockProps s -> new SocialNetworksBlockPropsResponse();
       default -> throw new UnsupportedOperationException();
     };
@@ -47,6 +47,15 @@ public class BlockPropsConverter {
       convert(props.getAvatarId()),
       convert(props.getBackgroundId()),
       props.isShowShareButton()
+    );
+  }
+
+  private LinkButtonBlockPropsResponse convert(LinkButtonBlockProps props) {
+    return new LinkButtonBlockPropsResponse(
+      props.getText(),
+      props.getLink(),
+      props.getSize(),
+      props.getColor()
     );
   }
 

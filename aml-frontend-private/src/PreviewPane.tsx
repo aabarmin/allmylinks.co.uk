@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import BlockAvatar from './blocks/BlockAvatar';
+import BlockButton from './blocks/BlockButton';
 import BlockHeader from './blocks/BlockHeader';
 import BlockMadeWithAml from './blocks/BlockMadeWithAml';
 import type { BlockResponse } from './model/BlockModel';
@@ -16,7 +17,8 @@ function getBlockByType(block: BlockResponse): ReactNode {
   switch (type) {
     case "HEADER_BLOCK": return <BlockHeader key={block.blockId} block={block} />
     case "AVATAR_BLOCK": return <BlockAvatar key={block.blockId} block={block} />
-    default: return <div key={block.blockId}>Пук, среньк, все еще :(</div>
+    case "BUTTON_BLOCK": return <BlockButton key={block.blockId} block={block} />
+    default: return <div key={block.blockId}>Пук, среньк, все еще ({block.blockType.name}) :(</div>
   }
 }
 
