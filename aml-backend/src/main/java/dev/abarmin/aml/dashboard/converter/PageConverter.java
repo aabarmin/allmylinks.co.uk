@@ -15,6 +15,7 @@ import static dev.abarmin.aml.dashboard.converter.BlockOrderUtils.isFirst;
 import static dev.abarmin.aml.dashboard.converter.BlockOrderUtils.isLast;
 
 @Component
+@Deprecated
 @RequiredArgsConstructor
 public class PageConverter {
   private final BlockRepository blockRepository;

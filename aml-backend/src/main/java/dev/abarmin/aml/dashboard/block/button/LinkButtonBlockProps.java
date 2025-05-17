@@ -13,7 +13,7 @@ import org.hibernate.validator.constraints.URL;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LinkButtonBlockProps implements BlockProps {
+public final class LinkButtonBlockProps implements BlockProps {
   public static final String DEFAULT_TEXT = "All my links page";
 
   @NotEmpty

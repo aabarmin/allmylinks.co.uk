@@ -1,3 +1,8 @@
+# 0.0.31
+
+* Created a new React app with the router. 
+* Configured the build script so that the frontend is built and copied to the backend.
+
 # 0.0.30
 
 * Added Gradle modules so the frontend can be written in JS. 
