@@ -1,16 +1,16 @@
 import type { AvatarBlockProps } from "./AvatarBlockProps";
-import type { BlockProps } from "./BlockProps";
 import type { BlockTypeModel } from "./BlockTypeModel";
 import type { HeaderBlockProps } from "./HeaderBlockProps";
 import type { LinkButtonBlockProps } from "./LinkButtonBlockProps";
+import type { SocialNetworksBlockProps } from "./SocialNetworksBlockProps";
 
-export type AlloweBlockProps = HeaderBlockProps | LinkButtonBlockProps | AvatarBlockProps | SocialNetworksBlockProps;
+export type AllowedBlockProps = HeaderBlockProps | LinkButtonBlockProps | AvatarBlockProps | SocialNetworksBlockProps;
 
 export class BlockResponse {
   blockId: number;
   pageId: number;
   blockType: BlockTypeModel;
-  blockProps: AlloweBlockProps;
+  blockProps: AllowedBlockProps;
   canMoveUp: boolean;
   canMoveDown: boolean;
 
@@ -18,7 +18,7 @@ export class BlockResponse {
     blockId: number,
     pageId: number,
     blockType: BlockTypeModel,
-    blockProps: AlloweBlockProps,
+    blockProps: AllowedBlockProps,
     canMoveUp: boolean,
     canMoveDown: boolean
   ) {
@@ -30,5 +30,3 @@ export class BlockResponse {
     this.canMoveDown = canMoveDown;
   }
 }
-
-export interface SocialNetworksBlockProps extends BlockProps { }

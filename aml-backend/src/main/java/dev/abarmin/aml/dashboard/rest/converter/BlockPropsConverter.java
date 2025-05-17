@@ -3,6 +3,7 @@ package dev.abarmin.aml.dashboard.rest.converter;
 import dev.abarmin.aml.dashboard.block.avatar.AvatarBlockProps;
 import dev.abarmin.aml.dashboard.block.button.LinkButtonBlockProps;
 import dev.abarmin.aml.dashboard.block.header.HeaderBlockProps;
+import dev.abarmin.aml.dashboard.block.social.SocialNetworkLink;
 import dev.abarmin.aml.dashboard.block.social.SocialNetworksBlockProps;
 import dev.abarmin.aml.dashboard.domain.BlockProps;
 import dev.abarmin.aml.dashboard.rest.response.AvatarBlockPropsResponse;
@@ -10,6 +11,7 @@ import dev.abarmin.aml.dashboard.rest.response.BlockPropsResponse;
 import dev.abarmin.aml.dashboard.rest.response.FileResponse;
 import dev.abarmin.aml.dashboard.rest.response.HeaderBlockPropsResponse;
 import dev.abarmin.aml.dashboard.rest.response.LinkButtonBlockPropsResponse;
+import dev.abarmin.aml.dashboard.rest.response.SocialNetworkLinkResponse;
 import dev.abarmin.aml.dashboard.rest.response.SocialNetworksBlockPropsResponse;
 import dev.abarmin.aml.file.FileId;
 import jakarta.annotation.Nullable;
@@ -29,7 +31,7 @@ public class BlockPropsConverter {
       case HeaderBlockProps headerBlockProps -> convert(headerBlockProps);
       case AvatarBlockProps avatarBlockProps -> convert(avatarBlockProps);
       case LinkButtonBlockProps linkButtonProps -> convert(linkButtonProps);
-      case SocialNetworksBlockProps s -> new SocialNetworksBlockPropsResponse();
+      case SocialNetworksBlockProps networkProps -> convert(networkProps);
       default -> throw new UnsupportedOperationException();
     };
   }
@@ -56,6 +58,21 @@ public class BlockPropsConverter {
       props.getLink(),
       props.getSize(),
       props.getColor()
+    );
+  }
+
+  private SocialNetworksBlockPropsResponse convert(SocialNetworksBlockProps props) {
+    return new SocialNetworksBlockPropsResponse(
+      props.getLinks().stream()
+        .map(this::convert)
+        .toList()
+    );
+  }
+
+  private SocialNetworkLinkResponse convert(SocialNetworkLink link) {
+    return new SocialNetworkLinkResponse(
+      link.getUrl(),
+      link.getNetwork()
     );
   }
 

@@ -1,4 +1,8 @@
 package dev.abarmin.aml.dashboard.rest.response;
 
-public record SocialNetworksBlockPropsResponse() implements BlockPropsResponse {
+import java.util.Collection;
+
+public record SocialNetworksBlockPropsResponse(
+  Collection<SocialNetworkLinkResponse> links
+) implements BlockPropsResponse {
 }
