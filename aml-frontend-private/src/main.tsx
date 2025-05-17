@@ -9,11 +9,11 @@ import {
 import DashboardLayout from './DashboardLayout';
 import DashboardPane from './DashboardPane';
 import './main.css';
-import type { BlockModel } from './model/BlockModel';
+import type { BlockResponse } from './model/BlockModel';
 import { getBlock } from './service/BlockService';
 
 function Placeholder() {
-  const data: BlockModel = useLoaderData();
+  const data: BlockResponse = useLoaderData();
 
   return (
     <div>

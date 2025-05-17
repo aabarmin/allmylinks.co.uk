@@ -1,10 +1,10 @@
 import { type ReactNode } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
-import type { BlockModel } from '../model/BlockModel';
+import type { BlockResponse } from '../model/BlockModel';
 import type { HeaderBlockProps } from '../model/HeaderBlockProps';
 
 interface Props {
-  block: BlockModel
+  block: BlockResponse
 }
 
 function getAlignmentClass(props: HeaderBlockProps): string {

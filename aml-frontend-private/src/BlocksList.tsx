@@ -1,7 +1,7 @@
 import { useCallback, type ReactNode } from "react";
 import { ListGroup } from "react-bootstrap";
 import { ExclamationDiamondFill, Fonts, HandThumbsUp, Link, PersonCircle } from "react-bootstrap-icons";
-import type { BlockModel } from "./model/BlockModel";
+import type { BlockResponse } from "./model/BlockModel";
 import type { BlockTypeModel } from "./model/BlockTypeModel";
 import type { PageModel } from "./model/PageModel";
 import { addBlock } from "./service/BlockService";
@@ -9,7 +9,7 @@ import { addBlock } from "./service/BlockService";
 interface Props {
   availableBlocks: BlockTypeModel[];
   currentPage: PageModel;
-  onBlockAdded: (added: BlockModel) => void;
+  onBlockAdded: (added: BlockResponse) => void;
 }
 
 export function getIconByType(type: string): ReactNode {

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class HeaderBlockProps implements BlockProps {
+public final class HeaderBlockProps implements BlockProps {
   @NotEmpty
   private String text;
 

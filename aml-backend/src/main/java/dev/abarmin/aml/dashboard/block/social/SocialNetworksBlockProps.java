@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SocialNetworksBlockProps implements BlockProps {
+public final class SocialNetworksBlockProps implements BlockProps {
   @Valid
   @Builder.Default
   private List<SocialNetworkLink> links = new ArrayList<>();

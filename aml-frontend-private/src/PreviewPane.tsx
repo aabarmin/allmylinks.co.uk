@@ -1,19 +1,21 @@
 import type { ReactNode } from 'react';
+import BlockAvatar from './blocks/BlockAvatar';
 import BlockHeader from './blocks/BlockHeader';
 import BlockMadeWithAml from './blocks/BlockMadeWithAml';
-import type { BlockModel } from './model/BlockModel';
+import type { BlockResponse } from './model/BlockModel';
 import type { BlockType } from './model/BlockTypeModel';
 import type { PageProps } from './model/PageModel';
 
 interface Props {
-  pageBlocks: BlockModel[];
+  pageBlocks: BlockResponse[];
   pageProps: PageProps;
 }
 
-function getBlockByType(block: BlockModel): ReactNode {
+function getBlockByType(block: BlockResponse): ReactNode {
   const type: BlockType = block.blockType.type;
   switch (type) {
     case "HEADER_BLOCK": return <BlockHeader key={block.blockId} block={block} />
+    case "AVATAR_BLOCK": return <BlockAvatar key={block.blockId} block={block} />
     default: return <div key={block.blockId}>Пук, среньк, все еще :(</div>
   }
 }

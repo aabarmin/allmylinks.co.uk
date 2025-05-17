@@ -1,16 +1,16 @@
-import type { BlockModel } from "./BlockModel";
+import type { BlockResponse } from "./BlockModel";
 
 export class PageModel {
   pageId: number;
   pageTitle: string;
   pageProps: PageProps;
-  pageBlocks: BlockModel[];
+  pageBlocks: BlockResponse[];
 
   constructor(
     pageId: number,
     pageTitle: string,
     pageProps: PageProps,
-    pageBlocks: BlockModel[]
+    pageBlocks: BlockResponse[]
   ) {
     this.pageId = pageId
     this.pageTitle = pageTitle

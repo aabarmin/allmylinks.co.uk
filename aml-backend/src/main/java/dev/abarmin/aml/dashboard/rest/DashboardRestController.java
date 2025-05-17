@@ -1,10 +1,10 @@
 package dev.abarmin.aml.dashboard.rest;
 
 import dev.abarmin.aml.dashboard.SessionService;
-import dev.abarmin.aml.dashboard.converter.DashboardModelConverter;
 import dev.abarmin.aml.dashboard.domain.Page;
-import dev.abarmin.aml.dashboard.model.DashboardModel;
 import dev.abarmin.aml.dashboard.repository.PageRepository;
+import dev.abarmin.aml.dashboard.rest.converter.DashboardResponseConverter;
+import dev.abarmin.aml.dashboard.rest.response.DashboardResponse;
 import dev.abarmin.aml.registration.domain.Profile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -21,13 +21,13 @@ public class DashboardRestController {
 
   private final SessionService sessionService;
   private final PageRepository pageRepository;
-  private final DashboardModelConverter dashboardModelConverter;
+  private final DashboardResponseConverter dashboardConverter;
 
   @GetMapping
-  public DashboardModel dashboardModel(Authentication authentication) {
+  public DashboardResponse dashboardModel(Authentication authentication) {
     final Profile profile = sessionService.getProfile(authentication);
     final Page page = getCurrentPage(profile, null);
-    return dashboardModelConverter.convert(profile, page);
+    return dashboardConverter.convert(profile, page);
   }
 
   private Page getCurrentPage(Profile profile, Long pageId) {

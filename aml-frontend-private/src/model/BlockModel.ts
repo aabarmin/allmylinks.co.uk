@@ -1,10 +1,11 @@
+import type { AvatarBlockProps } from "./AvatarBlockProps";
 import type { BlockProps } from "./BlockProps";
 import type { BlockTypeModel } from "./BlockTypeModel";
 import type { HeaderBlockProps } from "./HeaderBlockProps";
 
 export type AlloweBlockProps = HeaderBlockProps | LinkButtonBlockProps | AvatarBlockProps | SocialNetworksBlockProps;
 
-export class BlockModel {
+export class BlockResponse {
   blockId: number;
   pageId: number;
   blockType: BlockTypeModel;
@@ -30,5 +31,4 @@ export class BlockModel {
 }
 
 export interface LinkButtonBlockProps extends BlockProps { }
-export interface AvatarBlockProps extends BlockProps { }
 export interface SocialNetworksBlockProps extends BlockProps { }

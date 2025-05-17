@@ -1,129 +1,69 @@
-import { Modal, Button } from 'react-bootstrap';
+import { Button, Col, Row } from 'react-bootstrap';
+import { Share } from 'react-bootstrap-icons';
+import type { AvatarBlockProps } from '../model/AvatarBlockProps';
+import type { BlockResponse } from '../model/BlockModel';
 
-interface BlockAvatarProps {
-    block: {
-        blockProps: {
-            backgroundId: string | null;
-            showShareButton: boolean;
-            avatarId: string;
-            getCoverStyle: () => React.CSSProperties;
-            getAvatarStyle: () => React.CSSProperties;
-        };
-        canMoveUp: boolean;
-    };
-    profile: {
-        profileShortLink: string;
-        profileQr: string;
-        profileLink: string;
-        share: {
-            onFacebook: string;
-            onTwitter: string;
-            onLinkedin: string;
-        };
-    };
+interface Props {
+  block: BlockResponse
 }
 
-export default function BlockAvatar({ block, profile }: BlockAvatarProps) {
-    const [showModal, setShowModal] = React.useState(false);
+function ShareButton() {
+  return (
+    <div className='avatar-share-button'>
+      <Button variant='outline-primary'>
+        <Share />
+      </Button>
+    </div>
+  );
+}
 
-    const handleModalOpen = () => setShowModal(true);
-    const handleModalClose = () => setShowModal(false);
+function Background({ block, props }: { block: BlockResponse, props: AvatarBlockProps }) {
+  const className = 'avatar-background' + (block.canMoveUp == false ? 'avatar-background-rounded-up' : '');
+  const customStyle: React.CSSProperties = {};
+  if (props.background) {
+    customStyle.backgroundRepeat = 'no-repeat';
+    customStyle.backgroundPosition = 'center';
+    customStyle.backgroundImage = `url(${props.background.publicUrl})`;
+  }
+  return (
+    <div className={className} style={customStyle}></div>
+  );
+}
 
-    const { blockProps } = block;
+function Avatar({ props }: { props: AvatarBlockProps }) {
+  const className = 'avatar-photo-container ' + (props.background ? '' : 'avatar-photo-container-no-background');
+  const customStyle: React.CSSProperties = {};
+  if (props.background) {
+    customStyle.borderColor = '#ffffff';
+    customStyle.borderWidth = '5px';
+    customStyle.borderStyle = 'solid';
+  }
+  return (
+    <div className={className}>
+      <img
+        src={props.avatar.publicUrl}
+        className='avatar-photo rounded-circle'
+        width={200}
+        height={200}
+        style={customStyle}
+      />
+    </div>
+  );
+}
 
-    return (
-        <div className="preview-pane-block-no-padding">
-            <div className="row" style={{ marginLeft: 0, marginRight: 0 }}>
-                <div
-                    className={`col avatar-container ${
-                        blockProps.backgroundId == null ? 'avatar-container-no-background' : ''
-                    }`}
-                >
-                    {blockProps.showShareButton && (
-                        <div className="avatar-share-button">
-                            <Button
-                                variant="outline-primary"
-                                onClick={handleModalOpen}
-                            >
-                                <i className="bi bi-share"></i>
-                            </Button>
-                        </div>
-                    )}
+export default function BlockAvatar({ block }: Props) {
+  const props: AvatarBlockProps = block.blockProps as AvatarBlockProps;
+  const colClassName = "avatar-container " + (props.background ? '' : 'avatar-container-no-background');
 
-                    {blockProps.backgroundId != null && (
-                        <div
-                            className={`avatar-background ${
-                                block.canMoveUp === false ? 'avatar-background-rounded-up' : ''
-                            }`}
-                            style={blockProps.getCoverStyle()}
-                        ></div>
-                    )}
-
-                    <div
-                        className={`avatar-photo-container ${
-                            blockProps.backgroundId == null ? 'avatar-photo-container-no-background' : ''
-                        }`}
-                    >
-                        <img
-                            src={blockProps.avatarId}
-                            className="avatar-photo rounded-circle"
-                            style={blockProps.getAvatarStyle()}
-                            height="200"
-                            width="200"
-                            alt="Avatar"
-                        />
-                    </div>
-                </div>
-            </div>
-
-            {/* Share Modal */}
-            <Modal show={showModal} onHide={handleModalClose} id="shareModal">
-                <Modal.Dialog>
-                    <Modal.Header closeButton>
-                        <Modal.Title>{profile.profileShortLink}</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body className="text-center">
-                        <div className="mb-3">
-                            <img src={profile.profileQr} alt="QR Code" />
-                        </div>
-                        <div className="mb-3 d-grid">
-                            <Button
-                                variant="primary"
-                                data-url={profile.profileLink}
-                                id="copyToClipboardButton"
-                            >
-                                <i className="bi bi-copy"></i> Copy page URL
-                            </Button>
-                        </div>
-                        <div className="mb-3">
-                            <a
-                                href={profile.share.onFacebook}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="btn btn-primary"
-                            >
-                                <i className="bi bi-facebook"></i>
-                            </a>
-                            <a
-                                href={profile.share.onTwitter}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="btn btn-primary"
-                            >
-                                <i className="bi bi-twitter"></i>
-                            </a>
-                            <a
-                                href={profile.share.onLinkedin}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="btn btn-primary"
-                            >
-                                <i className="bi bi-linkedin"></i>
-                            </a>
-                        </div>
-                    </Modal.Body>
-                </Modal.Dialog>
-            </Modal>
-        </div>
-    );
+  return (
+    <div className="preview-pane-block-no-padding">
+      <Row style={{ marginLeft: 0, marginRight: 0 }}>
+        <Col className={colClassName}>
+          {props.showShareButton && <ShareButton />}
+          {props.background && <Background props={props} block={block} />}
+          <Avatar props={props} />
+        </Col>
+      </Row>
+    </div>
+  );
 }

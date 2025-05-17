@@ -2,15 +2,15 @@ package dev.abarmin.aml.dashboard.rest;
 
 import dev.abarmin.aml.dashboard.BlockFactory;
 import dev.abarmin.aml.dashboard.SessionService;
-import dev.abarmin.aml.dashboard.converter.BlockConverter;
-import dev.abarmin.aml.dashboard.converter.PageConverter;
 import dev.abarmin.aml.dashboard.domain.Block;
 import dev.abarmin.aml.dashboard.domain.BlockType;
 import dev.abarmin.aml.dashboard.domain.Page;
-import dev.abarmin.aml.dashboard.model.BlockModel;
-import dev.abarmin.aml.dashboard.model.PageModel;
 import dev.abarmin.aml.dashboard.repository.BlockRepository;
 import dev.abarmin.aml.dashboard.repository.PageRepository;
+import dev.abarmin.aml.dashboard.rest.converter.BlockResponseConverter;
+import dev.abarmin.aml.dashboard.rest.converter.PageResponseConverter;
+import dev.abarmin.aml.dashboard.rest.response.BlockResponse;
+import dev.abarmin.aml.dashboard.rest.response.PageResponse;
 import dev.abarmin.aml.registration.domain.Profile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -23,20 +23,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/private/api/dashboard/pages")
+@RequestMapping("/private/api/pages")
 public class PageRestController {
 
   private final SessionService sessionService;
   private final PageRepository pageRepository;
   private final BlockFactory blockFactory;
   private final BlockRepository blockRepository;
-  private final BlockConverter blockConverter;
-  private final PageConverter pageConverter;
+  private final BlockResponseConverter blockConverter;
+  private final PageResponseConverter pageConverter;
 
   @PostMapping("/{pageId}/blocks")
-  public BlockModel addBlock(@PathVariable long pageId,
-                             @RequestBody BlockAddRequest request,
-                             Authentication authentication) {
+  public BlockResponse addBlock(@PathVariable long pageId,
+                                @RequestBody BlockAddRequest request,
+                                Authentication authentication) {
 
     final Profile profile = sessionService.getProfile(authentication);
     final Page page = pageRepository.findByIdAndProfileId(pageId, profile.id())
@@ -49,8 +49,8 @@ public class PageRestController {
   }
 
   @GetMapping("/{pageId}")
-  public PageModel getPage(@PathVariable long pageId,
-                           Authentication authentication) {
+  public PageResponse getPage(@PathVariable long pageId,
+                              Authentication authentication) {
 
     final Profile profile = sessionService.getProfile(authentication);
     final Page page = pageRepository.findByIdAndProfileId(pageId, profile.id())

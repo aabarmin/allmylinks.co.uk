@@ -1,16 +1,16 @@
-import type { FileId } from "./FileId";
+import type { FileResponse } from "./FileId";
 import type { ProfileShare } from "./ProfileShare";
 
 export class DashboardProfile {
   profileLink: string;
   profileShortLink: string;
-  profileQr: FileId;
+  profileQr: FileResponse;
   share: ProfileShare;
 
   constructor(
     profileLink: string,
     profileShortLink: string,
-    profileQr: FileId,
+    profileQr: FileResponse,
     share: ProfileShare
   ) {
     this.profileLink = profileLink;
