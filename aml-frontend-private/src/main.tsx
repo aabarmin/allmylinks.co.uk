@@ -3,27 +3,13 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
   createHashRouter,
-  RouterProvider,
-  useLoaderData,
+  RouterProvider
 } from "react-router";
+import BlockProperties from './BlockProperties';
 import DashboardLayout from './DashboardLayout';
 import DashboardPane from './DashboardPane';
 import './main.css';
-import type { BlockResponse } from './model/BlockModel';
 import { getBlock } from './service/BlockService';
-
-function Placeholder() {
-  const data: BlockResponse = useLoaderData();
-
-  return (
-    <div>
-      Just placeholder:
-      <pre>
-        {JSON.stringify(data)}
-      </pre>
-    </div>
-  );
-}
 
 const router = createHashRouter([
   {
@@ -37,7 +23,7 @@ const router = createHashRouter([
         children: [
           {
             path: "blocks/:blockId",
-            Component: Placeholder,
+            Component: BlockProperties,
             loader: async ({ params }) => {
               const blockId = Number(params.blockId) || 0;
               return await getBlock(blockId);

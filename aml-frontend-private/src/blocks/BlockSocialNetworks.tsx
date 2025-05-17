@@ -36,22 +36,6 @@ export default function BlockSocialNetworks({ block }: Props) {
               {networkToIcon(link.network)}
             </a>
           ))}
-
-          {/* {links.map((link, index) => (
-                        <a
-                            key={index}
-                            href={link.url}
-                            style={{ paddingLeft: '5px' }}
-                            className="icon-link"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            <i
-                                className={`bi ${link.network.htmlClass}`}
-                                style={{ fontSize: '2em' }}
-                            ></i>
-                        </a>
-                    ))} */}
         </Col>
       </Row>
     </Container>
