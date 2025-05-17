@@ -1,5 +1,6 @@
 import { Col, Container, Row } from 'react-bootstrap';
 import type { PageModel } from './model/PageModel';
+import PreviewPane from './PreviewPane';
 
 interface Props {
   currentPage: PageModel
@@ -10,8 +11,10 @@ export default function DashboardPreview({ currentPage }: Props) {
     <Container>
       <Row>
         <Col className="preview-pane-container">
-          Goes here
-          {/* <PreviewPane pageProps={pageProps} pageBlocks={pageBlocks} /> */}
+          <PreviewPane
+            pageBlocks={currentPage.pageBlocks}
+            pageProps={currentPage.pageProps}
+          />
         </Col>
       </Row>
     </Container>

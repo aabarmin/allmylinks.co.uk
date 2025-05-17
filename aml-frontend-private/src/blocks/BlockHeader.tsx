@@ -1,41 +1,38 @@
-import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { type ReactNode } from 'react';
+import { Col, Container, Row } from 'react-bootstrap';
+import type { BlockModel } from '../model/BlockModel';
+import type { HeaderBlockProps } from '../model/HeaderBlockProps';
 
-interface BlockHeaderProps {
-    block: {
-        blockProps: {
-            level: {
-                htmlTag: string;
-            };
-            alignment: {
-                htmlClass: string;
-            };
-            text: string;
-        };
-    };
+interface Props {
+  block: BlockModel
 }
 
-export default function BlockHeader({ block }: BlockHeaderProps) {
-    const { level, alignment, text } = block.blockProps;
+function getAlignmentClass(props: HeaderBlockProps): string {
+  switch (props.alignment) {
+    case "LEFT": return "text-start";
+    case "CENTER": return "text-center";
+    case "RIGHT": return "text-end";
+  }
+}
 
-    const renderHeader = () => {
-        switch (level.htmlTag) {
-            case 'h1':
-                return <h1 className={alignment.htmlClass}>{text}</h1>;
-            case 'h2':
-                return <h2 className={alignment.htmlClass}>{text}</h2>;
-            case 'h3':
-                return <h3 className={alignment.htmlClass}>{text}</h3>;
-            default:
-                return <p>{text}</p>;
-        }
-    };
+function renderBlock(props: HeaderBlockProps): ReactNode {
+  const className = getAlignmentClass(props)
 
-    return (
-        <Container className="preview-pane-block">
-            <Row>
-                <Col>{renderHeader()}</Col>
-            </Row>
-        </Container>
-    );
+  switch (props.level) {
+    case "H1": return <h1 className={className}>{props.text}</h1>
+    case "H2": return <h2 className={className}>{props.text}</h2>
+    case "H3": return <h3 className={className}>{props.text}</h3>
+  }
+}
+
+export default function BlockHeader({ block }: Props) {
+  const props: HeaderBlockProps = block.blockProps as HeaderBlockProps;
+
+  return (
+    <Container className="preview-pane-block">
+      <Row>
+        <Col>{renderBlock(props)}</Col>
+      </Row>
+    </Container>
+  );
 }

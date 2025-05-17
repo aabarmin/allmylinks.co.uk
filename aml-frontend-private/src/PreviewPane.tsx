@@ -1,36 +1,32 @@
-import React from 'react';
+import type { ReactNode } from 'react';
+import BlockHeader from './blocks/BlockHeader';
 import BlockMadeWithAml from './blocks/BlockMadeWithAml';
+import type { BlockModel } from './model/BlockModel';
+import type { BlockType } from './model/BlockTypeModel';
+import type { PageProps } from './model/PageModel';
 
-interface PageProps {
-    getPageStyle: () => React.CSSProperties;
+interface Props {
+  pageBlocks: BlockModel[];
+  pageProps: PageProps;
 }
 
-interface Block {
-    blockType: {
-        previewComponent: string;
-    };
+function getBlockByType(block: BlockModel): ReactNode {
+  const type: BlockType = block.blockType.type;
+  switch (type) {
+    case "HEADER_BLOCK": return <BlockHeader key={block.blockId} block={block} />
+    default: return <div key={block.blockId}>Пук, среньк, все еще :(</div>
+  }
 }
 
-interface PreviewPaneProps {
-    pageProps: PageProps;
-    pageBlocks: Block[];
-}
-
-export default function PreviewPane({ pageProps, pageBlocks }: PreviewPaneProps) {
-    return (
-        <div className="preview-pane" style={pageProps.getPageStyle()}>
-            {pageBlocks.map((block, index) => {
-                const PreviewComponent = React.lazy(() =>
-                    import(`./blocks/${block.blockType.previewComponent}`)
-                );
-                return (
-                    <React.Suspense fallback={<div>Loading...</div>} key={index}>
-                        <PreviewComponent block={block} />
-                    </React.Suspense>
-                );
-            })}
-
-            <BlockMadeWithAml />
-        </div>
-    );
+export default function PreviewPane({ pageBlocks, pageProps }: Props) {
+  // style={pageProps.getPageStyle()}
+  // todo, abarmin: fix page props, css doesn't work here and now
+  return (
+    <div className="preview-pane">
+      {pageBlocks.map((block) => (
+        getBlockByType(block)
+      ))}
+      <BlockMadeWithAml />
+    </div>
+  );
 }

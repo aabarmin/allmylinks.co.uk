@@ -8,6 +8,7 @@ import {
 } from "react-router";
 import DashboardLayout from './DashboardLayout';
 import DashboardPane from './DashboardPane';
+import './main.css';
 import type { BlockModel } from './model/BlockModel';
 import { getBlock } from './service/BlockService';
 
