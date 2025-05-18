@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Col, Container, Form, Row } from 'react-bootstrap';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import type { BlockResponse } from '../model/BlockModel';
@@ -11,8 +12,13 @@ interface Props {
 
 export default function BlockHeaderProps({ block, handlers }: Props) {
   const props: HeaderBlockProps = block.blockProps as HeaderBlockProps;
-  const { register, handleSubmit, formState: { errors } } = useForm<HeaderBlockProps>({ defaultValues: props })
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm<HeaderBlockProps>({})
   const onSubmit: SubmitHandler<HeaderBlockProps> = (data) => handlers.onSave(block, data)
+  useEffect(() => {
+    setValue("text", props.text)
+    setValue("alignment", props.alignment)
+    setValue("level", props.level)
+  }, [block]);
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)} noValidate>

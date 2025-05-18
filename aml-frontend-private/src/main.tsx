@@ -10,7 +10,7 @@ import { RefreshProvider } from './context/RefreshContext';
 import DashboardLayout from './DashboardLayout';
 import DashboardPane from './DashboardPane';
 import './main.css';
-import { getBlock } from './service/BlockService';
+import { blockGet } from './service/BlockService';
 
 const router = createHashRouter([
   {
@@ -27,7 +27,7 @@ const router = createHashRouter([
             Component: BlockProperties,
             loader: async ({ params }) => {
               const blockId = Number(params.blockId) || 0;
-              return await getBlock(blockId);
+              return await blockGet(blockId);
             }
           }
         ]

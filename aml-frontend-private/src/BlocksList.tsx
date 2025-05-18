@@ -4,7 +4,7 @@ import { ExclamationDiamondFill, Fonts, HandThumbsUp, Link, PersonCircle } from 
 import type { BlockResponse } from "./model/BlockModel";
 import type { BlockTypeModel } from "./model/BlockTypeModel";
 import type { PageModel } from "./model/PageModel";
-import { addBlock } from "./service/BlockService";
+import { blockAdd } from "./service/BlockService";
 
 interface Props {
   availableBlocks: BlockTypeModel[];
@@ -24,7 +24,7 @@ export function getIconByType(type: string): ReactNode {
 
 export default function BlocksList({ availableBlocks, currentPage, onBlockAdded }: Props) {
   const onBlockAddClick = useCallback((block: BlockTypeModel) => {
-    addBlock(block, currentPage).then((added) => {
+    blockAdd(block, currentPage).then((added) => {
       onBlockAdded(added);
     });
   }, []);

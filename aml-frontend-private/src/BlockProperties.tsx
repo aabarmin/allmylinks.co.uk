@@ -3,20 +3,32 @@ import BlockHeaderProps from "./blocks/BlockHeaderProps";
 import type { ToolbarHandlers } from "./blocks/BlockToolbar";
 import { useRefresh } from "./context/RefreshContext";
 import type { BlockResponse } from "./model/BlockModel";
-import { updateBlockProperties } from "./service/BlockService";
+import { blockDelete, blockMoveDown, blockMoveUp, blockUpdateProperties } from "./service/BlockService";
 
 export default function BlockProperties() {
   const block: BlockResponse = useLoaderData();
   const { refresh } = useRefresh();
   const handlers: ToolbarHandlers = {
     onSave: (block, props) => {
-      updateBlockProperties(block, props).then(result => {
+      blockUpdateProperties(block, props).then(() => {
         refresh();
       })
     },
-    onDelete: () => { debugger },
-    onMoveUp: () => { debugger },
-    onMoveDown: () => { debugger },
+    onDelete: (block) => {
+      blockDelete(block).then(() => {
+        refresh();
+      });
+    },
+    onMoveUp: (block) => {
+      blockMoveUp(block).then(() => {
+        refresh();
+      });
+    },
+    onMoveDown: (block) => {
+      blockMoveDown(block).then(() => {
+        refresh();
+      });
+    },
   }
 
   switch (block.blockType.type) {

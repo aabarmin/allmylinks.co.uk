@@ -5,9 +5,9 @@ import type { BlockPropsTypes, BlockResponse } from '../model/BlockModel';
 
 export interface ToolbarHandlers {
   onSave: (block: BlockResponse, props: BlockPropsTypes) => void;
-  onMoveUp: () => void;
-  onMoveDown: () => void;
-  onDelete: () => void;
+  onMoveUp: (block: BlockResponse) => void;
+  onMoveDown: (block: BlockResponse) => void;
+  onDelete: (block: BlockResponse) => void;
 }
 
 interface Props {
@@ -43,7 +43,7 @@ export default function BlockToolbar({ block, handlers }: Props) {
             <Dropdown.Menu>
               <Dropdown.Item
                 as={Button}
-                onClick={() => handlers.onMoveUp()}
+                onClick={() => handlers.onMoveUp(block)}
                 className={!block.canMoveUp ? 'disabled' : ''}
                 disabled={!block.canMoveUp}
               >
@@ -53,7 +53,7 @@ export default function BlockToolbar({ block, handlers }: Props) {
               </Dropdown.Item>
               <Dropdown.Item
                 as={Button}
-                onClick={() => handlers.onMoveDown()}
+                onClick={() => handlers.onMoveDown(block)}
                 className={!block.canMoveDown ? 'disabled' : ''}
                 disabled={!block.canMoveDown}
               >
@@ -63,7 +63,7 @@ export default function BlockToolbar({ block, handlers }: Props) {
               </Dropdown.Item>
               <Dropdown.Item
                 as={Button}
-                onClick={() => handlers.onDelete()}
+                onClick={() => handlers.onDelete(block)}
               >
                 <Trash />
                 &nbsp;

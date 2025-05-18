@@ -4,7 +4,7 @@ import { BlockResponse, type BlockPropsTypes } from "../model/BlockModel";
 import type { BlockType, BlockTypeModel } from "../model/BlockTypeModel";
 import type { PageModel } from "../model/PageModel";
 
-export function addBlock(blockType: BlockTypeModel, page: PageModel): Promise<BlockResponse> {
+export function blockAdd(blockType: BlockTypeModel, page: PageModel): Promise<BlockResponse> {
   class BlockAddRequest {
     blockType: string;
 
@@ -26,7 +26,7 @@ export function addBlock(blockType: BlockTypeModel, page: PageModel): Promise<Bl
   });
 }
 
-export function getBlock(blockId: number): Promise<BlockResponse> {
+export function blockGet(blockId: number): Promise<BlockResponse> {
   return new Promise(resolve => {
     axios
       .get(`/private/api/blocks/${blockId}`)
@@ -38,7 +38,7 @@ export function getBlock(blockId: number): Promise<BlockResponse> {
   });
 }
 
-export function updateBlockProperties(block: BlockResponse, props: BlockPropsTypes): Promise<BlockResponse> {
+export function blockUpdateProperties(block: BlockResponse, props: BlockPropsTypes): Promise<BlockResponse> {
   class BlockPropsUpdateRequest {
     blockId: number;
     blockType: BlockType;
@@ -66,4 +66,38 @@ export function updateBlockProperties(block: BlockResponse, props: BlockPropsTyp
         resolve(model)
       })
   })
+}
+
+export function blockMoveUp(block: BlockResponse): Promise<BlockResponse> {
+  return new Promise(resolve => {
+    axios
+      .put(`/private/api/blocks/${block.blockId}/move-up`)
+      .then(response => {
+        const data = response.data as Record<string, unknown>
+        const model = plainToInstance(BlockResponse, data)
+        resolve(model)
+      })
+  });
+}
+
+export function blockMoveDown(block: BlockResponse): Promise<BlockResponse> {
+  return new Promise(resolve => {
+    axios
+      .put(`/private/api/blocks/${block.blockId}/move-down`)
+      .then(response => {
+        const data = response.data as Record<string, unknown>
+        const model = plainToInstance(BlockResponse, data)
+        resolve(model)
+      })
+  });
+}
+
+export function blockDelete(block: BlockResponse): Promise<void> {
+  return new Promise(resolve => {
+    axios
+      .delete(`/private/api/blocks/${block.blockId}`)
+      .then(_ => {
+        resolve()
+      })
+  });
 }
