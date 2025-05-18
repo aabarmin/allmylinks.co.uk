@@ -1,4 +1,5 @@
 import { useLoaderData } from "react-router";
+import BlockButtonProps from "./blocks/BlockButtonProps";
 import BlockHeaderProps from "./blocks/BlockHeaderProps";
 import type { ToolbarHandlers } from "./blocks/BlockToolbar";
 import { useRefresh } from "./context/RefreshContext";
@@ -33,6 +34,7 @@ export default function BlockProperties() {
 
   switch (block.blockType.type) {
     case "HEADER_BLOCK": return <BlockHeaderProps block={block} handlers={handlers} />
+    case "BUTTON_BLOCK": return <BlockButtonProps block={block} handlers={handlers} />
     default: return <div>Config for {block.blockType.name}</div>
   }
 }

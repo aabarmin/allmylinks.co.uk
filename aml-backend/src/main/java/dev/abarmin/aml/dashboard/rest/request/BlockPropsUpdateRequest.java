@@ -20,7 +20,7 @@ public record BlockPropsUpdateRequest(
   @JsonSubTypes({
     @JsonSubTypes.Type(value = HeaderBlockPropsResponse.class, name = "HEADER_BLOCK"),
     @JsonSubTypes.Type(value = AvatarBlockPropsResponse.class, name = "AVATAR_BLOCK"),
-    @JsonSubTypes.Type(value = LinkButtonBlockPropsResponse.class, name = "LINK_BUTTON_BLOCK"),
+    @JsonSubTypes.Type(value = LinkButtonBlockPropsResponse.class, name = "BUTTON_BLOCK"),
     @JsonSubTypes.Type(value = SocialNetworksBlockPropsResponse.class, name = "SOCIAL_NETWORKS_BLOCK")
   })
   BlockPropsResponse blockProps

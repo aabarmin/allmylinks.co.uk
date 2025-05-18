@@ -1,126 +1,71 @@
-import React from 'react';
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import BlockToolbar from './BlockToolbar';
+import { useEffect } from 'react';
+import { Col, Container, Form, Row } from 'react-bootstrap';
+import { useForm, type SubmitHandler } from 'react-hook-form';
+import type { BlockResponse } from '../model/BlockModel';
+import type { LinkButtonBlockProps } from '../model/LinkButtonBlockProps';
+import BlockToolbar, { type ToolbarHandlers } from './BlockToolbar';
 
-interface BlockButtonProps {
-    currentBlock: {
-        blockProps: {
-            text: string;
-            link: string;
-            size: string;
-            color: string;
-        };
-        blockType: {
-            type: string;
-        };
-        pageId: string;
-        blockId: string;
-    };
-    buttonSizes: { name: string; displayName: string }[];
-    buttonColors: { name: string; displayName: string }[];
-    errors?: {
-        text?: string;
-        link?: string;
-        size?: string;
-        color?: string;
-    };
+interface Props {
+  block: BlockResponse,
+  handlers: ToolbarHandlers
 }
 
-export default function BlockButtonProps({
-    currentBlock,
-    buttonSizes,
-    buttonColors,
-    errors,
-}: BlockButtonProps) {
-    const { blockProps, blockType, pageId, blockId } = currentBlock;
+export default function BlockButtonProps({ block, handlers }: Props) {
+  const props: LinkButtonBlockProps = block.blockProps as LinkButtonBlockProps;
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm<LinkButtonBlockProps>({})
+  const onSubmit: SubmitHandler<LinkButtonBlockProps> = (data) => handlers.onSave(block, data)
+  useEffect(() => {
+    setValue("text", props.text);
+    setValue("link", props.link);
+    setValue("size", props.size);
+    setValue("color", props.color);
+  }, [block, setValue]);
 
-    return (
-        <Form
-            action={`/private/dashboard/${pageId}/blocks/${blockId}`}
-            method="post"
-        >
-            <Form.Control type="hidden" name="type" value={blockType.type} />
-
-            <Container>
-                {/* Block Toolbar */}
-                <BlockToolbar block={currentBlock} />
-
-                <Row>
-                    <Col>
-                        {/* Text Field */}
-                        <Form.Group className="mb-3">
-                            <Form.Label htmlFor="buttonText">Text:</Form.Label>
-                            <Form.Control
-                                id="buttonText"
-                                name="text"
-                                type="text"
-                                defaultValue={blockProps.text}
-                                isInvalid={!!errors?.text}
-                                required
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                {errors?.text}
-                            </Form.Control.Feedback>
-                        </Form.Group>
-
-                        {/* Link Field */}
-                        <Form.Group className="mb-3">
-                            <Form.Label htmlFor="buttonLink">Link:</Form.Label>
-                            <Form.Control
-                                id="buttonLink"
-                                name="link"
-                                type="text"
-                                defaultValue={blockProps.link}
-                                isInvalid={!!errors?.link}
-                                required
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                {errors?.link}
-                            </Form.Control.Feedback>
-                        </Form.Group>
-
-                        {/* Size Dropdown */}
-                        <Form.Group className="mb-3">
-                            <Form.Label htmlFor="buttonSize">Size:</Form.Label>
-                            <Form.Select
-                                id="buttonSize"
-                                name="size"
-                                defaultValue={blockProps.size}
-                                isInvalid={!!errors?.size}
-                            >
-                                {buttonSizes.map((size) => (
-                                    <option key={size.name} value={size.name}>
-                                        {size.displayName}
-                                    </option>
-                                ))}
-                            </Form.Select>
-                            <Form.Control.Feedback type="invalid">
-                                {errors?.size}
-                            </Form.Control.Feedback>
-                        </Form.Group>
-
-                        {/* Color Dropdown */}
-                        <Form.Group className="mb-3">
-                            <Form.Label htmlFor="buttonColor">Color:</Form.Label>
-                            <Form.Select
-                                id="buttonColor"
-                                name="color"
-                                defaultValue={blockProps.color}
-                                isInvalid={!!errors?.color}
-                            >
-                                {buttonColors.map((color) => (
-                                    <option key={color.name} value={color.name}>
-                                        {color.displayName}
-                                    </option>
-                                ))}
-                            </Form.Select>
-                            <Form.Control.Feedback type="invalid">
-                                {errors?.color}
-                            </Form.Control.Feedback>
-                        </Form.Group>
-                    </Col>
-                </Row>
-            </Container>
-        </Form>
-    );
+  return (
+    <Form onSubmit={handleSubmit(onSubmit)} noValidate>
+      <BlockToolbar block={block} handlers={handlers} />
+      <Container>
+        <Col>
+          <Row>
+            <Form.Group>
+              <Form.Label>Text:</Form.Label>
+              <Form.Control {...register("text", { required: "Text is required" })} />
+            </Form.Group>
+          </Row>
+          <Row>
+            <Form.Group>
+              <Form.Label>Link:</Form.Label>
+              <Form.Control {...register("link", { required: "Link is required" })} />
+            </Form.Group>
+          </Row>
+          <Row>
+            <Form.Group>
+              <Form.Label>Size:</Form.Label>
+              <Form.Select {...register("size")}>
+                <option value="NORMAL">Normal</option>
+                <option value="SMALL">Small</option>
+                <option value="LARGE">Large</option>
+              </Form.Select>
+            </Form.Group>
+          </Row>
+          <Row>
+            <Form.Group>
+              <Form.Label>Color:</Form.Label>
+              <Form.Select {...register("color")}>
+                <option value="BLUE">Blue</option>
+                <option value="GRAY">Gray</option>
+                <option value="GREEN">Green</option>
+                <option value="RED">Red</option>
+                <option value="YELLOW">Yellow</option>
+                <option value="LIGHT_BLUE">Light Blue</option>
+                <option value="LIGHT_GREY">Light Grey</option>
+                <option value="DARK">Dark</option>
+                <option value="REGULAR">Regular</option>
+              </Form.Select>
+            </Form.Group>
+          </Row>
+        </Col>
+      </Container>
+    </Form>
+  );
 }
