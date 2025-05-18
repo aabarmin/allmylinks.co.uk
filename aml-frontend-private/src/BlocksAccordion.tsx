@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { Accordion, Col, Container, Row } from 'react-bootstrap';
 import BlocksList from './BlocksList';
 import BlocksOnPage from './BlocksOnPage';
@@ -13,6 +13,10 @@ interface Props {
 
 export default function BlocksAccordion({ availableBlocks, currentPage }: Props) {
   const { refresh } = useRefresh();
+  const [active, setActive] = useState("0");
+  const onSectionSelect = useCallback((e: string) => {
+    setActive(e);
+  }, [setActive]);
   const onBlockAdded = useCallback(() => {
     refresh();
   }, []);
@@ -21,7 +25,10 @@ export default function BlocksAccordion({ availableBlocks, currentPage }: Props)
     <Container>
       <Row>
         <Col>
-          <Accordion defaultActiveKey="0" id="blocks-accordion">
+          <Accordion
+            defaultActiveKey={active}
+            onSelect={(e) => onSectionSelect(e)}
+          >
             <Accordion.Item eventKey="0">
               <Accordion.Header>Blocks</Accordion.Header>
               <Accordion.Body>
