@@ -1,124 +1,77 @@
-import React from 'react';
-import { Form, Container, Row, Col, Button, Table } from 'react-bootstrap';
-import BlockToolbar from './BlockToolbar';
+import { useCallback, useEffect } from 'react';
+import { Button, Col, Container, Form, Row, Table } from 'react-bootstrap';
+import { Trash } from 'react-bootstrap-icons';
+import { useFieldArray, useForm, type SubmitHandler } from 'react-hook-form';
+import type { BlockResponse } from '../model/BlockModel';
+import type { SocialNetworksBlockProps } from '../model/SocialNetworksBlockProps';
+import BlockToolbar, { type ToolbarHandlers } from './BlockToolbar';
 
-interface SocialLink {
-    url: string;
-    network: string;
+interface Props {
+  block: BlockResponse,
+  handlers: ToolbarHandlers
 }
 
-interface BlockSocialNetworksProps {
-    currentBlock: {
-        blockProps: {
-            links: SocialLink[];
-        };
-        blockType: {
-            type: string;
-        };
-        pageId: string;
-        blockId: string;
-    };
-    socialNetworks: { name: string }[];
-    errors?: {
-        links?: { network?: string; url?: string }[];
-    };
-    onAddNetwork: () => void;
-    onRemoveNetwork: (index: number) => void;
-}
+export default function BlockSocialNetworksProps({ block, handlers }: Props) {
+  const props: SocialNetworksBlockProps = block.blockProps as SocialNetworksBlockProps;
+  const { register, handleSubmit, formState: { errors }, setValue, control } = useForm<SocialNetworksBlockProps>({})
+  const { fields, append, remove } = useFieldArray({
+    name: "links",
+    control
+  })
+  const onSubmit: SubmitHandler<SocialNetworksBlockProps> = (data) => handlers.onSave(block, data)
+  const onAddClick = useCallback(() => {
+    append({ url: "", network: "FACEBOOK" });
+  }, [append]);
+  const onRemoveClick = useCallback((index: number) => {
+    remove(index);
+  }, [remove]);
+  useEffect(() => {
+    setValue("links", props.links)
+  }, [block]);
 
-export default function BlockSocialNetworksProps({
-    currentBlock,
-    socialNetworks,
-    errors,
-    onAddNetwork,
-    onRemoveNetwork,
-}: BlockSocialNetworksProps) {
-    const { blockProps, blockType, pageId, blockId } = currentBlock;
-
-    return (
-        <Form
-            action={`/private/dashboard/${pageId}/blocks/${blockId}`}
-            method="post"
-        >
-            <Form.Control type="hidden" name="type" value={blockType.type} />
-
-            <Container>
-                {/* Block Toolbar */}
-                <BlockToolbar block={currentBlock} />
-
-                <Row className="mb-3">
-                    <Col className="d-grid">
-                        <Button
-                            variant="primary"
-                            onClick={onAddNetwork}
-                            type="button"
-                        >
-                            Add social network
-                        </Button>
-                    </Col>
-                </Row>
-
-                <Row>
-                    <Col>
-                        <Table>
-                            <tbody>
-                                {blockProps.links.map((link, index) => (
-                                    <tr key={index}>
-                                        <td>
-                                            <Form.Group>
-                                                <Form.Select
-                                                    name={`blockProps.links[${index}].network`}
-                                                    defaultValue={link.network}
-                                                    isInvalid={
-                                                        !!errors?.links?.[index]?.network
-                                                    }
-                                                >
-                                                    {socialNetworks.map((sn) => (
-                                                        <option
-                                                            key={sn.name}
-                                                            value={sn.name}
-                                                        >
-                                                            {sn.name}
-                                                        </option>
-                                                    ))}
-                                                </Form.Select>
-                                                <Form.Control.Feedback type="invalid">
-                                                    {errors?.links?.[index]?.network}
-                                                </Form.Control.Feedback>
-                                            </Form.Group>
-                                        </td>
-                                        <td>
-                                            <Form.Group>
-                                                <Form.Control
-                                                    type="text"
-                                                    name={`blockProps.links[${index}].url`}
-                                                    defaultValue={link.url}
-                                                    isInvalid={
-                                                        !!errors?.links?.[index]?.url
-                                                    }
-                                                    required
-                                                />
-                                                <Form.Control.Feedback type="invalid">
-                                                    {errors?.links?.[index]?.url}
-                                                </Form.Control.Feedback>
-                                            </Form.Group>
-                                        </td>
-                                        <td>
-                                            <Button
-                                                variant="danger"
-                                                onClick={() => onRemoveNetwork(index)}
-                                                type="button"
-                                            >
-                                                <i className="bi bi-trash"></i>
-                                            </Button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </Table>
-                    </Col>
-                </Row>
-            </Container>
-        </Form>
-    );
+  return (
+    <Form onSubmit={handleSubmit(onSubmit)} noValidate>
+      <BlockToolbar block={block} handlers={handlers} />
+      <Container>
+        <Row>
+          <Col className='d-grid'>
+            <Button onClick={() => onAddClick()}>
+              Add social network
+            </Button>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Table>
+              <tbody>
+                {fields.map((_, index) => (
+                  <tr key={index}>
+                    <td>
+                      <Form.Select {...register(`links.${index}.network`)}>
+                        <option value="FACEBOOK">Facebook</option>
+                        <option value="TWITTER">Twitter</option>
+                        <option value="X">X</option>
+                        <option value="Instagram">Instagram</option>
+                      </Form.Select>
+                    </td>
+                    <td>
+                      <Form.Control {...register(`links.${index}.url`)} />
+                    </td>
+                    <td>
+                      <Button
+                        variant='danger'
+                        onClick={() => onRemoveClick(index)}
+                      >
+                        <Trash />
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </Col>
+        </Row>
+      </Container>
+    </Form>
+  );
 }

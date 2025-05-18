@@ -8,6 +8,7 @@ export default defineConfig({
     proxy: {
       '/private': 'http://localhost:8080',
       '/img': 'http://localhost:8080',
+      '/file': 'http://localhost:8080',
     }
   }
 })
