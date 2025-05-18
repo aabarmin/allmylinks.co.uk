@@ -1,12 +1,12 @@
 package dev.abarmin.aml.dashboard;
 
 import dev.abarmin.aml.config.AppConfiguration;
-import dev.abarmin.aml.dashboard.block.avatar.AvatarBlockProps;
-import dev.abarmin.aml.dashboard.block.button.LinkButtonBlockProps;
-import dev.abarmin.aml.dashboard.block.header.HeaderBlockProps;
+import dev.abarmin.aml.dashboard.domain.AvatarBlockProps;
+import dev.abarmin.aml.dashboard.domain.LinkButtonBlockProps;
+import dev.abarmin.aml.dashboard.domain.HeaderBlockProps;
 import dev.abarmin.aml.dashboard.block.header.HeaderLevel;
 import dev.abarmin.aml.dashboard.block.header.TextAlignment;
-import dev.abarmin.aml.dashboard.block.social.SocialNetworksBlockProps;
+import dev.abarmin.aml.dashboard.domain.SocialNetworksBlockProps;
 import dev.abarmin.aml.dashboard.domain.Block;
 import dev.abarmin.aml.dashboard.domain.BlockProps;
 import dev.abarmin.aml.dashboard.domain.BlockType;

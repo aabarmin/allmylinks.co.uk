@@ -1,6 +1,6 @@
-package dev.abarmin.aml.dashboard.block.social;
+package dev.abarmin.aml.dashboard.domain;
 
-import dev.abarmin.aml.dashboard.domain.BlockProps;
+import dev.abarmin.aml.dashboard.block.social.SocialNetworkLink;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

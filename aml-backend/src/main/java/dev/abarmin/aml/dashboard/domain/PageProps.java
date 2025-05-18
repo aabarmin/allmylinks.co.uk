@@ -7,5 +7,5 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonSubTypes({
   @JsonSubTypes.Type(value = BasicPageProps.class, name = "BASIC_PAGE")
 })
-public interface PageProps {
+public sealed interface PageProps permits BasicPageProps {
 }

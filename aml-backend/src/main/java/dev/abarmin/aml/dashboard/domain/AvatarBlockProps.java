@@ -1,7 +1,6 @@
-package dev.abarmin.aml.dashboard.block.avatar;
+package dev.abarmin.aml.dashboard.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import dev.abarmin.aml.dashboard.domain.BlockProps;
 import dev.abarmin.aml.file.FileId;
 import dev.abarmin.aml.file.FileService;
 import lombok.AllArgsConstructor;

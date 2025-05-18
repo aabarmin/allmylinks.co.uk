@@ -1,10 +1,10 @@
 import { Button, Col, Container, Dropdown, Row } from 'react-bootstrap';
 import { ArrowDown, ArrowUp, Gear, Trash } from 'react-bootstrap-icons';
 import { NavLink } from 'react-router';
-import type { BlockResponse } from '../model/BlockModel';
+import type { BlockPropsTypes, BlockResponse } from '../model/BlockModel';
 
 export interface ToolbarHandlers {
-  onSave: () => void;
+  onSave: (block: BlockResponse, props: BlockPropsTypes) => void;
   onMoveUp: () => void;
   onMoveDown: () => void;
   onDelete: () => void;
@@ -28,7 +28,7 @@ export default function BlockToolbar({ block, handlers }: Props) {
           </NavLink>
           &nbsp;
           <Button
-            onClick={() => handlers.onSave()}
+            type='submit'
             variant='outline-primary'
           >
             Save

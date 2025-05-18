@@ -2,46 +2,47 @@ import { useCallback } from 'react';
 import { Accordion, Col, Container, Row } from 'react-bootstrap';
 import BlocksList from './BlocksList';
 import BlocksOnPage from './BlocksOnPage';
+import { useRefresh } from './context/RefreshContext';
 import type { BlockTypeModel } from './model/BlockTypeModel';
 import type { PageModel } from './model/PageModel';
 
 interface Props {
-    availableBlocks: BlockTypeModel[];
-    currentPage: PageModel;
-    onModelChanged: () => void
+  availableBlocks: BlockTypeModel[];
+  currentPage: PageModel;
 }
 
-export default function BlocksAccordion({ availableBlocks, currentPage, onModelChanged }: Props) {
-    const onBlockAdded = useCallback(() => {
-        onModelChanged();
-    }, []);
+export default function BlocksAccordion({ availableBlocks, currentPage }: Props) {
+  const { refresh } = useRefresh();
+  const onBlockAdded = useCallback(() => {
+    refresh();
+  }, []);
 
-    return (
-        <Container>
-            <Row>
-                <Col>
-                    <Accordion defaultActiveKey="0" id="blocks-accordion">
-                        <Accordion.Item eventKey="0">
-                            <Accordion.Header>Blocks</Accordion.Header>
-                            <Accordion.Body>
-                                <BlocksList
-                                    availableBlocks={availableBlocks}
-                                    currentPage={currentPage}
-                                    onBlockAdded={onBlockAdded}
-                                />
-                            </Accordion.Body>
-                        </Accordion.Item>
-                        <Accordion.Item eventKey="1">
-                            <Accordion.Header>Page Blocks</Accordion.Header>
-                            <Accordion.Body>
-                                <BlocksOnPage
-                                    currentPage={currentPage}
-                                />
-                            </Accordion.Body>
-                        </Accordion.Item>
-                    </Accordion>
-                </Col>
-            </Row>
-        </Container>
-    );
+  return (
+    <Container>
+      <Row>
+        <Col>
+          <Accordion defaultActiveKey="0" id="blocks-accordion">
+            <Accordion.Item eventKey="0">
+              <Accordion.Header>Blocks</Accordion.Header>
+              <Accordion.Body>
+                <BlocksList
+                  availableBlocks={availableBlocks}
+                  currentPage={currentPage}
+                  onBlockAdded={onBlockAdded}
+                />
+              </Accordion.Body>
+            </Accordion.Item>
+            <Accordion.Item eventKey="1">
+              <Accordion.Header>Page Blocks</Accordion.Header>
+              <Accordion.Body>
+                <BlocksOnPage
+                  currentPage={currentPage}
+                />
+              </Accordion.Body>
+            </Accordion.Item>
+          </Accordion>
+        </Col>
+      </Row>
+    </Container>
+  );
 }

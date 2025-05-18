@@ -10,7 +10,7 @@ import java.util.Map;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BasicPageProps implements PageProps {
+public final class BasicPageProps implements PageProps {
   private String backgroundColor = "#ffffff";
 
   @JsonIgnore

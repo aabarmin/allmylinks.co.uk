@@ -2,10 +2,6 @@ package dev.abarmin.aml.dashboard.domain;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import dev.abarmin.aml.dashboard.block.avatar.AvatarBlockProps;
-import dev.abarmin.aml.dashboard.block.button.LinkButtonBlockProps;
-import dev.abarmin.aml.dashboard.block.header.HeaderBlockProps;
-import dev.abarmin.aml.dashboard.block.social.SocialNetworksBlockProps;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({
@@ -14,6 +10,11 @@ import dev.abarmin.aml.dashboard.block.social.SocialNetworksBlockProps;
   @JsonSubTypes.Type(value = AvatarBlockProps.class, name = "AVATAR_BLOCK"),
   @JsonSubTypes.Type(value = SocialNetworksBlockProps.class, name = "SOCIAL_NETWORKS_BLOCK")
 })
-public interface BlockProps {
+public sealed interface BlockProps permits
+  HeaderBlockProps,
+  LinkButtonBlockProps,
+  AvatarBlockProps,
+  SocialNetworksBlockProps {
+
   
 }

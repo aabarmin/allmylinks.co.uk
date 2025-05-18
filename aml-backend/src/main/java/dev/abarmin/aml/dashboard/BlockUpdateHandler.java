@@ -1,8 +1,8 @@
 package dev.abarmin.aml.dashboard;
 
-import dev.abarmin.aml.dashboard.block.avatar.AvatarBlockProps;
+import dev.abarmin.aml.dashboard.domain.AvatarBlockProps;
 import dev.abarmin.aml.dashboard.block.social.SocialNetworkLink;
-import dev.abarmin.aml.dashboard.block.social.SocialNetworksBlockProps;
+import dev.abarmin.aml.dashboard.domain.SocialNetworksBlockProps;
 import dev.abarmin.aml.dashboard.converter.BlockConverter;
 import dev.abarmin.aml.dashboard.converter.DashboardModelConverter;
 import dev.abarmin.aml.dashboard.domain.Block;

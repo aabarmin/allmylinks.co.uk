@@ -1,12 +1,19 @@
 import { useLoaderData } from "react-router";
 import BlockHeaderProps from "./blocks/BlockHeaderProps";
 import type { ToolbarHandlers } from "./blocks/BlockToolbar";
+import { useRefresh } from "./context/RefreshContext";
 import type { BlockResponse } from "./model/BlockModel";
+import { updateBlockProperties } from "./service/BlockService";
 
 export default function BlockProperties() {
   const block: BlockResponse = useLoaderData();
+  const { refresh } = useRefresh();
   const handlers: ToolbarHandlers = {
-    onSave: () => { debugger },
+    onSave: (block, props) => {
+      updateBlockProperties(block, props).then(result => {
+        refresh();
+      })
+    },
     onDelete: () => { debugger },
     onMoveUp: () => { debugger },
     onMoveDown: () => { debugger },

@@ -5,12 +5,14 @@ import BlocksAccordion from "./BlocksAccordion";
 import DashboardPreview from "./DashboardPreview";
 import Divider from "./Divider";
 import UserLinkPreview from "./UserLinkPreview";
+import { useRefresh } from "./context/RefreshContext";
 import { DashboardModel } from "./model/DashboardModel";
 import { getDashboard } from "./service/DashboardService";
 
 export default function DashboardPane() {
   const [loading, setLoading] = useState<boolean>(true);
   const [dashboard, setDashboard] = useState<DashboardModel | undefined>(undefined);
+  const { refresh } = useRefresh();
 
   const reloadDashboard = useCallback(() => {
     setLoading(true);
@@ -19,13 +21,9 @@ export default function DashboardPane() {
       setLoading(false);
     });
   }, [setLoading, setDashboard]);
-  const onModelChanged = useCallback(() => {
-    reloadDashboard();
-  }, []);
-
   useEffect(() => {
     reloadDashboard();
-  }, [reloadDashboard]);
+  }, [refresh, reloadDashboard]);
 
   if (loading) {
     return (
@@ -47,7 +45,6 @@ export default function DashboardPane() {
           <BlocksAccordion
             availableBlocks={model.availableBlocks}
             currentPage={model.currentPage}
-            onModelChanged={onModelChanged}
           />
         </Col>
         <Col md={5}>

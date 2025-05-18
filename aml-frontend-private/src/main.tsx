@@ -6,6 +6,7 @@ import {
   RouterProvider
 } from "react-router";
 import BlockProperties from './BlockProperties';
+import { RefreshProvider } from './context/RefreshContext';
 import DashboardLayout from './DashboardLayout';
 import DashboardPane from './DashboardPane';
 import './main.css';
@@ -37,6 +38,8 @@ const router = createHashRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <RefreshProvider>
+      <RouterProvider router={router} />
+    </RefreshProvider>
   </StrictMode>,
 )
