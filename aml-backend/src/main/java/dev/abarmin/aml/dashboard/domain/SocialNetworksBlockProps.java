@@ -1,6 +1,6 @@
-package dev.abarmin.aml.dashboard.block.social;
+package dev.abarmin.aml.dashboard.domain;
 
-import dev.abarmin.aml.dashboard.domain.BlockProps;
+import dev.abarmin.aml.dashboard.block.social.SocialNetworkLink;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SocialNetworksBlockProps implements BlockProps {
+public final class SocialNetworksBlockProps implements BlockProps {
   @Valid
   @Builder.Default
   private List<SocialNetworkLink> links = new ArrayList<>();

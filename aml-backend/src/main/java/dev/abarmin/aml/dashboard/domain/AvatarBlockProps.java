@@ -1,7 +1,6 @@
-package dev.abarmin.aml.dashboard.block.avatar;
+package dev.abarmin.aml.dashboard.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import dev.abarmin.aml.dashboard.domain.BlockProps;
 import dev.abarmin.aml.file.FileId;
 import dev.abarmin.aml.file.FileService;
 import lombok.AllArgsConstructor;
@@ -16,7 +15,7 @@ import java.util.Objects;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AvatarBlockProps implements BlockProps {
+public final class AvatarBlockProps implements BlockProps {
   public static final FileId DEFAULT_AVATAR = FileId.resource("/img/avatar_placeholder.png");
 
   private FileId avatarId;

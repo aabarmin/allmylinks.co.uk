@@ -63,6 +63,7 @@ public class SecurityConfiguration {
         .loginPage("/login")
         .successHandler(successOAuth2LoginHandler)
       )
+      .csrf(csrf -> csrf.ignoringRequestMatchers("/private/api/**"))
       .build();
   }
 

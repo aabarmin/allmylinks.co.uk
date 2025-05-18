@@ -14,6 +14,7 @@ import static dev.abarmin.aml.dashboard.converter.BlockOrderUtils.isLast;
 import static java.util.function.Predicate.not;
 
 @Component
+@Deprecated
 @RequiredArgsConstructor
 public class BlockConverter {
   private final BlockTypeConverter typeConverter;

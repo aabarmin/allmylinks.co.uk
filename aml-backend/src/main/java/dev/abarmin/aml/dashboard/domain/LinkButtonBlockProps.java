@@ -1,6 +1,7 @@
-package dev.abarmin.aml.dashboard.block.button;
+package dev.abarmin.aml.dashboard.domain;
 
-import dev.abarmin.aml.dashboard.domain.BlockProps;
+import dev.abarmin.aml.dashboard.block.button.LinkButtonColor;
+import dev.abarmin.aml.dashboard.block.button.LinkButtonSize;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import org.hibernate.validator.constraints.URL;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LinkButtonBlockProps implements BlockProps {
+public final class LinkButtonBlockProps implements BlockProps {
   public static final String DEFAULT_TEXT = "All my links page";
 
   @NotEmpty
