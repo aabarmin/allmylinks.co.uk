@@ -1,0 +1,57 @@
+plugins {
+    id 'java-library'
+    id 'idea'
+    id 'org.springframework.boot' version '3.4.0'
+    id 'io.spring.dependency-management' version '1.1.6'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+springBoot {
+    bootJar {
+        enabled = false
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://jitpack.io'
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+    implementation project(':aml-common')
+
+    implementation 'org.apache.commons:commons-lang3:3.17.0'
+    implementation 'com.google.guava:guava:33.3.1-jre'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.18.3'
+    implementation 'com.github.kenglxn.QRGen:javase:3.0.1'
+
+    'org.projectlombok:lombok'.with {
+        compileOnly it
+        testCompileOnly it
+        annotationProcessor it
+        testAnnotationProcessor it
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

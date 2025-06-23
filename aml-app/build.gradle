@@ -1,0 +1,97 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'org.springframework.boot' version '3.4.0'
+    id 'io.spring.dependency-management' version '1.1.6'
+}
+
+group = 'dev.abarmin'
+version = getProjectVersion()
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://jitpack.io'
+    }
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+
+    implementation project(':aml-public')
+    implementation project(':aml-dashboard')
+    implementation project(':aml-backoffice')
+    implementation project(':aml-common')
+
+    implementation 'com.google.guava:guava:33.3.1-jre'
+    implementation 'org.apache.commons:commons-lang3:3.17.0'
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+    implementation "org.webjars.npm:jquery:3.7.1"
+    implementation "org.webjars.npm:bootstrap:5.3.3"
+    implementation 'org.webjars.npm:bootstrap-icons:1.11.3'
+    implementation 'org.webjars.npm:htmx.org:2.0.3'
+
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    implementation 'org.flywaydb:flyway-core'
+    implementation 'org.flywaydb:flyway-database-postgresql'
+
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    'org.projectlombok:lombok'.with {
+        compileOnly it
+        testCompileOnly it
+        annotationProcessor it
+        testAnnotationProcessor it
+    }
+}
+
+def getCurrentGitBranch() {
+    def gitBranch = "Unknown branch"
+    try {
+        def workingDir = new File("${project.projectDir}")
+        def result = 'git rev-parse --abbrev-ref HEAD'.execute(null, workingDir)
+        result.waitFor()
+        if (result.exitValue() == 0) {
+            gitBranch = result.text.trim()
+        }
+    } catch (e) {
+        logger.error("Failed to determine the current Git branch", e)
+    }
+    return gitBranch
+}
+
+def getProjectVersion() {
+    return getCurrentGitBranch() == 'main' ?
+            project.version :
+            project.version + '-SNAPSHOT';
+}
+
+tasks.register('addProjectVersion'){
+    doLast {
+        new File(projectDir, 'src/main/resources/version.properties').withWriter { writer ->
+            writer.write("version=${project.version}")
+        }
+    }
+}
+
+tasks.named('processResources') {
+    dependsOn 'addProjectVersion'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

@@ -1,0 +1,48 @@
+plugins {
+    id 'java-library'
+    id 'idea'
+    id 'org.springframework.boot' version '3.4.0'
+    id 'io.spring.dependency-management' version '1.1.6'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+springBoot {
+    bootJar {
+        enabled = false
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+
+    implementation project(':aml-common')
+    implementation project(':aml-dashboard')
+    implementation project(':aml-public')
+
+    'org.projectlombok:lombok'.with {
+        compileOnly it
+        testCompileOnly it
+        annotationProcessor it
+        testAnnotationProcessor it
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
