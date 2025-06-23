@@ -1,3 +1,7 @@
+# 0.1.0
+
+* Split the project into a collection of Gradle modules.
+
 # 0.0.30
 
 * Added Gradle modules so the frontend can be written in JS. 
