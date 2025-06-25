@@ -55,7 +55,7 @@ jobs:
 
       - name: Rename the artifact
         run: |
-          rm -rf aml-backend/build/libs/*-plain.jar
+          rm -rf aml-app/build/libs/*-plain.jar
           mv aml-app/build/libs/*.jar aml-app/build/libs/app.jar
 
       - name: Upload Artifact
