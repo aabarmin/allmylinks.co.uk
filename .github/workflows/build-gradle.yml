@@ -95,7 +95,7 @@ jobs:
 
       - name: Start the app
         run: |
-          ./gradlew :aml-app:bootRun &> ./output.logs &
+          ./gradlew :aml-app:bootRun --no-daemon &> ./output.logs &
           echo $! > app.pid
 
       - name: Wait for app to start
