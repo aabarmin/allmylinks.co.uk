@@ -95,11 +95,10 @@ jobs:
 
       - name: Start the app
         run: |
+          echo "Starting the app"
           ./gradlew :aml-app:bootRun --no-daemon &> ./output.logs &
           echo $! > app.pid
-
-      - name: Wait for app to start
-        run: |
+          
           echo "Waiting for http://localhost:8080/actuator/health..."
           for i in {1..30}; do
             if curl -s http://localhost:8080/actuator/health | grep -q '"status":"UP"'; then
@@ -111,7 +110,7 @@ jobs:
             sleep 1
           done
           echo "App did not start in time"
-          exit 1          
+          exit 1
 
       - name: Stop the app
         run: |
