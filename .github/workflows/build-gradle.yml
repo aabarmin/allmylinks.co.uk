@@ -109,7 +109,17 @@ jobs:
             sleep 1
           done
           echo "App did not start in time"
-          exit 1          
+          exit 1
+      - name: Run e2e tests
+        run: |
+          ./gradlew :aml-e2e:test
+      - name: "Store test results - aml-app"
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: "E2E Test Reports"
+          path: aml-e2e/build/reports
+          retention-days: 7
 
   get-version:
     name: "Get version"
