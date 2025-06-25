@@ -95,13 +95,15 @@ jobs:
 
       - name: Start the app
         run: |
-          gradle :aml-app:bootRun &> ./output.logs &
+          ./gradlew :aml-app:bootRun &> ./output.logs &
           echo $! > app.pid
+          echo "------ The app start logs -----"
+          cat ./output.logs
 
       - name: Wait for app to start
         run: |
           echo "Waiting for http://localhost:8080/actuator/health..."
-          for i in {1..10}; do
+          for i in {1..30}; do
             if curl -s http://localhost:8080/actuator/health | grep -q '"status":"UP"'; then
               echo "App is up!"
               exit 0
