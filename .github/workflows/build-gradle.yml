@@ -80,6 +80,11 @@ jobs:
           POSTGRES_DB: aml
         ports:
           - 15432:5432
+      mail:
+        image: rnwood/smtp4dev
+        ports:
+          - 5000:80
+          - 2525:25
 
     steps:
       - uses: actions/checkout@v4
