@@ -43,6 +43,7 @@ public class SecurityConfiguration {
         .requestMatchers("/css/**").permitAll()
         .requestMatchers("/js/**").permitAll()
         .requestMatchers("/oauth2/**").permitAll()
+        .requestMatchers("/actuator/**").permitAll()
 
         .requestMatchers("/pricing").permitAll()
         .requestMatchers("/legal/**").permitAll()

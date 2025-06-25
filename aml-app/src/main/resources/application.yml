@@ -21,6 +21,15 @@ spring:
             client-secret: ${AUTH_GOOGLE_CLIENT_SECRET}
             redirect-uri: ${aml.base-url}/login/oauth2/code/google
 
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: health
+
 aml:
   base-url: http://localhost:8080
   mail-service:
