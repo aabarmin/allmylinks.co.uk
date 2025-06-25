@@ -95,7 +95,7 @@ jobs:
 
       - name: Start the app
         run: |
-          ./gradlew :aml-app:bootRun &
+          ./gradlew :aml-app:bootRun &> ./output.logs &
           echo $! > app.pid
 
       - name: Wait for app to start
@@ -110,7 +110,7 @@ jobs:
             sleep 1
           done
           echo "App did not start in time"
-          cat ./logs/spring.log
+          cat ./output.logs
           exit 1          
 
       - name: Stop the app
