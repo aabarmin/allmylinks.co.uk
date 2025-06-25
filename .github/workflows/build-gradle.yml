@@ -93,6 +93,34 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
 
+      - name: Start the app
+        run: |
+          ./gradlew :aml-app:bootRun &
+          echo $! > app.pid
+
+      - name: Wait for app to start
+        run: |
+          echo "Waiting for http://localhost:8080/actuator/health..."
+          for i in {1..5}; do
+            if curl -s http://localhost:8080/actuator/health | grep -q '"status":"UP"'; then
+              echo "App is up!"
+              exit 0
+            fi
+            echo "Still waiting..."
+            sleep 1
+          done
+          echo "App did not start in time"
+          exit 1          
+
+      - name: Stop the app
+        run: |
+          if [ -f app.pid ]; then
+            echo "Stopping app with PID $(cat app.pid)"
+            kill $(cat app.pid)
+          else
+            echo "No PID file found"
+          fi
+
   get-version:
     name: "Get version"
     runs-on: ubuntu-latest
