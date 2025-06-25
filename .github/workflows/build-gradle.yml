@@ -105,14 +105,13 @@ jobs:
               exit 0
             fi
             echo "Still waiting..."
-            tail ./logs/spring.log
             sleep 1
           done
           echo "App did not start in time"
           exit 1
       - name: Run e2e tests
         run: |
-          ./gradlew :aml-e2e:test
+          ./gradlew :aml-e2e:test -Dselenide.headless=true
       - name: "Store test results - aml-app"
         uses: actions/upload-artifact@v4
         if: always()
