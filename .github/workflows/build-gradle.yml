@@ -97,8 +97,6 @@ jobs:
         run: |
           ./gradlew :aml-app:bootRun &> ./output.logs &
           echo $! > app.pid
-          echo "------ The app start logs -----"
-          cat ./output.logs
 
       - name: Wait for app to start
         run: |
@@ -109,10 +107,10 @@ jobs:
               exit 0
             fi
             echo "Still waiting..."
+            tail ./output.logs
             sleep 1
           done
           echo "App did not start in time"
-          cat ./output.logs
           exit 1          
 
       - name: Stop the app
