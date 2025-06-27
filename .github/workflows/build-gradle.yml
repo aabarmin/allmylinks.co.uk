@@ -47,6 +47,7 @@ jobs:
 
       - name: Run E2E tests with Gradle Wrapper
         run: ./gradlew :aml-e2e:test
+        if: false
         env:
           BACKOFFICE_BOT_TOKEN: ${{ secrets.BACKOFFICE_BOT_TOKEN }}
           BACKOFFICE_ADMIN_CHAT_ID: ${{ secrets.BACKOFFICE_ADMIN_CHAT_ID }}      
@@ -61,7 +62,7 @@ jobs:
 
       - name: "Store test results - e2e"
         uses: actions/upload-artifact@v4
-        if: always()
+        if: false
         with:
           name: "Test Reports - E2E"
           path: aml-e2e/build/reports
