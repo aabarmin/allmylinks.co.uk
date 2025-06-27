@@ -101,13 +101,14 @@ jobs:
       - name: Run the app
         run: |
           java -jar ./app.jar &
-      - name: Waiting for app to start
+      - name: Waiting for app to start and run tests
         run: |
           echo "Waiting for http://localhost:8080/actuator/health..."
           for i in {1..5}; do
             STATUS=$(curl -s http://localhost:8080/actuator/health | jq -r '.status')
             if [ "${STATUS}" == "UP" ]; then
               echo "App is up!"
+              ./gradlew :aml-e2e:test -Dselenide.headless=true
               exit 0
             fi
             echo "Still waiting..."
@@ -115,10 +116,6 @@ jobs:
           done
           echo "App did not start in time"
           exit 1
-      - name: Run e2e tests
-        run: |
-          curl -s http://localhost:8080/actuator/health
-          ./gradlew :aml-e2e:test -Dselenide.headless=true
       - name: "Store test results - aml-app"
         uses: actions/upload-artifact@v4
         if: always()
