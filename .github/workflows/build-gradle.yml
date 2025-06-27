@@ -40,7 +40,7 @@ jobs:
         uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
 
       - name: Build with Gradle Wrapper
-        run: ./gradlew build -x :aml-e2e:test
+        run: ./gradlew build
         env:
           BACKOFFICE_BOT_TOKEN: ${{ secrets.BACKOFFICE_BOT_TOKEN }}
           BACKOFFICE_ADMIN_CHAT_ID: ${{ secrets.BACKOFFICE_ADMIN_CHAT_ID }}
@@ -54,11 +54,13 @@ jobs:
           retention-days: 7
 
       - name: Rename the artifact
+        if: ${{ github.ref == 'refs/heads/main' }}
         run: |
           rm -rf aml-app/build/libs/*-plain.jar
           mv aml-app/build/libs/*.jar aml-app/build/libs/app.jar
 
       - name: Upload Artifact
+        if: ${{ github.ref == 'refs/heads/main' }}
         uses: actions/upload-artifact@v4
         with:
           name: artifact
