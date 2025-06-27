@@ -13,7 +13,7 @@ import static com.codeborne.selenide.Selenide.open;
 import static dev.abarmin.aml.e2e.Constants.REGISTRATION_URL;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class RegistrationTest {
+public class RegistrationTest extends BaseE2ETest {
 
   @Test
   void registration_shouldRegisterAndLogicSuccessfully() {

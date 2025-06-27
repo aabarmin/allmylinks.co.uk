@@ -25,6 +25,8 @@ springBoot {
 }
 
 dependencies {
+    implementation project(":aml-app")
+
     testImplementation 'com.codeborne:selenide:7.9.3'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
