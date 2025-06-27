@@ -104,7 +104,7 @@ jobs:
           java -jar ./app.jar &
 
           echo "Waiting for http://localhost:8080/actuator/health..."
-          for i in {1..5}; do
+          for i in {1..15}; do
             STATUS=$(curl -s http://localhost:8080/actuator/health | jq -r '.status')
             if [ "${STATUS}" == "UP" ]; then
               echo "App is up!"
