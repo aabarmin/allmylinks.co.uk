@@ -55,7 +55,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: "Test Reports"
+          name: "Test Reports - APP"
           path: aml-app/build/reports
           retention-days: 7
 
@@ -63,7 +63,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: "Test Reports"
+          name: "Test Reports - E2E"
           path: aml-e2e/build/reports
           retention-days: 7          
 
