@@ -98,16 +98,17 @@ jobs:
         with:
           name: artifact
           path: .
-      - name: Run the app
-        run: |
-          java -jar ./app.jar &
       - name: Waiting for app to start and run tests
         run: |
+          echo "Start the app"
+          java -jar ./app.jar &
+
           echo "Waiting for http://localhost:8080/actuator/health..."
           for i in {1..5}; do
             STATUS=$(curl -s http://localhost:8080/actuator/health | jq -r '.status')
             if [ "${STATUS}" == "UP" ]; then
               echo "App is up!"
+              echo "Running tests"
               ./gradlew :aml-e2e:test -Dselenide.headless=true
               exit 0
             fi
