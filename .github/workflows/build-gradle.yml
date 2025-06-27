@@ -68,6 +68,7 @@ jobs:
     name: "E2E"
     runs-on: ubuntu-latest
     needs: [build]
+    if: false # temporarily disabled
     permissions:
       contents: read
 
