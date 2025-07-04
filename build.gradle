@@ -114,12 +114,6 @@ tasks.register('e2e-test', Test) {
     shouldRunAfter 'test'
 
     useJUnitPlatform()
-
-    doFirst {
-        if (System.getenv("CI")) {
-            environment 'JAVA_OPTS', '-Dheadless=true'
-        }
-    }
 }
 
 def getCurrentGitBranch() {

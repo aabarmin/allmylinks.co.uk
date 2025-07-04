@@ -1,6 +1,5 @@
 package dev.abarmin.aml.e2e.scenario;
 
-import dev.abarmin.aml.BaseIntegrationTest;
 import dev.abarmin.aml.e2e.fixture.RegistrationFormFixture;
 import dev.abarmin.aml.e2e.page.dashboard.DashboardPage;
 import dev.abarmin.aml.e2e.page.login.LoginForm;
@@ -9,16 +8,12 @@ import dev.abarmin.aml.e2e.page.registration.RegistrationDonePage;
 import dev.abarmin.aml.e2e.page.registration.RegistrationForm;
 import dev.abarmin.aml.e2e.page.registration.RegistrationPage;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.web.server.LocalServerPort;
 
 import static com.codeborne.selenide.Selenide.open;
 import static dev.abarmin.aml.e2e.Constants.registrationUrl;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class RegistrationTest extends BaseIntegrationTest {
-
-  @LocalServerPort
-  int serverPort;
+public class RegistrationTest extends BaseE2ETest {
 
   @Test
   void registration_shouldRegisterAndLogicSuccessfully() {
