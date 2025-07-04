@@ -1,2 +1,0 @@
-ALTER TABLE user_profiles
-ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP NULL;

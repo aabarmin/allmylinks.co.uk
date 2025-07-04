@@ -1,8 +1,0 @@
-spring:
-  mail:
-    host: mail
-    port: 2525
-  datasource:
-    url: jdbc:mariadb://localhost:3306/aml
-    username: mariadb
-    password: mariadb
