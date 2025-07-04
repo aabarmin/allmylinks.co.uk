@@ -12,8 +12,8 @@ import java.time.Duration;
 
 import static org.awaitility.Awaitility.await;
 
-@SpringBootTest
 @AutoConfigureMockMvc
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public abstract class BaseIntegrationTest {
 
   @Autowired
