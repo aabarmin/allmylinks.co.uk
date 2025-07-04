@@ -117,7 +117,7 @@ tasks.register('e2e-test', Test) {
 
     doFirst {
         if (System.getenv("CI")) {
-            jvmArgs "-Dheadless=true"
+            environment 'JAVA_OPTS', '-Dheadless=true'
         }
     }
 }
