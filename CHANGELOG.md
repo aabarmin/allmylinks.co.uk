@@ -1,3 +1,7 @@
+# 0.0.32
+
+* Finally added e2e tests properly.
+
 # 0.0.31
 
 * Removes unnecessary Gradle modules added in the middle. 
