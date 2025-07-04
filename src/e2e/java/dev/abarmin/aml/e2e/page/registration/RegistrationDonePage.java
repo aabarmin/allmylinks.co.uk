@@ -11,7 +11,7 @@ public class RegistrationDonePage {
 
   public RegistrationDonePage() {
     $(byTagAndText("h1", "Registration completed")).shouldBe(visible);
-    $(byTagAndText("button", "Log in")).shouldBe(visible);
+    $(byTagAndText("a", "Log in")).shouldBe(visible);
   }
 
   public LoginPage toLogin() {
