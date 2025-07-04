@@ -1,6 +1,6 @@
-# 0.0.30
+# 0.0.31
 
-* Added Gradle modules so the frontend can be written in JS. 
+* Removes unnecessary Gradle modules added in the middle. 
 
 # 0.0.29
 
