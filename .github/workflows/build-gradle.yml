@@ -50,21 +50,21 @@ jobs:
         if: always()
         with:
           name: "Test Reports"
-          path: aml-backend/build/reports
+          path: build/reports
           retention-days: 7
 
       - name: Rename the artifact
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
-          rm -rf aml-backend/build/libs/*-plain.jar
-          mv aml-backend/build/libs/*.jar aml-backend/build/libs/app.jar
+          rm -rf build/libs/*-plain.jar
+          mv build/libs/*.jar build/libs/app.jar
 
       - name: Upload Artifact
         if: ${{ github.ref == 'refs/heads/main' }}
         uses: actions/upload-artifact@v4
         with:
           name: artifact
-          path: ./aml-backend/build/libs/app.jar
+          path: ./build/libs/app.jar
 
   get-version:
     name: "Get version"
