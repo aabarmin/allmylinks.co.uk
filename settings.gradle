@@ -1,1 +1,4 @@
 rootProject.name = 'all-my-links'
+
+include 'aml-backend'
+include 'aml-frontend-private'
