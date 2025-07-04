@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="_csrf" th:content="${_csrf.token}" />
+  <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+  <title>All My Links - Centralize Your Online Presence</title>
+
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/dist/css/bootstrap.css}"/>
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap-icons/1.11.3/font/bootstrap-icons.css}" />
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+
+  <script th:src="@{/webjars/jquery/3.7.1/dist/jquery.min.js}"></script>
+  <script th:src="@{/webjars/bootstrap/5.3.3/dist/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/webjars/htmx.org/2.0.3/dist/htmx.js}"></script>
+  <script th:src="@{/js/app.js}"></script>
+</head>
+<body>
+
+<nav class="navbar bg-primary navbar-expand-lg" data-bs-theme="dark">
+  <div class="container">
+    <a class="navbar-brand" th:href="@{/}">
+      <i class="bi bi-robot"></i>
+      AML
+    </a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link"
+             th:href="@{/}">
+            <i class="bi bi-house"></i>
+            HOME
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"
+             th:href="@{/private/dashboard}">
+            <i class="bi bi-box-arrow-in-right"></i>
+            DASHBOARD
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"
+             th:href="@{/private/profile}">
+            <i class="bi bi-person-badge"></i>
+            PROFILE
+          </a>
+        </li>
+      </ul>
+      <div class="d-flex">
+        <a class="btn btn-outline-light me-2"
+           sec:authorize="hasRole('ROLE_BACKOFFICE')"
+           th:href="@{/backoffice}">
+          <i class="bi bi-radioactive"></i>
+          BACKOFFICE
+        </a>
+        <a class="btn btn-outline-light"
+           th:href="@{/private/logout}">
+          <i class="bi bi-box-arrow-left"></i>
+          LOGOUT
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div layout:fragment="main-content">
+  <p>
+    Main content goes here
+  </p>
+</div>
+
+<script>
+  document.body.addEventListener("htmx:configRequest", function (evt) {
+    evt.detail.headers["accept"] = "text/html-partial";
+
+    if (evt.detail.verb !== "get") {
+      const csrfHeaderName = document
+        .querySelector("meta[name='_csrf_header']")
+        .getAttribute("content");
+      evt.detail.headers[csrfHeaderName] = document
+        .querySelector("meta[name='_csrf']")
+        .getAttribute("content");
+    }
+  });
+</script>
+
+</body>
+</html>

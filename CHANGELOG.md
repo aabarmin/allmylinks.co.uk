@@ -1,9 +1,3 @@
-# 0.0.31
-
-* Removed Gradle modules. 
-* Removed frontend written in JS. 
-* Added a separate source root for e2e tests. 
-
 # 0.0.30
 
 * Added Gradle modules so the frontend can be written in JS. 

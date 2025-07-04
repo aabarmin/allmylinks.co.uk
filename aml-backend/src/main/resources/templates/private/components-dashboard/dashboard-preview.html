@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+<div th:fragment="content"
+     class="container">
+  <div class="row">
+    <div class="col preview-pane-container">
+      <th:block th:replace="~{private/components-dashboard/dashboard-preview :: preview-pane}"/>
+    </div>
+  </div>
+</div>
+
+<div th:fragment="preview-pane"
+     th:style="${@cssHelper.toStyle(model.currentPage.pageProps.getPageStyle())}"
+     class="preview-pane">
+
+  <th:block th:each="block : ${model.currentPage.pageBlocks}">
+    <th:block th:replace="~{private/components-blocks/__${block.blockType.previewComponent}__ :: content(${block})}" />
+  </th:block>
+
+  <th:block th:replace="~{private/components-blocks/block-made-with-aml :: content}" />
+
+</div>
+
+</body>
+</html>

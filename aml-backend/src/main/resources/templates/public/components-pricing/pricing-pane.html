@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+<div th:fragment="content">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h1>
+          Plans and pricing
+        </h1>
+
+        <p>
+          Subscribe now to get access to free features and premium content blocks.
+        </p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="offset-md-1 col-md-4">
+        <div th:replace="~{public/components-pricing/pricing-pane :: pricing-pane-free}"></div>
+      </div>
+      <div class="offset-md-2 col-md-4">
+        <div th:replace="~{public/components-pricing/pricing-pane :: pricing-pane-premium}"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div th:fragment="pricing-pane-free">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">
+        Free
+      </h5>
+
+      <p class="card-text">
+        Get access to all the basic features for free
+      </p>
+
+      <p class="card-text">
+        Features:
+      </p>
+
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          Avatar content block
+        </li>
+        <li class="list-group-item">
+          Header block
+        </li>
+        <li class="list-group-item">
+          Social Networks block
+        </li>
+      </ul>
+
+      <div class="card-body d-grid">
+        <a class="btn btn-primary btn-lg"
+           th:href="@{/private/dashboard}">
+          Get started for free
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div th:fragment="pricing-pane-premium">
+  <form th:hx-post="@{/subscribe-from-pricing}">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">
+          Premium
+        </h5>
+
+        <p class="card-text">
+          Premium features coming soon. Stay tuned!
+        </p>
+
+        <div class="card-body input-group">
+          <input type="email"
+                 required
+                 name="email"
+                 class="form-control"
+                 placeholder="Enter your email">
+          <button class="btn btn-primary btn-lg"
+                  type="submit">
+            Subscribe
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div th:fragment="done">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 offset-md-2 text-center">
+        <h2>
+          Thank you for subscribing
+        </h2>
+        <p>
+          You will let you know when the premium features are available
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

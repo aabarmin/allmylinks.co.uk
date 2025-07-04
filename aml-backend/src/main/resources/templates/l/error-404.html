@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en"
+      layout:decorate="~{public/layout.html}"
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+
+</head>
+<body>
+<th:block layout:fragment="main-content">
+
+  <th:block th:insert="~{public/components-reusable/page-divider :: content}" />
+  <th:block th:insert="~{l/components-exception/not-found-message :: content}" />
+
+  <th:block th:insert="public/components-reusable/page-divider :: content" />
+  <th:block th:insert="public/components-reusable/benefits-pane :: content" />
+
+  <th:block th:insert="~{public/components-reusable/page-divider :: content}" />
+  <th:block th:insert="~{public/components-reusable/legal-links :: content}" />
+</th:block>
+</body>
+</html>

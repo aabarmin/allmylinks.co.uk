@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+<div th:fragment="content(block)"
+     th:with="props=${block.blockProps}"
+     class="container preview-pane-block">
+  <div class="row">
+    <div class="col d-grid">
+      <a th:href="${props.link}"
+         th:text="${props.text}"
+         target="_blank"
+         th:classappend="${props.size.htmlClass} + ' ' + ${props.color.htmlClass}"
+         class="btn btn-primary"/>
+    </div>
+  </div>
+</div>
+</body>
+</html>

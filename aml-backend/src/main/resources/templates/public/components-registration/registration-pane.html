@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+<div th:fragment="content">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <th:block th:replace="~{public/components-registration/registration-pane :: registration-form}"></th:block>
+      </div>
+
+      <div class="col text-center">
+        <th:block th:replace="~{public/components-home/landing-area :: landing-area-right}"></th:block>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div th:fragment="registration-form">
+  <form th:hx-post="@{/register}"
+        th:object="${form}">
+
+    <h1>
+      Registration
+    </h1>
+
+    <p>
+      Create your account to get started.
+    </p>
+
+    <div class="mb-3">
+      <label for="name" class="form-label">
+        Your name
+      </label>
+      <input type="text"
+             th:class="'form-control ' + (${#fields.hasErrors('name')} ? 'is-invalid' : '')"
+             id="name"
+             th:field="*{name}"
+             required="required"/>
+      <div class="invalid-feedback"
+           th:if="${#fields.hasErrors('name')}"
+           th:errors="*{name}">
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="email" class="form-label">
+        Email address
+      </label>
+      <input type="email"
+             th:class="'form-control ' + (${#fields.hasErrors('email')} ? 'is-invalid' : '')"
+             id="email"
+             th:readonly="*{!emailEditable}"
+             th:field="*{email}"
+             required="required"/>
+      <div class="invalid-feedback"
+           th:if="${#fields.hasErrors('email')}"
+           th:errors="*{email}">
+      </div>
+    </div>
+
+    <div class="mb-3"
+         th:if="*{passwordRequired}">
+
+      <label for="password" class="form-label">
+        Password
+      </label>
+      <input type="password"
+             th:class="'form-control ' + (${#fields.hasErrors('password')} ? 'is-invalid' : '')"
+             id="password"
+             th:field="*{password}"
+             required="required"/>
+      <div class="invalid-feedback"
+           th:if="${#fields.hasErrors('password')}"
+           th:errors="*{password}">
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="shortLink"
+             class="form-label">
+        Short link
+      </label>
+      <input type="text"
+             th:class="'form-control ' + (${#fields.hasErrors('link')} ? 'is-invalid' : '')"
+             id="shortLink"
+             th:field="*{link}"
+             required="required"/>
+      <div class="invalid-feedback"
+           th:if="${#fields.hasErrors('link')}"
+           th:errors="*{link}">
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <input type="checkbox"
+             th:class="'form-check-input ' + (${#fields.hasErrors('acceptTerms')} ? 'is-invalid' : '')"
+             id="acceptTerms"
+             th:field="*{acceptTerms}"/>
+      <label for="acceptTerms"
+             class="form-check-label">
+        I accept the terms and conditions
+      </label>
+      <div class="invalid-feedback"
+           th:if="${#fields.hasErrors('acceptTerms')}"
+           th:errors="*{acceptTerms}">
+      </div>
+    </div>
+
+    <div class="mb-3 d-grid">
+      <button type="submit"
+              class="btn btn-primary">
+        Register
+      </button>
+    </div>
+  </form>
+</div>
+
+<div th:fragment="registration-done">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h1>
+          Registration completed
+        </h1>
+
+        <p>
+          You can now log in to your account.
+        </p>
+
+        <div class="d-grid">
+          <a th:href="@{/private/dashboard}"
+             class="btn btn-primary">
+            Log in
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
