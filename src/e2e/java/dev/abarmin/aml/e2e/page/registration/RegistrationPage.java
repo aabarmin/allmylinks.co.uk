@@ -24,7 +24,6 @@ public class RegistrationPage {
     $(By.id("email")).setValue(form.getEmail());
     $(By.id("password")).setValue(form.getPassword());
     $(By.id("shortLink")).setValue(form.getShortLink());
-//    $(By.id("acceptTerms")).click();
 
     $(byTagAndText("button", "Register")).click();
 
