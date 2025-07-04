@@ -1,3 +1,7 @@
+# 0.0.30
+
+* Removes unnecessary Gradle modules added in the middle. 
+
 # 0.0.29
 
 * Added the share button to the profile.
