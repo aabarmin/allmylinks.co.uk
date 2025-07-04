@@ -14,10 +14,26 @@ java {
 	}
 }
 
+sourceSets {
+    e2e {
+        java {
+            compileClasspath += sourceSets.main.output + configurations.testRuntimeClasspath
+            runtimeClasspath += output + compileClasspath
+            srcDir file('src/e2e/java')
+        }
+    }
+}
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
+    e2eImplementation {
+        extendsFrom testImplementation
+    }
+    e2eRuntimeOnly {
+        extendsFrom testRuntimeOnly
+    }
 }
 
 repositories {
@@ -61,18 +77,34 @@ dependencies {
 	'org.projectlombok:lombok'.with {
 		compileOnly it
 		testCompileOnly it
+        e2eCompileOnly it
+
 		annotationProcessor it
 		testAnnotationProcessor it
+        e2eAnnotationProcessor it
 	}
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'org.awaitility:awaitility:4.3.0'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    e2eImplementation 'com.codeborne:selenide:7.9.3'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+tasks.register('e2e-test', Test) {
+    group = 'verification'
+    description = 'Run e2e tests'
+
+    testClassesDirs = sourceSets.e2e.output.classesDirs
+    classpath = sourceSets.e2e.runtimeClasspath
+    shouldRunAfter 'test'
+
+    useJUnitPlatform()
 }
 
 def getCurrentGitBranch() {
@@ -105,4 +137,8 @@ tasks.register('addProjectVersion'){
 
 tasks.named('processResources') {
     dependsOn 'addProjectVersion'
+}
+
+tasks.named('check') {
+    dependsOn 'e2e-test'
 }
