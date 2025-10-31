@@ -73,6 +73,7 @@ public class TaskProcessor {
     final var toRestartFailed = taskRepository.findAllByTaskStatus(TaskStatus.FAILED);
     log.info("Restarting {} failed tasks", toRestartFailed.size());
     toRestartFailed.stream()
+      .filter(t -> t.getExecutionAttempts() < 5)
       .map(TaskEntity::getTaskId)
       .map(TaskProcessingRequest::new)
       .forEach(processingQueue::add);

@@ -19,6 +19,7 @@
             <th>#</th>
             <th>Type</th>
             <th>Status</th>
+            <th>Attempts</th>
             <th>Created</th>
             <th>Last attempt</th>
             <th>Actions</th>
@@ -28,6 +29,7 @@
             <td th:text="${task.id}"/>
             <td th:text="${task.taskType}"/>
             <td th:text="${task.taskStatus}"/>
+            <td th:text="${task.executionAttempts}"/>
             <td th:text="${task.createdAt}" />
             <td th:text="${task.lastRunAt}" />
             <td>

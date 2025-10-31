@@ -38,7 +38,7 @@ public class BackofficeTasksController {
   public String failTask(@PathVariable("id") long taskId) {
     taskRepository.findById(taskId)
       .ifPresent(task -> {
-        task.setTaskStatus(TaskStatus.ERROR);
+        task.setTaskStatus(TaskStatus.FAILED_MANUALLY);
         taskRepository.save(task);
       });
 
