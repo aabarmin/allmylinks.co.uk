@@ -4,5 +4,6 @@ public enum TaskStatus {
   NEW,
   IN_PROGRESS,
   COMPLETED,
-  FAILED
+  FAILED,
+  FAILED_MANUALLY
 }
