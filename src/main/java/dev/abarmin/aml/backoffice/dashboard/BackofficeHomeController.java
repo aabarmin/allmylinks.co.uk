@@ -30,7 +30,7 @@ public class BackofficeHomeController {
   private BackofficeTaskStats getTaskStats() {
     return new BackofficeTaskStats()
       .setTotal(taskRepository.count())
-      .setFailed(taskRepository.countAllByTaskStatus(TaskStatus.NEW))
+      .setWaiting(taskRepository.countAllByTaskStatus(TaskStatus.NEW))
       .setFailed(taskRepository.countAllByTaskStatus(TaskStatus.FAILED));
   }
 }
