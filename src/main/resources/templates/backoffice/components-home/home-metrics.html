@@ -23,7 +23,19 @@
         </div>
 
       </div>
-      <div class="col"></div>
+      <div class="col">
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Tasks</h5>
+            <p>In the queue: <span th:text="${model.taskStats.waiting}" /></p>
+            <p>Failed: <span th:text="${model.taskStats.failed}" /></p>
+            <p>Total: <span th:text="${model.taskStats.total}" /></p>
+            <p><a th:href="@{/backoffice/tasks}" class="card-link">View details</a></p>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 </div>

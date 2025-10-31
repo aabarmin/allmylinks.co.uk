@@ -7,4 +7,5 @@ import lombok.Data;
 @Builder
 public class BackofficeDashboard {
   private long totalUsers;
+  private BackofficeTaskStats taskStats;
 }

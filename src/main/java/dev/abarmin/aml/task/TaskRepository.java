@@ -1,5 +1,7 @@
 package dev.abarmin.aml.task;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 
 import java.time.Instant;
@@ -11,4 +13,7 @@ public interface TaskRepository extends CrudRepository<TaskEntity, Long> {
 
   Collection<TaskEntity> findAllByTaskStatus(TaskStatus status);
 
+  long countAllByTaskStatus(TaskStatus status);
+
+  Page<TaskEntity> findAllByTaskStatus(TaskStatus status, Pageable pageable);
 }

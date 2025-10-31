@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+<div th:fragment="content">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h1>
+          Tasks
+        </h1>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+
+        <table class="table">
+          <tr>
+            <th>#</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Created</th>
+            <th>Last attempt</th>
+            <th>Actions</th>
+          </tr>
+
+          <tr th:each="task : ${model}">
+            <td th:text="${task.id}"/>
+            <td th:text="${task.taskType}"/>
+            <td th:text="${task.taskStatus}"/>
+            <td th:text="${task.createdAt}" />
+            <td th:text="${task.lastRunAt}" />
+            <td>
+              <a
+                th:if="${task.taskStatus.name == 'FAILED'}"
+                th:href="@{/backoffice/tasks/{id}/retry(id=${task.id})}"
+                class="btn btn-primary"
+              >
+                Retry
+              </a>
+              <a
+                th:if="${task.taskStatus.name == 'FAILED'}"
+                th:href="@{/backoffice/tasks/{id}/fail(id=${task.id})}"
+                class="btn btn-danger"
+              >
+                Mark failed
+              </a>
+            </td>
+          </tr>
+        </table>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <nav>
+          <ul class="pagination">
+            <li class="page-item">
+              <a class="page-link"
+                 th:if="${model.hasPrevious}"
+                 th:href="@{/backoffice/tasks?page={page}(page=${model.number - 1})}">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li th:each="page : ${#numbers.sequence(0, model.totalPages - 1)}"
+                th:classappend="${page} == ${model.number} ? 'active' : ''"
+                class="page-item">
+              <a class="page-link"
+                 th:href="@{/backoffice/tasks?page={page}(page=${page})}"
+                 th:text="${page + 1}" />
+            </li>
+            <li class="page-item">
+              <a class="page-link"
+                 th:if="${model.hasNext}"
+                 th:href="@{/backoffice/tasks?page={page}(page=${model.number + 1})}">
+                <span>&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

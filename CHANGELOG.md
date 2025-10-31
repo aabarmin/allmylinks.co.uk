@@ -1,3 +1,7 @@
+# 0.0.33
+
+* Added backoffice for tasks
+
 # 0.0.32
 
 * Finally added e2e tests properly.
