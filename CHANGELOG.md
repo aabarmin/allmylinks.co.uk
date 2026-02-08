@@ -1,3 +1,7 @@
+# 0.0.34
+
+* Added backoffice for profile change requests
+
 # 0.0.33
 
 * Added backoffice for tasks
