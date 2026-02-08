@@ -20,4 +20,8 @@ public record Profile(
   public Profile withQrCode(FileId qrCode) {
     return new Profile(id, userId, link, qrCode, createdAt, Instant.now());
   }
+
+  public Profile withLink(String newLink) {
+    return new Profile(id, userId, newLink, qrCode, createdAt, Instant.now());
+  }
 }

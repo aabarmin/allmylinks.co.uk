@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+<div th:fragment="content">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h1>
+          Profile Change Requests
+        </h1>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+
+        <table class="table">
+          <tr>
+            <th>#</th>
+            <th>Profile</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+
+          <tr th:each="request : ${model}">
+            <td th:text="${request.id}" />
+            <td>
+              <a th:href="${request.profileLink}"
+                 th:text="${request.profileLink}"
+                 target="_blank" />
+            </td>
+            <td th:text="${request.requestType}" />
+            <td th:text="${request.requestStatus}" />
+            <td>
+              <a
+                th:href="@{/backoffice/profile/requests/{id}/process(id=${request.id})}"
+                class="btn btn-primary"
+              >
+                Process
+              </a>
+            </td>
+          </tr>
+        </table>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <nav>
+          <ul class="pagination">
+            <li class="page-item">
+              <a class="page-link"
+                 th:if="${model.hasPrevious}"
+                 th:href="@{/backoffice/profile/requests?page={page}(page=${model.number - 1})}">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li th:each="page : ${#numbers.sequence(0, model.totalPages - 1)}"
+                th:classappend="${page} == ${model.number} ? 'active' : ''"
+                class="page-item">
+              <a class="page-link"
+                 th:href="@{/backoffice/profile/requests?page={page}(page=${page})}"
+                 th:text="${page + 1}" />
+            </li>
+            <li class="page-item">
+              <a class="page-link"
+                 th:if="${model.hasNext}"
+                 th:href="@{/backoffice/profile/requests?page={page}(page=${model.number + 1})}">
+                <span>&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

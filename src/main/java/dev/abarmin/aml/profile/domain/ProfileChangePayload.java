@@ -9,5 +9,5 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
   @JsonSubTypes.Type(value = ChangeLinkRequest.class, name = "CHANGE_LINK"),
   @JsonSubTypes.Type(value = DeactivateProfileRequest.class, name = "PROFILE_DEACTIVATE")
 })
-public interface ProfileChangePayload {
+public sealed interface ProfileChangePayload permits ChangeEmailRequest, ChangeLinkRequest, DeactivateProfileRequest {
 }

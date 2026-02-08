@@ -1,7 +1,6 @@
 package dev.abarmin.aml.profile;
 
 import dev.abarmin.aml.dashboard.SessionService;
-import dev.abarmin.aml.mail.task.SendEmailRequest;
 import dev.abarmin.aml.profile.converter.ProfileConverter;
 import dev.abarmin.aml.profile.domain.ChangeEmailRequest;
 import dev.abarmin.aml.profile.domain.ChangeLinkRequest;
@@ -51,11 +50,13 @@ public class PrivateProfileController {
 
     if (!bindingResult.hasErrors()) {
       final Profile profile = sessionService.getProfile(authentication);
-      final ProfileChangeRequest savedRequest = changeRepository.save(new ProfileChangeRequest(
-        profile,
-        ProfileChangeType.CHANGE_EMAIL,
-        request
-      ));
+      final ProfileChangeRequest savedRequest = changeRepository.save(ProfileChangeRequest.builder()
+        .profileId(profile.id())
+        .userId(profile.userId())
+        .changeStatus(ProfileChangeStatus.CREATED)
+        .changeType(ProfileChangeType.CHANGE_EMAIL)
+        .changePayload(request)
+        .build());
       notifyAdminAboutNewChangeRequest(savedRequest);
     }
 
@@ -70,11 +71,13 @@ public class PrivateProfileController {
 
     if (!bindingResult.hasErrors()) {
       final Profile profile = sessionService.getProfile(authentication);
-      final ProfileChangeRequest savedRequest = changeRepository.save(new ProfileChangeRequest(
-        profile,
-        ProfileChangeType.CHANGE_LINK,
-        request
-      ));
+      final ProfileChangeRequest savedRequest = changeRepository.save(ProfileChangeRequest.builder()
+        .profileId(profile.id())
+        .userId(profile.userId())
+        .changeStatus(ProfileChangeStatus.CREATED)
+        .changeType(ProfileChangeType.CHANGE_LINK)
+        .changePayload(request)
+        .build());
       notifyAdminAboutNewChangeRequest(savedRequest);
     }
 
@@ -88,11 +91,13 @@ public class PrivateProfileController {
 
     if (!bindingResult.hasErrors()) {
       final Profile profile = sessionService.getProfile(authentication);
-      final ProfileChangeRequest savedRequest = changeRepository.save(new ProfileChangeRequest(
-        profile,
-        ProfileChangeType.PROFILE_DEACTIVATE,
-        request
-      ));
+      final ProfileChangeRequest savedRequest = changeRepository.save(ProfileChangeRequest.builder()
+        .profileId(profile.id())
+        .userId(profile.userId())
+        .changeStatus(ProfileChangeStatus.CREATED)
+        .changeType(ProfileChangeType.PROFILE_DEACTIVATE)
+        .changePayload(request)
+        .build());
       notifyAdminAboutNewChangeRequest(savedRequest);
     }
 
@@ -138,7 +143,7 @@ public class PrivateProfileController {
   private void notifyAdminAboutNewChangeRequest(@NonNull ProfileChangeRequest request) {
     taskService.addTask(SendTelegramMessageRequest.TASK_TYPE, SendTelegramMessageRequest.builder()
       .template("profileChangeRequestCreated")
-      .objectId(request.id())
+      .objectId(request.getId())
       .build());
   }
 }
