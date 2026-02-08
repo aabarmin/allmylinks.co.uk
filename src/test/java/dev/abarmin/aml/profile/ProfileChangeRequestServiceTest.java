@@ -90,7 +90,7 @@ class ProfileChangeRequestServiceTest extends BaseIntegrationTest {
     final ProfileChangeRequest savedRequest = repository.save(ProfileChangeRequest.builder()
       .profileId(user.currentProfileId())
       .userId(user.userId())
-      .changeType(ProfileChangeType.CHANGE_LINK)
+      .changeType(ProfileChangeType.CHANGE_EMAIL)
       .changePayload(ChangeEmailRequest.builder()
         .newEmail("new@email.com")
         .build())
