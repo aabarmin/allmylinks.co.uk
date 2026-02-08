@@ -9,10 +9,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import static dev.abarmin.aml.config.BasePaths.BACKOFFICE;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping(BACKOFFICE + "/users")
 public class BackofficeUsersController {
   private final UserRepository userRepository;
   private final ProfileHelper profileHelper;
@@ -31,8 +35,9 @@ public class BackofficeUsersController {
     return userRepository.findAll(request);
   }
 
-  @GetMapping("/backoffice/users")
+  @GetMapping
   public String backofficeUsers() {
     return "backoffice/users";
   }
 }
+

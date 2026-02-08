@@ -65,13 +65,13 @@ public class SendTelegramMessageTaskHandler implements TaskHandler<SendTelegramM
         final var changeRequest = profileChangeRepository.findById(request.getObjectId())
           .orElseThrow(() -> new RuntimeException("Unknown change request: " + request.getObjectId()));
 
-        final User requestOwner = userRepository.findById(changeRequest.userId())
-          .orElseThrow(() -> new RuntimeException("Unknown request owner: " + changeRequest.userId()));
+        final User requestOwner = userRepository.findById(changeRequest.getUserId())
+          .orElseThrow(() -> new RuntimeException("Unknown request owner: " + changeRequest.getUserId()));
 
         yield replace(TelegramMessages.NEW_CHANGE_REQUEST_ADDED, Map.of(
           "email", requestOwner.email(),
-          "requestType", changeRequest.changeType().name(),
-          "payload", objectMapper.writeValueAsString(changeRequest.changePayload())
+          "requestType", changeRequest.getChangeType().name(),
+          "payload", objectMapper.writeValueAsString(changeRequest.getChangePayload())
         ));
 
       default: throw new RuntimeException("Unknown mail template: " + request.getTemplate());

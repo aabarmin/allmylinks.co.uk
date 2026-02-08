@@ -13,4 +13,9 @@ public record User(
   @Column("user_name") String userName,
   @Column("created_at") Instant createdAt
 ) {
+
+  public User withEmail(String newEmail) {
+    return new User(id, newEmail, userName, createdAt);
+  }
+
 }

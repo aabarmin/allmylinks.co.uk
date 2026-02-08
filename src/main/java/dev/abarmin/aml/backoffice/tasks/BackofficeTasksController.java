@@ -14,27 +14,31 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import static dev.abarmin.aml.config.BasePaths.BACKOFFICE;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping(BACKOFFICE + "/tasks")
 public class BackofficeTasksController {
 
   private final TaskRepository taskRepository;
   private final TaskProcessingQueue taskProcessingQueue;
 
-  @GetMapping("/backoffice/tasks")
+  @GetMapping
   public String backofficeTasks() {
     return "backoffice/tasks";
   }
 
-  @GetMapping("/backoffice/tasks/{id}/retry")
+  @GetMapping("/{id}/retry")
   public String retryTask(@PathVariable("id") int taskId) {
     taskProcessingQueue.add(new TaskProcessingRequest(new TaskId(taskId)));
     return "redirect:/backoffice/tasks";
   }
 
-  @GetMapping("/backoffice/tasks/{id}/fail")
+  @GetMapping("/{id}/fail")
   public String failTask(@PathVariable("id") long taskId) {
     taskRepository.findById(taskId)
       .ifPresent(task -> {

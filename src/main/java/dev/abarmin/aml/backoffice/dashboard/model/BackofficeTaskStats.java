@@ -1,10 +1,10 @@
-package dev.abarmin.aml.backoffice.dashboard;
+package dev.abarmin.aml.backoffice.dashboard.model;
 
+import lombok.Builder;
 import lombok.Data;
-import lombok.experimental.Accessors;
 
 @Data
-@Accessors(chain = true)
+@Builder
 public class BackofficeTaskStats {
   private long waiting;
   private long failed;

@@ -200,27 +200,21 @@ public class RegistrationService {
   }
 
   private Account createUsernameAndPasswordAccount(RegistrationForm form, User user) {
-    final Account account = new Account(
-      null,
-      user.id(),
-      AccountType.USERNAME_PASSWORD,
-      passwordEncoder.encode(form.getPassword()),
-      true,
-      Instant.now()
-    );
-    return account;
+    return Account.builder()
+      .userId(user.id())
+      .type(AccountType.USERNAME_PASSWORD)
+      .password(passwordEncoder.encode(form.getPassword()))
+      .isActive(true)
+      .build();
   }
 
   private Account createOidcAccount(RegistrationForm form, User user) {
-    final Account account = new Account(
-      null,
-      user.id(),
-      AccountType.OIDC,
-      "",
-      true,
-      Instant.now()
-    );
-    return account;
+    return Account.builder()
+      .userId(user.id())
+      .type(AccountType.OIDC)
+      .password("")
+      .isActive(true)
+      .build();
   }
 
   private User createUser(RegistrationForm form) {

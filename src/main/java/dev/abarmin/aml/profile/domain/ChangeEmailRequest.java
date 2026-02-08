@@ -1,8 +1,10 @@
 package dev.abarmin.aml.profile.domain;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
-public class ChangeEmailRequest implements ProfileChangePayload {
+@Builder
+public final class ChangeEmailRequest implements ProfileChangePayload {
   private String newEmail;
 }
