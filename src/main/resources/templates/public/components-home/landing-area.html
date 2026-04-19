@@ -3,11 +3,11 @@
 <body>
 <div th:fragment="content"
      class="container">
-  <div class="row align-items-center">
-    <div class="col">
+  <div class="row align-items-center gy-4">
+    <div class="col-12 col-lg-6 d-flex align-items-center">
       <th:block th:replace="~{public/components-home/landing-area :: landing-area-left}"></th:block>
     </div>
-    <div class="col text-center">
+    <div class="col-12 col-lg-6 text-center d-flex justify-content-center">
       <th:block th:replace="~{public/components-home/landing-area :: landing-area-right}"></th:block>
     </div>
   </div>
@@ -15,7 +15,7 @@
 
 <div th:fragment="landing-area-left"
      id="landing-area-left"
-     style="display: flex; flex-direction: column;">
+     class="d-flex flex-column">
 
   <form th:object="${form}" th:action="@{/register}" method="post">
     <input type="hidden" th:field="*{preRegistration}" />
@@ -28,22 +28,26 @@
       Claim your name now and make your bio stand out!
     </p>
 
-    <div class="container">
-      <div class="row">
-        <div class="col">
-          <div class="input-group">
+    <div class="container px-0">
+      <div class="row g-2 align-items-stretch">
+        <div class="col-12 col-sm">
+          <div class="h-100">
             <input type="text"
                    th:field="*{email}"
-                   th:class="'form-control ' + (${#fields.hasErrors('email')} ? 'is-invalid' : '')"
+                   th:class="'form-control form-control-lg h-100 py-3 ' + (${#fields.hasErrors('email')} ? 'is-invalid' : '')"
                    placeholder="Your email to start" />
-            <button class="btn btn-primary btn-lg"
-                    type="submit">
-              Get started
-            </button>
-            <div class="invalid-feedback"
-                 th:if="${#fields.hasErrors('email')}"
-                 th:errors="*{email}">
-            </div>
+          </div>
+        </div>
+        <div class="col-12 col-sm-auto d-grid">
+          <button class="btn btn-primary btn-lg"
+                  type="submit">
+            Get started
+          </button>
+        </div>
+        <div class="col-12">
+          <div class="invalid-feedback d-block"
+               th:if="${#fields.hasErrors('email')}"
+               th:errors="*{email}">
           </div>
         </div>
       </div>
