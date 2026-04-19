@@ -15,11 +15,11 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="offset-md-1 col-md-4">
+    <div class="row gy-4">
+      <div class="col-12 col-lg-6">
         <div th:replace="~{public/components-pricing/pricing-pane :: pricing-pane-free}"></div>
       </div>
-      <div class="offset-md-2 col-md-4">
+      <div class="col-12 col-lg-6">
         <div th:replace="~{public/components-pricing/pricing-pane :: pricing-pane-premium}"></div>
       </div>
     </div>
@@ -54,7 +54,7 @@
       </ul>
 
       <div class="card-body d-grid">
-        <a class="btn btn-primary btn-lg"
+        <a class="btn btn-primary btn-lg py-3"
            th:href="@{/private/dashboard}">
           Get started for free
         </a>
@@ -75,16 +75,22 @@
           Premium features coming soon. Stay tuned!
         </p>
 
-        <div class="card-body input-group">
-          <input type="email"
-                 required
-                 name="email"
-                 class="form-control"
-                 placeholder="Enter your email">
-          <button class="btn btn-primary btn-lg"
-                  type="submit">
-            Subscribe
-          </button>
+        <div class="card-body">
+          <div class="row g-2 align-items-stretch">
+            <div class="col-12 col-sm">
+              <input type="email"
+                     required
+                     name="email"
+                     class="form-control form-control-lg h-100 py-3"
+                     placeholder="Enter your email">
+            </div>
+            <div class="col-12 col-sm-auto d-grid">
+              <button class="btn btn-primary btn-lg"
+                      type="submit">
+                Subscribe
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

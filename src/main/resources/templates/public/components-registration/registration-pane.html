@@ -3,12 +3,12 @@
 <body>
 <div th:fragment="content">
   <div class="container">
-    <div class="row">
-      <div class="col">
+    <div class="row align-items-center gy-4">
+      <div class="col-12 col-lg-6">
         <th:block th:replace="~{public/components-registration/registration-pane :: registration-form}"></th:block>
       </div>
 
-      <div class="col text-center">
+      <div class="col-lg-6 text-center d-none d-lg-flex justify-content-center">
         <th:block th:replace="~{public/components-home/landing-area :: landing-area-right}"></th:block>
       </div>
     </div>
@@ -32,8 +32,9 @@
         Your name
       </label>
       <input type="text"
-             th:class="'form-control ' + (${#fields.hasErrors('name')} ? 'is-invalid' : '')"
+             th:class="'form-control form-control-lg py-3 ' + (${#fields.hasErrors('name')} ? 'is-invalid' : '')"
              id="name"
+             placeholder="Your name"
              th:field="*{name}"
              required="required"/>
       <div class="invalid-feedback"
@@ -47,8 +48,9 @@
         Email address
       </label>
       <input type="email"
-             th:class="'form-control ' + (${#fields.hasErrors('email')} ? 'is-invalid' : '')"
+             th:class="'form-control form-control-lg py-3 ' + (${#fields.hasErrors('email')} ? 'is-invalid' : '')"
              id="email"
+             placeholder="Your email address"
              th:readonly="*{!emailEditable}"
              th:field="*{email}"
              required="required"/>
@@ -65,8 +67,9 @@
         Password
       </label>
       <input type="password"
-             th:class="'form-control ' + (${#fields.hasErrors('password')} ? 'is-invalid' : '')"
+             th:class="'form-control form-control-lg py-3 ' + (${#fields.hasErrors('password')} ? 'is-invalid' : '')"
              id="password"
+             placeholder="Your password"
              th:field="*{password}"
              required="required"/>
       <div class="invalid-feedback"
@@ -81,8 +84,9 @@
         Short link
       </label>
       <input type="text"
-             th:class="'form-control ' + (${#fields.hasErrors('link')} ? 'is-invalid' : '')"
+             th:class="'form-control form-control-lg py-3 ' + (${#fields.hasErrors('link')} ? 'is-invalid' : '')"
              id="shortLink"
+             placeholder="your-short-link"
              th:field="*{link}"
              required="required"/>
       <div class="invalid-feedback"
@@ -108,7 +112,7 @@
 
     <div class="mb-3 d-grid">
       <button type="submit"
-              class="btn btn-primary">
+              class="btn btn-primary btn-lg py-3">
         Register
       </button>
     </div>
@@ -129,7 +133,7 @@
 
         <div class="d-grid">
           <a th:href="@{/private/dashboard}"
-             class="btn btn-primary">
+             class="btn btn-primary btn-lg py-3">
             Log in
           </a>
         </div>

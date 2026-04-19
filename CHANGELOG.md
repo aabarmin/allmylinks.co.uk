@@ -1,3 +1,7 @@
+# 0.0.35
+
+* Fix mobile view of the main page
+
 # 0.0.34
 
 * Added backoffice for profile change requests

@@ -3,12 +3,12 @@
 <body>
 
 <div th:fragment="content"
-     class="container">
-  <div class="row">
-    <div class="col">
+     class="container-lg px-0 px-sm-3">
+  <div class="row gx-0 gx-sm-3 gy-4">
+    <div class="col-12 col-lg-5 px-3 px-sm-0">
       <th:block th:replace="~{public/components-home/why-us :: why-us-left}"></th:block>
     </div>
-    <div class="col">
+    <div class="col-12 col-lg-7">
       <th:block th:replace="~{public/components-home/why-us :: why-us-right}"></th:block>
     </div>
   </div>
@@ -24,18 +24,16 @@
     Plus, we are more affordable than the competition and an excellent choice for teams.
   </p>
 
-  <a class="btn btn-primary btn-lg"
+  <a class="btn btn-primary btn-lg py-3 d-grid d-sm-inline-block"
      type="button"
      th:href="@{/private/dashboard}">
     Get started
   </a>
 </div>
 
-<div th:fragment="why-us-right"
-     class="container">
-  <div class="row">
-    <div class="col text-center"
-         style="display: flex; flex-direction: column; ">
+<div th:fragment="why-us-right">
+  <div class="row g-0 g-sm-3">
+    <div class="col-12 col-sm-6 text-center d-flex flex-column px-3 px-sm-0">
 
       <i class="bi bi-ui-checks-grid" style="font-size: 5em"></i>
       <h5>
@@ -45,8 +43,7 @@
         With powerful customization options and versatile content blocks, your profile will rise above the noise.
       </p>
     </div>
-    <div class="col text-center"
-         style="display: flex; flex-direction: column; ">
+    <div class="col-12 col-sm-6 text-center d-flex flex-column px-3 px-sm-0">
 
       <i class="bi bi-battery-charging" style="font-size: 5em"></i>
       <h5>
@@ -58,9 +55,8 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col text-center"
-         style="display: flex; flex-direction: column; ">
+  <div class="row g-0 g-sm-3 mt-0">
+    <div class="col-12 col-sm-6 text-center d-flex flex-column px-3 px-sm-0">
 
       <i class="bi bi-gift" style="font-size: 5em"></i>
       <h5>
@@ -70,8 +66,7 @@
         We are more affordable than the competition and an excellent choice for teams.
       </p>
     </div>
-    <div class="col text-center"
-         style="display: flex; flex-direction: column; ">
+    <div class="col-12 col-sm-6 text-center d-flex flex-column px-3 px-sm-0">
 
       <i class="bi bi-speedometer2" style="font-size: 5em"></i>
       <h5>
