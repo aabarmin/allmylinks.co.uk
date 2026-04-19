@@ -95,7 +95,10 @@ jobs:
             echo "## Docker publish"
             echo ""
             echo "- Image: \`ghcr.io/${{ github.repository }}\`"
-            echo "- Version: \`${{ steps.metadata.outputs.version }}\`"
+            echo "- Tags:"
+            echo '```text'
+            printf '%s\n' "${{ steps.metadata.outputs.tags }}"
+            echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
   dependency-submission:
