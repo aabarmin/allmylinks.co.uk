@@ -12,7 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write
 
     services:
       database:
@@ -60,8 +59,32 @@ jobs:
           rm -rf build/libs/*-plain.jar
           mv build/libs/*.jar build/libs/app.jar
 
-      - name: Log in to GitHub Container Registry
+      - name: Upload application artifact
         if: ${{ github.ref == 'refs/heads/main' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: "app-jar"
+          path: build/libs/app.jar
+          retention-days: 7
+
+  docker-publish:
+    name: "Publish Docker image"
+    if: ${{ github.ref == 'refs/heads/main' }}
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download application artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: "app-jar"
+          path: build/libs
+
+      - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
@@ -70,7 +93,6 @@ jobs:
 
       - name: Extract Docker metadata
         id: metadata
-        if: ${{ github.ref == 'refs/heads/main' }}
         uses: docker/metadata-action@v5
         with:
           images: ghcr.io/${{ github.repository }}
@@ -79,7 +101,6 @@ jobs:
             type=sha
 
       - name: Build and push Docker image
-        if: ${{ github.ref == 'refs/heads/main' }}
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -89,7 +110,6 @@ jobs:
           labels: ${{ steps.metadata.outputs.labels }}
 
       - name: Add Docker publish summary
-        if: ${{ github.ref == 'refs/heads/main' }}
         run: |
           {
             echo "## Docker publish"
