@@ -3,8 +3,8 @@
 <body>
 <div th:fragment="content">
   <div class="container">
-    <div class="row">
-      <div class="col">
+    <div class="row align-items-center gy-4">
+      <div class="col-12 col-lg-6">
         <h1>
           Sign In
         </h1>
@@ -16,7 +16,7 @@
         <th:block th:replace="~{public/components-login/login-pane :: login-options}"></th:block>
       </div>
 
-      <div class="col text-center">
+      <div class="col-lg-6 text-center d-none d-lg-flex justify-content-center">
         <th:block th:replace="~{public/components-home/landing-area :: landing-area-right}"></th:block>
       </div>
     </div>
@@ -30,7 +30,7 @@
 
   <div class="d-grid">
     <a th:href="@{/register}"
-       class="btn btn-outline-primary">
+       class="btn btn-outline-primary btn-lg py-3">
       Create an account
     </a>
   </div>
@@ -39,7 +39,7 @@
 
   <div class="d-grid">
     <a th:href="@{/oauth2/authorization/google}"
-       class="btn btn-outline-primary">
+       class="btn btn-outline-primary btn-lg py-3">
       <i class="bi bi-google"></i>
       Login with Google
     </a>
@@ -62,7 +62,7 @@
              name="email"
              required
              placeholder="Your email address"
-             class="form-control"
+             class="form-control form-control-lg py-3"
              id="email" />
     </div>
 
@@ -75,13 +75,13 @@
              name="password"
              required
              placeholder="Your password"
-             class="form-control"
+             class="form-control form-control-lg py-3"
              id="password" />
     </div>
 
     <div class="mb-3 d-grid">
       <button type="submit"
-              class="btn btn-primary">
+              class="btn btn-primary btn-lg py-3">
         Log in
       </button>
     </div>
