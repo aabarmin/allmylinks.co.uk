@@ -1,0 +1,12 @@
+.git
+.github
+.gradle
+build
+docker
+docs
+storage
+logs
+
+!build/
+!build/libs/
+!build/libs/app.jar

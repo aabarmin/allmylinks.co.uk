@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      packages: write
 
     services:
       database:
@@ -59,91 +60,33 @@ jobs:
           rm -rf build/libs/*-plain.jar
           mv build/libs/*.jar build/libs/app.jar
 
-      - name: Upload Artifact
+      - name: Log in to GitHub Container Registry
         if: ${{ github.ref == 'refs/heads/main' }}
-        uses: actions/upload-artifact@v4
+        uses: docker/login-action@v3
         with:
-          name: artifact
-          path: ./build/libs/app.jar
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-  get-version:
-    name: "Get version"
-    runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.get_version.outputs.version }}
-
-    steps:
-      - uses: actions/checkout@v4
-      - name: Get the current version
-        id: get_version
-        run: |
-          version=$(grep -E '^version=' gradle.properties | cut -d'=' -f2)
-          echo "version=$version" >> $GITHUB_OUTPUT
-
-  check-version-exists:
-    name: "Check if version exists"
-    runs-on: ubuntu-latest
-    needs: [get-version]
-    environment: Production
-
-    steps:
-      - name: Check if the version already exists
-        uses: appleboy/ssh-action@v1.0.2
+      - name: Extract Docker metadata
+        id: metadata
+        if: ${{ github.ref == 'refs/heads/main' }}
+        uses: docker/metadata-action@v5
         with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          password: ${{ secrets.SERVER_PASSWORD }}
-          port: ${{ secrets.SERVER_PORT }}
-          script: |
-            if [ -d "/home/${{ secrets.SERVER_USERNAME }}/app/${{ needs.get-version.outputs.version }}" ]; then exit 1; fi
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=raw,value=latest
+            type=sha
 
-  deploy:
-    name: "Deploy the artifact"
-    runs-on: ubuntu-latest
-    needs: [build, get-version, check-version-exists]
-    environment: Production
-    if: ${{ github.ref == 'refs/heads/main' }}
-
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v4
+      - name: Build and push Docker image
+        if: ${{ github.ref == 'refs/heads/main' }}
+        uses: docker/build-push-action@v6
         with:
-          name: artifact
-          path: .
-
-      - name: Upload to the server
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          password: ${{ secrets.SERVER_PASSWORD }}
-          port: ${{ secrets.SERVER_PORT }}
-          source: "./app.jar"
-          target: /home/${{ secrets.SERVER_USERNAME }}/app/${{ needs.get-version.outputs.version }}
-
-      - name: Stop the existing app
-        uses: appleboy/ssh-action@v1.0.2
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          password: ${{ secrets.SERVER_PASSWORD }}
-          port: ${{ secrets.SERVER_PORT }}
-          script: |
-            APP_PID=$(jps | grep app.jar | grep -Eo '[0-9]+')
-            if [ -n "$APP_PID" ]; then kill -9 $APP_PID; fi
-
-      - name: Run the new version
-        uses: appleboy/ssh-action@v1.0.2
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          password: ${{ secrets.SERVER_PASSWORD }}
-          port: ${{ secrets.SERVER_PORT }}
-          script: |
-            cd /home/${{ secrets.SERVER_USERNAME }}/app/
-            rm app.jar
-            ln -fs /home/${{ secrets.SERVER_USERNAME }}/app/${{ needs.get-version.outputs.version }}/app.jar app.jar
-            nohup ./run.sh
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ steps.metadata.outputs.tags }}
+          labels: ${{ steps.metadata.outputs.labels }}
 
   dependency-submission:
 
