@@ -88,6 +88,16 @@ jobs:
           tags: ${{ steps.metadata.outputs.tags }}
           labels: ${{ steps.metadata.outputs.labels }}
 
+      - name: Add Docker publish summary
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: |
+          {
+            echo "## Docker publish"
+            echo ""
+            echo "- Image: \`ghcr.io/${{ github.repository }}\`"
+            echo "- Version: \`${{ steps.metadata.outputs.version }}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
   dependency-submission:
 
     name: "Generate and submit dependency graph"
