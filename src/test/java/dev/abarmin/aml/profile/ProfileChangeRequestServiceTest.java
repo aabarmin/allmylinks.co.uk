@@ -20,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
+import static dev.abarmin.aml.utils.RandomUtils.email;
+import static dev.abarmin.aml.utils.RandomUtils.prefixedRandom;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ProfileChangeRequestServiceTest extends BaseIntegrationTest {
@@ -67,12 +69,13 @@ class ProfileChangeRequestServiceTest extends BaseIntegrationTest {
   @Test
   void process_changeLink() {
     final TestCredentials user = registrationService.getRegisteredUser();
+    final String newLink = prefixedRandom("new-link");
     final ProfileChangeRequest savedRequest = repository.save(ProfileChangeRequest.builder()
       .profileId(user.currentProfileId())
       .userId(user.userId())
       .changeType(ProfileChangeType.CHANGE_LINK)
       .changePayload(ChangeLinkRequest.builder()
-        .newLink("newValue")
+        .newLink(newLink)
         .build())
       .build());
 
@@ -81,18 +84,19 @@ class ProfileChangeRequestServiceTest extends BaseIntegrationTest {
     assertThat(processedRequest.getChangeStatus()).isEqualTo(ProfileChangeStatus.PROCESSED);
 
     final Profile profile = profileRepository.findById(user.currentProfileId()).orElseThrow();
-    assertThat(profile.link()).isEqualTo("newValue");
+    assertThat(profile.link()).isEqualTo(newLink);
   }
 
   @Test
   void process_changeEmail() {
     final TestCredentials user = registrationService.getRegisteredUser();
+    final String newEmail = email();
     final ProfileChangeRequest savedRequest = repository.save(ProfileChangeRequest.builder()
       .profileId(user.currentProfileId())
       .userId(user.userId())
       .changeType(ProfileChangeType.CHANGE_EMAIL)
       .changePayload(ChangeEmailRequest.builder()
-        .newEmail("new@email.com")
+        .newEmail(newEmail)
         .build())
       .build());
 
@@ -101,6 +105,6 @@ class ProfileChangeRequestServiceTest extends BaseIntegrationTest {
     assertThat(processedRequest.getChangeStatus()).isEqualTo(ProfileChangeStatus.PROCESSED);
 
     final User updatedUser = userRepository.findById(user.userId()).orElseThrow();
-    assertThat(updatedUser.email()).isEqualTo("new@email.com");
+    assertThat(updatedUser.email()).isEqualTo(newEmail);
   }
 }

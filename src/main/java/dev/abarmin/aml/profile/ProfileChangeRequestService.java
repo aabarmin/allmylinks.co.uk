@@ -41,6 +41,10 @@ public class ProfileChangeRequestService {
     return request;
   }
 
+  public ProfileChangeRequest cancel(final @NonNull ProfileChangeRequest request) {
+    return repository.save(request.cancel());
+  }
+
   private void deactivate(ProfileChangeRequest request) {
     final List<Account> accounts = accountRepository.findAllByUserId(request.getUserId());
     for (Account account : accounts) {

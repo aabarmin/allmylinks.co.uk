@@ -40,6 +40,15 @@ public class ProfileChangeRequestController {
     return "redirect:" + BACKOFFICE + "/profile/requests";
   }
 
+  @GetMapping("/{id}/cancel")
+  public String cancel(final @PathVariable("id") long requestId) {
+    repository
+      .findById(requestId)
+      .map(requestService::cancel);
+
+    return "redirect:" + BACKOFFICE + "/profile/requests";
+  }
+
   @ModelAttribute("model")
   public Page<ProfileChangeRequestRow> getRequestsPage(
     final @RequestParam(value = "page", defaultValue = "0") int page,
