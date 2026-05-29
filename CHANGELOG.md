@@ -1,3 +1,7 @@
+# 0.0.36 
+
+* Allow cancelling the profile change requests
+
 # 0.0.35
 
 * Fix mobile view of the main page

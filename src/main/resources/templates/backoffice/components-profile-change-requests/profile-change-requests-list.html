@@ -39,6 +39,15 @@
               >
                 Process
               </a>
+
+              <button type="button"
+                      class="btn btn-danger"
+                      data-bs-toggle="modal"
+                      data-bs-target="#cancelRequestModal"
+                      th:data-request-id="${request.id}"
+                      th:data-cancel-url="@{/backoffice/profile/requests/{id}/cancel(id=${request.id})}">
+                Cancel
+              </button>
             </td>
           </tr>
         </table>
@@ -75,7 +84,53 @@
         </nav>
       </div>
     </div>
+
+    <div class="modal"
+         id="cancelRequestModal"
+         tabindex="-1"
+         aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Cancel request</h5>
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Are you sure you want to cancel profile change request
+            <strong id="cancelRequestId"></strong>?
+          </div>
+          <div class="modal-footer">
+            <button type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal">
+              No
+            </button>
+            <a id="cancelRequestConfirmButton"
+               href="#"
+               class="btn btn-danger">
+              Yes, cancel
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <script>
+    const cancelRequestModal = document.getElementById("cancelRequestModal");
+
+    cancelRequestModal.addEventListener("show.bs.modal", function (event) {
+      const button = event.relatedTarget;
+      const requestId = button.getAttribute("data-request-id");
+      const cancelUrl = button.getAttribute("data-cancel-url");
+
+      document.getElementById("cancelRequestId").textContent = "#" + requestId;
+      document.getElementById("cancelRequestConfirmButton").setAttribute("href", cancelUrl);
+    });
+  </script>
 </div>
 </body>
 </html>
